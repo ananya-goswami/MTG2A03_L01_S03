@@ -1,0 +1,917 @@
+{
+  "version": "0.2",
+  "skill_code": "MTG2A03_L01_S03",
+  "lo_code": "MTG2A03_L01",
+  "grade": "G2",
+  "attribute": "A03",
+  "skill_type": "CORE",
+  "part_label": "",
+  "theme": "toybox",
+  "title": {
+    "hi": "बराबर हिस्से पहचानो!",
+    "en": "Identify shapes with equal and unequal parts"
+  },
+  "subtitle_hi": "बाँटो · मिलाओ · पहचानो",
+  "landing_hero": {
+    "kind": "roti_split"
+  },
+  "food": {
+    "img": "assets/pizza.webp",
+    "name_hi": "पिज़्ज़ा",
+    "rim": "#B9752F"
+  },
+  "skill_description_hi": "एक ही आकृति के हिस्सों को देखकर बताता है कि वे बराबर हैं या असमान, और किसी आकृति को दो बराबर हिस्सों में बाँटता है।",
+  "number_set": [],
+  "dt_fallback": null,
+  "phase_distribution": {
+    "tutorial": 6,
+    "guided": 4,
+    "practice": 5
+  },
+  "phase_gate_at": {},
+  "scaffold_rules": {
+    "nudge_timeout_ms": {
+      "tutorial": 7000,
+      "guided": 7000,
+      "practice": 7000,
+      "independent": 7000
+    },
+    "max_attempts": 3
+  },
+  "signals_expected": [
+    "slide_entered",
+    "slide_completed",
+    "teach_cut_done",
+    "split_correct",
+    "pick_equal_correct",
+    "sort_done",
+    "decor_done",
+    "mastery_score",
+    "lesson_completed"
+  ],
+  "slides": [
+    {
+      "id": "T1",
+      "phase": "tutorial",
+      "eis": "iconic",
+      "type": "ROTI_INTRO",
+      "prompt_hi": "पिज़्ज़ा बाँटते हैं",
+      "audio": {
+        "prompt": "vo_t1_a",
+        "line_b": "vo_t1_b"
+      },
+      "data": {}
+    },
+    {
+      "id": "T2",
+      "phase": "tutorial",
+      "eis": "enactive",
+      "type": "ROTI_FREE_CUT",
+      "prompt_hi": "एक पूरा पिज़्ज़ा",
+      "audio": {
+        "prompt": "vo_t2_prompt",
+        "instruction": "vo_t2_draw",
+        "equal": "vo_t2_equal",
+        "unequal": "vo_t2_unequal",
+        "next": "vo_t2_next"
+      },
+      "data": {
+        "snap": 0.12
+      }
+    },
+    {
+      "id": "T3",
+      "phase": "tutorial",
+      "eis": "enactive",
+      "type": "ROTI_TRACE",
+      "prompt_hi": "",
+      "audio": {
+        "prompt": "vo_t3_a",
+        "trace": "vo_trace",
+        "match": "vo_t3_match",
+        "equal": "vo_t3_equal"
+      },
+      "data": {
+        "axis": "vertical",
+        "give_to_kids": true
+      }
+    },
+    {
+      "id": "T4",
+      "phase": "tutorial",
+      "eis": "iconic",
+      "type": "ROTI_AGAIN",
+      "prompt_hi": "",
+      "audio": {
+        "prompt": "vo_t4_a",
+        "line_b": "vo_t4_b"
+      },
+      "data": {}
+    },
+    {
+      "id": "T5",
+      "phase": "tutorial",
+      "eis": "enactive",
+      "type": "ROTI_TRACE",
+      "prompt_hi": "",
+      "audio": {
+        "prompt": "vo_t5_a",
+        "trace": "vo_trace",
+        "match": "vo_t3_match",
+        "equal": "vo_t5_equal",
+        "aadha": "vo_t5_aadha"
+      },
+      "data": {
+        "axis": "horizontal",
+        "rise_in": true,
+        "aadha_concept": true
+      }
+    },
+    {
+      "id": "T6",
+      "phase": "tutorial",
+      "eis": "iconic",
+      "type": "ROTI_HALVES_HELD",
+      "prompt_hi": "",
+      "audio": {
+        "prompt": "vo_t6"
+      },
+      "data": {
+        "bubble_hi": "अब हमारे पास दो बराबर हिस्से हैं।"
+      }
+    },
+    {
+      "id": "G1",
+      "phase": "guided",
+      "eis": "enactive",
+      "type": "DOT_SPLIT",
+      "prompt_hi": "दो बिंदु मिलाकर इस आकृति को दो बराबर हिस्सों में बाँटो।",
+      "audio": {
+        "prompt": "vo_g1_prompt",
+        "correct": "vo_split_ok",
+        "wa1": "vo_split_wa1",
+        "wa2": "vo_g1_wa2",
+        "wa3": "vo_split_wa3"
+      },
+      "data": {
+        "shape": "circle",
+        "fill": "#F7A3C4",
+        "edge": "#D63A7A",
+        "dots_deg": [
+          90,
+          35,
+          0,
+          320,
+          270,
+          245,
+          215,
+          190,
+          140,
+          115
+        ],
+        "hint_lines": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            2,
+            9
+          ]
+        ],
+        "guide": [
+          0,
+          4
+        ]
+      }
+    },
+    {
+      "id": "G2",
+      "phase": "guided",
+      "eis": "enactive",
+      "type": "DOT_SPLIT",
+      "prompt_hi": "अब इस वर्ग को दो बराबर हिस्सों में बाँटो।",
+      "audio": {
+        "prompt": "vo_g2_prompt",
+        "correct": "vo_split_ok",
+        "wa1": "vo_split_wa1",
+        "wa2": "vo_g2_wa2",
+        "wa3": "vo_split_wa3"
+      },
+      "data": {
+        "shape": "square",
+        "fill": "#D9C8F5",
+        "edge": "#7A55C7",
+        "hint_lines": [
+          [
+            1,
+            5
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "guide": [
+          1,
+          5
+        ]
+      }
+    },
+    {
+      "id": "G3",
+      "phase": "guided",
+      "eis": "enactive",
+      "type": "DOT_SPLIT",
+      "prompt_hi": "अब इस आयत को दो बराबर हिस्सों में बाँटो।",
+      "audio": {
+        "prompt": "vo_g3_prompt",
+        "correct": "vo_g3_ok",
+        "wa1": "vo_split_wa1",
+        "wa2": "vo_g3_wa2",
+        "wa3": "vo_split_wa3"
+      },
+      "data": {
+        "shape": "rect",
+        "fill": "#FFD3A6",
+        "edge": "#E07B1F",
+        "hint_lines": [
+          [
+            1,
+            5
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "guide": [
+          1,
+          5
+        ]
+      }
+    },
+    {
+      "id": "G4",
+      "phase": "guided",
+      "eis": "iconic",
+      "type": "PICK_EQUAL",
+      "prompt_hi": "कौन-सा वर्ग दो बराबर हिस्सों में बँटा है?",
+      "audio": {
+        "prompt": "vo_g4_prompt",
+        "correct": "vo_g4_ok",
+        "wa1": "vo_g4_wa1",
+        "wa2": "vo_g4_wa2",
+        "wa3": "vo_g4_wa3"
+      },
+      "data": {
+        "shape": "square",
+        "options": [
+          {
+            "cut": [
+              [
+                128,
+                30
+              ],
+              [
+                128,
+                170
+              ]
+            ]
+          },
+          {
+            "cut": [
+              [
+                100,
+                30
+              ],
+              [
+                100,
+                170
+              ]
+            ],
+            "correct": true
+          },
+          {
+            "cut": [
+              [
+                30,
+                72
+              ],
+              [
+                170,
+                72
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P1",
+      "phase": "practice",
+      "eis": "symbolic",
+      "type": "PICK_EQUAL",
+      "prompt_hi": "कौन-सा वृत्त दो बराबर हिस्सों में बँटा है?",
+      "audio": {
+        "prompt": "vo_p1_prompt",
+        "correct": "vo_p1_ok",
+        "wa1": "vo_p1_wa1",
+        "wa2": "vo_p1_wa2",
+        "wa3": "vo_p1_wa3"
+      },
+      "data": {
+        "shape": "circle",
+        "options": [
+          {
+            "cut": [
+              [
+                126,
+                20
+              ],
+              [
+                126,
+                180
+              ]
+            ]
+          },
+          {
+            "cut": [
+              [
+                20,
+                128
+              ],
+              [
+                180,
+                128
+              ]
+            ]
+          },
+          {
+            "cut": [
+              [
+                100,
+                20
+              ],
+              [
+                100,
+                180
+              ]
+            ],
+            "correct": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "P2",
+      "phase": "practice",
+      "eis": "symbolic",
+      "type": "PICK_EQUAL",
+      "prompt_hi": "कौन-सा त्रिभुज दो बराबर हिस्सों में बँटा है?",
+      "audio": {
+        "prompt": "vo_p2_prompt",
+        "correct": "vo_p2_ok",
+        "wa1": "vo_p2_wa1",
+        "wa2": "vo_p2_wa2",
+        "wa3": "vo_p2_wa3"
+      },
+      "data": {
+        "shape": "triangle",
+        "options": [
+          {
+            "cut": [
+              [
+                100,
+                26
+              ],
+              [
+                100,
+                168
+              ]
+            ],
+            "correct": true
+          },
+          {
+            "cut": [
+              [
+                100,
+                26
+              ],
+              [
+                66,
+                168
+              ]
+            ]
+          },
+          {
+            "cut": [
+              [
+                100,
+                26
+              ],
+              [
+                136,
+                168
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P3",
+      "phase": "practice",
+      "eis": "symbolic",
+      "type": "PICK_EQUAL",
+      "prompt_hi": "कौन-सा आयत दो बराबर हिस्सों में बँटा है?",
+      "audio": {
+        "prompt": "vo_p3_prompt",
+        "correct": "vo_p3_ok",
+        "wa1": "vo_p3_wa1",
+        "wa2": "vo_p3_wa2",
+        "wa3": "vo_p3_wa3"
+      },
+      "data": {
+        "shape": "rect",
+        "options": [
+          {
+            "cut": [
+              [
+                20,
+                84
+              ],
+              [
+                180,
+                84
+              ]
+            ]
+          },
+          {
+            "cut": [
+              [
+                100,
+                58
+              ],
+              [
+                100,
+                142
+              ]
+            ],
+            "correct": true
+          },
+          {
+            "cut": [
+              [
+                134,
+                58
+              ],
+              [
+                134,
+                142
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P4",
+      "phase": "practice",
+      "eis": "symbolic",
+      "type": "SORT_EQUAL",
+      "prompt_hi": "आकृतियों को सही डिब्बे में डालो।",
+      "audio": {
+        "prompt": "vo_p4_prompt",
+        "ok_equal": "vo_p4_ok_eq",
+        "ok_unequal": "vo_p4_ok_uneq",
+        "wa1": "vo_p4_wa1",
+        "wa2": "vo_p4_wa2",
+        "wa3_equal": "vo_p4_wa3_eq",
+        "wa3_unequal": "vo_p4_wa3_uneq"
+      },
+      "data": {
+        "bins": {
+          "equal": "बराबर हिस्से",
+          "unequal": "असमान हिस्से"
+        },
+        "cards": [
+          {
+            "shape": "circle",
+            "cut": [
+              [
+                124,
+                20
+              ],
+              [
+                112,
+                180
+              ]
+            ]
+          },
+          {
+            "shape": "square",
+            "cut": [
+              [
+                100,
+                30
+              ],
+              [
+                100,
+                170
+              ]
+            ],
+            "equal": true
+          },
+          {
+            "shape": "triangle",
+            "cut": [
+              [
+                100,
+                26
+              ],
+              [
+                64,
+                168
+              ]
+            ]
+          },
+          {
+            "shape": "rect",
+            "cut": [
+              [
+                20,
+                100
+              ],
+              [
+                180,
+                100
+              ]
+            ],
+            "equal": true
+          },
+          {
+            "shape": "circle",
+            "cut": [
+              [
+                100,
+                20
+              ],
+              [
+                100,
+                180
+              ]
+            ],
+            "equal": true
+          },
+          {
+            "shape": "rect",
+            "cut": [
+              [
+                136,
+                58
+              ],
+              [
+                136,
+                142
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P5",
+      "phase": "practice",
+      "eis": "enactive",
+      "type": "DECOR_GAME",
+      "prompt_hi": "परी का कमरा सजाओ!",
+      "audio": {
+        "prompt": "vo_d_intro",
+        "cut": "vo_d_cut",
+        "correct": "vo_split_ok",
+        "wa1": "vo_split_wa1",
+        "wa2": "vo_d_wa2",
+        "wa3": "vo_d_wa3",
+        "next": "vo_d_next",
+        "done": "vo_d_done"
+      },
+      "data": {
+        "bg": "bedroom",
+        "items": [
+          {
+            "key": "bunting",
+            "shape": "flag",
+            "color": "#FF7A7A",
+            "lines": [
+              [
+                [
+                  100,
+                  172
+                ],
+                [
+                  100,
+                  28
+                ]
+              ],
+              [
+                [
+                  100,
+                  172
+                ],
+                [
+                  52,
+                  28
+                ]
+              ],
+              [
+                [
+                  100,
+                  172
+                ],
+                [
+                  150,
+                  28
+                ]
+              ]
+            ],
+            "correct": 0
+          },
+          {
+            "key": "window",
+            "shape": "rect",
+            "color": "#8CCBF5",
+            "lines": [
+              [
+                [
+                  62,
+                  58
+                ],
+                [
+                  62,
+                  142
+                ]
+              ],
+              [
+                [
+                  100,
+                  58
+                ],
+                [
+                  100,
+                  142
+                ]
+              ],
+              [
+                [
+                  20,
+                  82
+                ],
+                [
+                  180,
+                  82
+                ]
+              ]
+            ],
+            "correct": 1
+          },
+          {
+            "key": "wallart",
+            "shape": "circle",
+            "color": "#FFC94D",
+            "lines": [
+              [
+                [
+                  22,
+                  74
+                ],
+                [
+                  178,
+                  74
+                ]
+              ],
+              [
+                [
+                  64,
+                  22
+                ],
+                [
+                  64,
+                  178
+                ]
+              ],
+              [
+                [
+                  20,
+                  100
+                ],
+                [
+                  180,
+                  100
+                ]
+              ]
+            ],
+            "correct": 2
+          },
+          {
+            "key": "rug",
+            "shape": "square",
+            "color": "#4DBFA6",
+            "lines": [
+              [
+                [
+                  30,
+                  30
+                ],
+                [
+                  170,
+                  170
+                ]
+              ],
+              [
+                [
+                  30,
+                  120
+                ],
+                [
+                  170,
+                  120
+                ]
+              ],
+              [
+                [
+                  66,
+                  30
+                ],
+                [
+                  66,
+                  170
+                ]
+              ]
+            ],
+            "correct": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "CEL",
+      "phase": "practice",
+      "eis": "enactive",
+      "type": "CELEBRATION",
+      "prompt_hi": "शाबाश! अब आप बराबर और असमान हिस्सों को पहचान सकते हैं!",
+      "audio": {
+        "prompt": "vo_well_done"
+      },
+      "data": {}
+    }
+  ],
+  "assets": {
+    "audio_ext": "ogg",
+    "img_ext": "webp",
+    "audio": {
+      "vo_landing": "assets/voiceover/vo_landing.ogg",
+      "vo_t1_a": "assets/voiceover/vo_t1_a.ogg",
+      "vo_t1_b": "assets/voiceover/vo_t1_b.ogg",
+      "vo_t2_prompt": "assets/voiceover/vo_t2_prompt.ogg",
+      "vo_t2_draw": "assets/voiceover/vo_t2_draw.ogg",
+      "vo_t2_equal": "assets/voiceover/vo_t2_equal.ogg",
+      "vo_t2_unequal": "assets/voiceover/vo_t2_unequal.ogg",
+      "vo_t2_next": "assets/voiceover/vo_t2_next.ogg",
+      "vo_t3_a": "assets/voiceover/vo_t3_a.ogg",
+      "vo_trace": "assets/voiceover/vo_trace.ogg",
+      "vo_t3_match": "assets/voiceover/vo_t3_match.ogg",
+      "vo_t3_equal": "assets/voiceover/vo_t3_equal.ogg",
+      "vo_t4_a": "assets/voiceover/vo_t4_a.ogg",
+      "vo_t4_b": "assets/voiceover/vo_t4_b.ogg",
+      "vo_t5_a": "assets/voiceover/vo_t5_a.ogg",
+      "vo_t5_equal": "assets/voiceover/vo_t5_equal.ogg",
+      "vo_t5_aadha": "assets/voiceover/vo_t5_aadha.ogg",
+      "vo_t6": "assets/voiceover/vo_t6.ogg",
+      "vo_g1_prompt": "assets/voiceover/vo_g1_prompt.ogg",
+      "vo_split_ok": "assets/voiceover/vo_split_ok.ogg",
+      "vo_split_wa1": "assets/voiceover/vo_split_wa1.ogg",
+      "vo_g1_wa2": "assets/voiceover/vo_g1_wa2.ogg",
+      "vo_split_wa3": "assets/voiceover/vo_split_wa3.ogg",
+      "vo_g2_prompt": "assets/voiceover/vo_g2_prompt.ogg",
+      "vo_g2_wa2": "assets/voiceover/vo_g2_wa2.ogg",
+      "vo_g3_prompt": "assets/voiceover/vo_g3_prompt.ogg",
+      "vo_g3_ok": "assets/voiceover/vo_g3_ok.ogg",
+      "vo_g3_wa2": "assets/voiceover/vo_g3_wa2.ogg",
+      "vo_g4_prompt": "assets/voiceover/vo_g4_prompt.ogg",
+      "vo_g4_ok": "assets/voiceover/vo_g4_ok.ogg",
+      "vo_g4_wa1": "assets/voiceover/vo_g4_wa1.ogg",
+      "vo_g4_wa2": "assets/voiceover/vo_g4_wa2.ogg",
+      "vo_g4_wa3": "assets/voiceover/vo_g4_wa3.ogg",
+      "vo_p1_prompt": "assets/voiceover/vo_p1_prompt.ogg",
+      "vo_p1_ok": "assets/voiceover/vo_p1_ok.ogg",
+      "vo_p1_wa1": "assets/voiceover/vo_p1_wa1.ogg",
+      "vo_p1_wa2": "assets/voiceover/vo_p1_wa2.ogg",
+      "vo_p1_wa3": "assets/voiceover/vo_p1_wa3.ogg",
+      "vo_p2_prompt": "assets/voiceover/vo_p2_prompt.ogg",
+      "vo_p2_ok": "assets/voiceover/vo_p2_ok.ogg",
+      "vo_p2_wa1": "assets/voiceover/vo_p2_wa1.ogg",
+      "vo_p2_wa2": "assets/voiceover/vo_p2_wa2.ogg",
+      "vo_p2_wa3": "assets/voiceover/vo_p2_wa3.ogg",
+      "vo_p3_prompt": "assets/voiceover/vo_p3_prompt.ogg",
+      "vo_p3_ok": "assets/voiceover/vo_p3_ok.ogg",
+      "vo_p3_wa1": "assets/voiceover/vo_p3_wa1.ogg",
+      "vo_p3_wa2": "assets/voiceover/vo_p3_wa2.ogg",
+      "vo_p3_wa3": "assets/voiceover/vo_p3_wa3.ogg",
+      "vo_p4_prompt": "assets/voiceover/vo_p4_prompt.ogg",
+      "vo_p4_ok_eq": "assets/voiceover/vo_p4_ok_eq.ogg",
+      "vo_p4_ok_uneq": "assets/voiceover/vo_p4_ok_uneq.ogg",
+      "vo_p4_wa1": "assets/voiceover/vo_p4_wa1.ogg",
+      "vo_p4_wa2": "assets/voiceover/vo_p4_wa2.ogg",
+      "vo_p4_wa3_eq": "assets/voiceover/vo_p4_wa3_eq.ogg",
+      "vo_p4_wa3_uneq": "assets/voiceover/vo_p4_wa3_uneq.ogg",
+      "vo_d_intro": "assets/voiceover/vo_d_intro.ogg",
+      "vo_d_cut": "assets/voiceover/vo_d_cut.ogg",
+      "vo_d_wa2": "assets/voiceover/vo_d_wa2.ogg",
+      "vo_d_wa3": "assets/voiceover/vo_d_wa3.ogg",
+      "vo_d_next": "assets/voiceover/vo_d_next.ogg",
+      "vo_d_done": "assets/voiceover/vo_d_done.ogg",
+      "vo_well_done": "assets/voiceover/vo_well_done.ogg",
+      "vo_pt_tutorial": "assets/voiceover/vo_pt_tutorial.ogg",
+      "vo_pt_guided": "assets/voiceover/vo_pt_guided.ogg",
+      "vo_pt_practice": "assets/voiceover/vo_pt_practice.ogg",
+      "sfx_celebrate": "assets/voiceover/sfx_celebrate.ogg"
+    },
+    "audio_text": {
+      "vo_landing": "नमस्ते, दोस्त! मैं हूँ स्विफ्टी। आओ, आरू और परी के साथ मिलकर सीखते हैं कि कैसे पहचानें कि किसी चीज़ के दो हिस्से बराबर हैं या नहीं!",
+      "vo_t1_a": "बाबा ने आज एक गोल पिज़्ज़ा बनाया है।",
+      "vo_t1_b": "आओ, इसे आरू और परी के बीच बाँटते हैं।",
+      "vo_t2_prompt": "आओ, इसे दो बराबर हिस्सों में बाँटते हैं।",
+      "vo_t2_draw": "अपनी उँगली से पिज़्ज़ा पर एक रेखा खींचो।",
+      "vo_t2_equal": "वाह! तुमने पिज़्ज़ा को दो बराबर हिस्सों में बाँट दिया।",
+      "vo_t2_unequal": "अरे! एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं।",
+      "vo_t2_next": "चलो, एक और बार कोशिश करते हैं।",
+      "vo_t3_a": "चलो, इस पिज़्ज़ा को दो बराबर हिस्सों में बाँटते हैं।",
+      "vo_trace": "इस रेखा पर अपनी उँगली चलाओ।",
+      "vo_t3_match": "देखो! दोनों हिस्से एक-दूसरे पर बिल्कुल मिल रहे हैं।",
+      "vo_t3_equal": "ये दोनों बराबर हिस्से हैं।",
+      "vo_t4_a": "अरे वाह! बाबा ने आरू और परी के लिए एक और पिज़्ज़ा बनाया है!",
+      "vo_t4_b": "चलो, इस बार इसे एक नए तरीके से दो बराबर हिस्सों में बाँटते हैं!",
+      "vo_t5_a": "चलो, इस पूरे पिज़्ज़ा को फिर से दो बराबर हिस्सों में बाँटते हैं।",
+      "vo_t5_equal": "देखो! ये दोनों बराबर हिस्से हैं।",
+      "vo_t5_aadha": "जब हम किसी पूरी चीज़ को दो बराबर हिस्सों में बाँटते हैं, तो हर हिस्सा आधा कहलाता है।",
+      "vo_t6": "अब हमारे पास दो बराबर हिस्से हैं।",
+      "vo_g1_prompt": "दो बिंदु मिलाकर इस आकृति को दो बराबर हिस्सों में बाँटो।",
+      "vo_split_ok": "बहुत बढ़िया! ये दोनों बराबर हिस्से हैं।",
+      "vo_split_wa1": "ये दोनों हिस्से बराबर नहीं हैं। फिर से कोशिश करो।",
+      "vo_g1_wa2": "ध्यान से देखो! कौन-सी रेखा वृत्त को दो बराबर हिस्सों में बाँटेगी?",
+      "vo_split_wa3": "देखो, इस रेखा से दो बराबर हिस्से बनेंगे। अब इस पर उँगली चलाओ।",
+      "vo_g2_prompt": "अब इस वर्ग को दो बराबर हिस्सों में बाँटो।",
+      "vo_g2_wa2": "ध्यान से देखो! कौन-सी रेखा वर्ग को दो बराबर हिस्सों में बाँटेगी?",
+      "vo_g3_prompt": "अब इस आयत को दो बराबर हिस्सों में बाँटो।",
+      "vo_g3_ok": "शाबाश! तुमने दो बराबर हिस्से बनाए!",
+      "vo_g3_wa2": "ध्यान से देखो! कौन-सी रेखा आयत को दो बराबर हिस्सों में बाँटेगी?",
+      "vo_g4_prompt": "कौन-सा वर्ग दो बराबर हिस्सों में बँटा है? सही वर्ग पर टैप करो।",
+      "vo_g4_ok": "शाबाश! दोनों हिस्से बराबर हैं।",
+      "vo_g4_wa1": "फिर से देखो। कौन-सा वर्ग दो बराबर हिस्सों में बँटा है?",
+      "vo_g4_wa2": "देखो, इस वर्ग का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
+      "vo_g4_wa3": "देखो, यह वर्ग बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_p1_prompt": "कौन-सा वृत्त दो बराबर हिस्सों में बँटा है? सही वृत्त पर टैप करो।",
+      "vo_p1_ok": "शाबाश! यह वृत्त दो बराबर हिस्सों में बँटा है।",
+      "vo_p1_wa1": "फिर से देखो। कौन-सा वृत्त दो बराबर हिस्सों में बँटा है?",
+      "vo_p1_wa2": "इस वृत्त का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
+      "vo_p1_wa3": "देखो, यह वृत्त बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_p2_prompt": "कौन-सा त्रिभुज दो बराबर हिस्सों में बँटा है? सही त्रिभुज पर टैप करो।",
+      "vo_p2_ok": "शाबाश! यह त्रिभुज दो बराबर हिस्सों में बँटा है।",
+      "vo_p2_wa1": "फिर से देखो। कौन-सा त्रिभुज दो बराबर हिस्सों में बँटा है?",
+      "vo_p2_wa2": "इस त्रिभुज का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
+      "vo_p2_wa3": "देखो, यह त्रिभुज बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_p3_prompt": "कौन-सा आयत दो बराबर हिस्सों में बँटा है? सही आयत पर टैप करो।",
+      "vo_p3_ok": "शाबाश! यह आयत दो बराबर हिस्सों में बँटा है।",
+      "vo_p3_wa1": "फिर से देखो। कौन-सा आयत दो बराबर हिस्सों में बँटा है?",
+      "vo_p3_wa2": "इस आयत का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
+      "vo_p3_wa3": "देखो, यह आयत बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_p4_prompt": "आकृतियों को सही डिब्बे में डालो।",
+      "vo_p4_ok_eq": "शाबाश! ये हिस्से बराबर हैं।",
+      "vo_p4_ok_uneq": "शाबाश! ये हिस्से असमान हैं।",
+      "vo_p4_wa1": "फिर से देखो और सही डिब्बे में डालो।",
+      "vo_p4_wa2": "फिर से देखो। दोनों हिस्सों की तुलना करो और सही डिब्बे में डालो।",
+      "vo_p4_wa3_eq": "यह आकृति बराबर हिस्सों में बँटी है। इसे बराबर हिस्से वाले डिब्बे में डालो।",
+      "vo_p4_wa3_uneq": "यह आकृति असमान हिस्सों में बँटी है। इसे असमान हिस्से वाले डिब्बे में डालो।",
+      "vo_d_intro": "आओ, परी का कमरा सजाएँ! किसी भी चीज़ पर टैप करो।",
+      "vo_d_cut": "कागज़ को दो बराबर हिस्सों में काटना है। सही रेखा पर कैंची चलाओ।",
+      "vo_d_wa2": "ध्यान से देखो! कौन-सी रेखा दो बराबर हिस्से बनाएगी?",
+      "vo_d_wa3": "देखो, इस रेखा से दो बराबर हिस्से बनेंगे। इस पर कैंची चलाओ।",
+      "vo_d_next": "अब किसी दूसरी चीज़ पर टैप करो।",
+      "vo_d_done": "वाह! परी का पूरा कमरा सज गया!",
+      "vo_well_done": "शाबाश! अब आप बराबर और असमान हिस्सों को पहचान सकते हैं!"
+    }
+  }
+}
