@@ -17,8 +17,9 @@
   },
   "food": {
     "img": "assets/pizza.webp",
+    "back": "assets/pizza_back.webp",
     "name_hi": "पिज़्ज़ा",
-    "rim": "#B9752F"
+    "rim": "#C9681C"
   },
   "skill_description_hi": "एक ही आकृति के हिस्सों को देखकर बताता है कि वे बराबर हैं या असमान, और किसी आकृति को दो बराबर हिस्सों में बाँटता है।",
   "number_set": [],
@@ -844,9 +845,9 @@
       "vo_d_next": "assets/voiceover/vo_d_next.ogg",
       "vo_d_done": "assets/voiceover/vo_d_done.ogg",
       "vo_well_done": "assets/voiceover/vo_well_done.ogg",
-      "vo_pt_tutorial": "assets/voiceover/vo_pt_tutorial.ogg",
-      "vo_pt_guided": "assets/voiceover/vo_pt_guided.ogg",
-      "vo_pt_practice": "assets/voiceover/vo_pt_practice.ogg",
+      "vo_pt_tutorial": "assets/voiceover/vo_pt_tutorial.wav",
+      "vo_pt_guided": "assets/voiceover/vo_pt_guided.wav",
+      "vo_pt_practice": "assets/voiceover/vo_pt_practice.wav",
       "sfx_celebrate": "assets/voiceover/sfx_celebrate.ogg"
     },
     "audio_text": {
@@ -911,7 +912,10 @@
       "vo_d_wa3": "देखो, इस रेखा से दो बराबर हिस्से बनेंगे। इस पर कैंची चलाओ।",
       "vo_d_next": "अब किसी दूसरी चीज़ पर टैप करो।",
       "vo_d_done": "वाह! परी का पूरा कमरा सज गया!",
-      "vo_well_done": "शाबाश! अब आप बराबर और असमान हिस्सों को पहचान सकते हैं!"
+      "vo_well_done": "शाबाश! अब आप बराबर और असमान हिस्सों को पहचान सकते हैं!",
+      "vo_pt_tutorial": "ध्यान से देखिए और मेरे साथ जानिए। चलिए, शुरू करें!",
+      "vo_pt_guided": "बहुत बढ़िया! चलिए, साथ में करें!",
+      "vo_pt_practice": "वाह! अब आपकी बारी!"
     }
   }
 }
