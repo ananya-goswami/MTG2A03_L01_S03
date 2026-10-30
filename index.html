@@ -2112,6 +2112,22 @@ body.is-start .sg-sky{
    under the picture is the room itself, the same wall / skirting / floor bands, not one flat colour: that column then
    matches its neighbours whatever the browser does there. */
 #stage[data-bg="bedroom"]{background:url(assets/bg_bedroom.webp) -1px calc(var(--horizon,696px) - 756px) / calc(100% + 2px) auto no-repeat,#D9B07D;}
+/* [pari room] P5's room: the user's painting over the whole stage (app.js DECOR_GAME), the cat's breathing and her z's */
+#stage[data-bg="pariroom"]{background:url(assets/bg_pari_bedroom.webp) 0 0 / 100% 100% no-repeat,#F2C49E;}
+#stage[data-bg="pariroom"] .slide-stage{overflow:visible;}   /* (the room reaches up over the hidden header) */
+/* (user 2026-10-30: "the bed side needs fixing - glitches") the bands that fill a wider screen beside the stage mirror its backdrop; here
+   that mirrored the bed and its pillow at the screen's edge - in Pari's room they are blurred to a soft continuation of the room */
+/* (then "both sides have a line, it does not look full screen": the blur made a visible strip) the plain mirror is seamless at the
+   stage's edge and only a few px show - no extra blur here */
+/* (user 2026-10-30: "remove the above instruction panel completely") no header in Pari's room - no instruction bar, Swifty or speaker;
+   the voice still says the line */
+#stage[data-bg="pariroom"] .header-row,#stage[data-bg="pariroom"] #swBuddy{visibility:hidden !important;pointer-events:none !important;}   /* (hidden, its space kept: the room lines up with the painting under it) */
+.eq-cat{transform-box:fill-box;transform-origin:50% 100%;animation:eqCatBreath 3.4s ease-in-out infinite;}
+@keyframes eqCatBreath{0%,100%{transform:scale(1,1)}45%{transform:scale(1.012,1.045)}}
+.eq-z{font-family:"Baloo 2",sans-serif;font-weight:800;fill:#7A63C9;stroke:#FFFFFF;stroke-width:3px;paint-order:stroke;opacity:0;
+  transform-box:fill-box;animation:eqZ 3.3s ease-out infinite;}
+@keyframes eqZ{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:1}80%{opacity:.85}100%{opacity:0;transform:translate(22px,-46px) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.eq-cat,.eq-z{animation:none}.eq-z{opacity:.8}}
 /* [cal-wind] G2's shadows - one light, from the upper left and in front (review 2026-10-01: "add a shadow to all three
    elements: the calendar, the almirah and the pink tub" + "see perfect shadows on the objects"). The almirah stands with
    its back to the wall: a tight contact shadow where it meets the floor, its shadow on the wall to its right and a little
@@ -3688,14 +3704,19 @@ body.vo-lock .dev-nav{z-index:150001;}
 /* --- independent practice: decorate the room --- */
 .eq-room{position:absolute;left:0;top:0;width:1333px;height:600px;}
 /* [panel veil] P5's cutting mat open: the rest of the screen veiled and blurred, as MTG2A04's (app.js DECOR_GAME veilBlur) */
-#eqVeil{position:absolute;inset:0;z-index:-1;pointer-events:none;background:rgba(57,55,55,.6);opacity:var(--eqveil,0);
+#eqVeil{position:absolute;inset:-3px;z-index:-1;pointer-events:none;background:#2A3A66;opacity:var(--eqveil,0);
   backdrop-filter:blur(calc(10px * var(--eqveil,0)));-webkit-backdrop-filter:blur(calc(10px * var(--eqveil,0)));}
-#stageBleed > i{filter:blur(calc(10px * var(--eqveil,0)));}
-#stageBleed > i::after{content:"";position:absolute;inset:-20px;pointer-events:none;background:rgba(57,55,55,.6);opacity:var(--eqveil,0);}
+/* (the bands are not blurred: their veil covers them whole - blurred, its edge let a lighter strip show at each side) */
+#stageBleed > i::after{content:"";position:absolute;inset:-20px;pointer-events:none;background:#2A3A66;opacity:var(--eqveil,0);}
+/* (user 2026-10-30: "at this point the instruction should also not be visible") the header - instruction, Swifty, speaker - fades out with the veil */
+body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil,0));pointer-events:none;}   /* (Swifty too: "why is Swifty still visible?") */
 .eq-room-svg{width:1333px;height:600px;}
 .eq-target{cursor:pointer;}
-.eq-target-out{fill:rgba(255,255,255,.6);stroke:#2B4A7E;stroke-width:4px;stroke-dasharray:11 9;}
-.eq-target-glow{fill:#FFE27A;stroke:#FFC93C;stroke-width:16px;animation:eqHalo 1.4s ease-in-out infinite;}
+.eq-target-out{fill:#FBF3E4;stroke:#2B4A7E;stroke-width:4px;stroke-dasharray:11 9;}   /* (one look for every outline: solid cream, navy dashes) */
+.eq-target-cover{fill:#FBF3E4;stroke:none;}   /* (the whole painted panel under it, its inner dashed line too, in the outlines' cream) */
+
+
+.eq-target-glow{fill:none;stroke:#FFE27A;stroke-width:14px;opacity:.7;}   /* (a steady soft glow round each outline - user 2026-10-30: the window "is blinking, should not happen": it pulsed, filled) */
 .eq-target.done{display:none;}
 .eq-cutopt-under{stroke:rgba(25,25,60,.45);stroke-width:9px;stroke-linecap:round;}
 .eq-cutopt-dash{stroke:#FFFFFF;stroke-width:5px;stroke-linecap:round;stroke-dasharray:12 9;}
@@ -4487,7 +4508,7 @@ body.vo-lock .dev-nav{z-index:150001;}
         "done": "vo_d_done"
       },
       "data": {
-        "bg": "bedroom",
+        "bg": "pariroom",
         "items": [
           {
             "key": "bunting",
@@ -7805,7 +7826,8 @@ const EQ = (function(){
          plates may use, in svg units: below the screen's title, above the card's bottom edge (measured from the page) */
       /* (user 2026-10-29: on the option cards "when the folding happens it should not go out of the box") an option / sort card's own
          edges count too - inside it, 6px in from its border, left and right as well */
-      limits(){ const card = svg.closest(".tut-card") || svg.closest(".eq-opt, .eq-card"), m = svg.getScreenCTM(); let top = -1e9, bottom = 1e9, left = -1e9, right = 1e9;
+      limits(){ if(api.bounds) return api.bounds;                          // (a screen can set its own frame, in the parts' units - P5's green sheet)
+        const card = svg.closest(".tut-card") || svg.closest(".eq-opt, .eq-card"), m = svg.getScreenCTM(); let top = -1e9, bottom = 1e9, left = -1e9, right = 1e9;
         if(card && m){ const inv = m.inverse(), y = v => new DOMPoint(0, v).matrixTransform(inv).y;
           const ttl = card.querySelector(".tut-prompt, .tut-title"), r = ttl && ttl.getBoundingClientRect();
           const cr = card.getBoundingClientRect(); bottom = y(cr.bottom - card.clientTop) - 4;
@@ -8714,14 +8736,32 @@ const SlideModules = {
         grid.appendChild(cell); return cell;
       });
       const right = cells.find(c => c._ok);
-      // QA (MTG2A04's BUG_03 case 1, "there is no 7s nudge on idle screen"; the card's nudge_timeout_ms: 7s in every
-      // phase): idle 7s while the question waits, the hand points at the speaker - re-listen, the engine's default idle
-      // target (an idle nudge never points at an answer, [5. NUDGE]). Re-armed after the 1st / 2nd wrong tap; from the
-      // 3rd the hand is on the right one.
-      const idle = ()=> startNudge(slide, $("audioChip"));
+      /* [pick nudge] (user 2026-10-30: the idle hand under the speaker "is nowhere - check the PPT for the hand position and timing"; the
+         PPT's only hand on these screens is WA3's, on the right option) idle 7s: the hand comes up just under the cards and moves along
+         all three, a small tap under each - "tap one of these", never which one - then goes; again every 7s while the child waits,
+         gone at the first tap. From the 3rd miss the hand is WA3's, on the right one. */
+      wrap.style.position = "relative";
+      let pickHand = null;
+      const handOff = ()=>{ if(pickHand){ pickHand.remove(); pickHand = null; } };
+      function sweep(){
+        if(busy || attempts >= 3) return; handOff();
+        const k = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--scale")) || 1, W = wrap.getBoundingClientRect();
+        const pts = cells.map(c =>{ const r = c.getBoundingClientRect(); return [(r.left + r.width / 2 - W.left) / k, (r.bottom - W.top) / k + 10]; });
+        const h = document.createElement("img"); h.src = "assets/nudge_hand_new.svg"; h.className = "eq-ghost-hand";
+        Object.assign(h.style, { left: (pts[0][0] - 34.2) + "px", top: (pts[0][1] - 15.8) + "px" }); wrap.appendChild(h); pickHand = h;
+        try{ sfxNudge(); }catch(_){} state.nudgeUsed = true; GameBus.emit("nudge_invoked", { slide_id: slide.id, phase: slide.phase });
+        const at = i => `${(pts[i][0] - pts[0][0]).toFixed(1)}px 0px`, kf = [{ opacity: 0, translate: at(0), offset: 0 }];
+        pts.forEach((_, i)=>{ const o = .1 + i * .27;
+          kf.push({ opacity: 1, translate: at(i), scale: 1, offset: o }, { opacity: 1, translate: at(i), scale: .88, offset: o + .05 }, { opacity: 1, translate: at(i), scale: 1, offset: o + .1 }); });
+        kf.push({ opacity: 0, translate: at(pts.length - 1), offset: 1 });
+        h.animate(kf, { duration: 3200, easing: "ease-in-out", fill: "forwards" }).finished.then(()=>{ if(pickHand === h) handOff(); }).catch(()=>{});
+      }
+      const idle = ()=>{ clearTimeout(state.nudgeTimer); if(attempts >= 3) return;
+        const ms = (CARD.scaffold_rules.nudge_timeout_ms || {})[slide.phase] || 7000;
+        state.nudgeTimer = setTimeout(function tick(){ if(!wrap.isConnected || attempts >= 3) return; if(!busy) sweep(); state.nudgeTimer = setTimeout(tick, ms + 3200); }, ms); };
       function tap(cell){
         if(busy || cell.classList.contains("faded") || cell.classList.contains("correct")) return;
-        stopNudge(); busy = true;
+        stopNudge(); handOff(); busy = true;
         if(cell._ok){
           cell.classList.remove("reveal-pulse");
           cell.classList.add("correct"); try{ FLNMotion.correctSelect.play(cell); }catch(_){}
@@ -8756,7 +8796,7 @@ const SlideModules = {
       }
       $("hintBtn").onclick = ()=>{ if(busy) return; const c = lastWrong || cells.find(x => !x._ok); if(!c) return;
         state.hintUsed = true; GameBus.emit("hint_shown", { slide_id: slide.id, manual: true });
-        if(attempts < 3) stopNudge();                          // (the idle hand; from the 3rd the hand on the right one stays)
+        if(attempts < 3){ stopNudge(); handOff(); }            // (the idle hand; from the 3rd the hand on the right one stays)
         busy = true; S.run(async ()=>{ await S.anim(EQ.cardCompare(c._svg, 1300)); busy = false; if(attempts < 3) idle(); }); };
       S.run(async ()=>{ await S.wait(250); await EQ.popIn(S, cells); await S.say("prompt"); busy = false; idle(); });
     }
@@ -8919,52 +8959,58 @@ const SlideModules = {
          game") while the cutting mat is open the room behind it is blurred right out (as MTG2A04's veil: 15.8px - here 9 svg
          units at the stage's scale) under a dark grey veil (rgba(57,55,55,.6), MTG2A04's colour); both come and go with the mat */
       const bf = E("filter", { id: EQ.nid("rmblur"), x: "-5%", y: "-5%", width: "110%", height: "110%" }, svg._defs);
-      const bfg = E("feGaussianBlur", { stdDeviation: 0 }, bf);
+      const bfg = E("feGaussianBlur", { stdDeviation: 0 }, bf);   // (up to 12: the room only as soft colour)
       /* ...and outside the room too: the stage's own wall behind the header (#eqVeil, under everything on the stage) and the
          mirrored bands that fill the screen round the stage (#stageBleed) - all driven by --eqveil (0..1) on the body; it goes
          back to 0 as soon as this screen is gone, whatever took it away */
       const st0 = document.getElementById("stage");
       if(st0 && !document.getElementById("eqVeil")){ const v = document.createElement("div"); v.id = "eqVeil"; st0.insertBefore(v, st0.firstChild); }
       let veilWatch = false;
-      const veilSet = t => document.body.style.setProperty("--eqveil", t.toFixed(3));
-      const veilBlur = t =>{ bfg.setAttribute("stdDeviation", (9 * t).toFixed(2)); [room, filled, ui].forEach(g => t > .001 ? g.setAttribute("filter", `url(#${bf.id})`) : g.removeAttribute("filter"));
+      const veilSet = t =>{ document.body.style.setProperty("--eqveil", t.toFixed(3)); document.body.classList.toggle("eq-veiled", t > .001); };
+      const veilBlur = t =>{ bfg.setAttribute("stdDeviation", (12 * t).toFixed(2)); [room, filled, ui].forEach(g => t > .001 ? g.setAttribute("filter", `url(#${bf.id})`) : g.removeAttribute("filter"));
         veilSet(t);
         if(t > .001 && !veilWatch){ veilWatch = true; const w = ()=>{ if(!root.isConnected){ veilSet(0); veilWatch = false; return; } if(veilWatch) requestAnimationFrame(w); }; requestAnimationFrame(w); }
         if(t <= .001) veilWatch = false; };
-      /* --- the room's fixed decor --- */
+      /* [pari room] (user 2026-10-30: "in the end game add this in scenery part, also make a rectangle dotted line, same in circle also as
+         it is in the triangle and square") the room is the user's painting - the stage's background, assets/bg_pari_bedroom.webp (#stage
+         [data-bg="pariroom"]: widened at the sides and up behind the header so it fills the whole screen). SRC maps a point in the
+         painting (1672 x 941) to the room: SX/SY - it was cropped from row 6, widened 159px each side, shown 1333/1990 to a px. */
       const kStd = (k, x, y)=> `translate(${x},${y}) scale(${k})`;
-      const str = E("path", { d: "M70,34 Q340,84 620,34", fill: "none", stroke: "#8A5A35", "stroke-width": 4 }, room);
-      E("circle", { cx: 70, cy: 34, r: 7, fill: "#8A5A35" }, room); E("circle", { cx: 620, cy: 34, r: 7, fill: "#8A5A35" }, room);
-      const flagAt = x =>{ const t = (x - 70) / 550, y = (1 - t) * (1 - t) * 34 + 2 * (1 - t) * t * 84 + t * t * 34; return [x - 100 * FLAG_K, y - 28 * FLAG_K]; };
-      const deco = ["#FFC94D", "#6FD3B8", null, "#B79CF2", "#FF9F6B"];
-      const FLAG_K = .66;
-      [140, 245, 345, 445, 550].forEach((x, i)=>{ if(!deco[i]) return; const [ox, oy] = flagAt(x);
-        E("path", { d: EQ.pathD(EQ.std("flag").pts), fill: deco[i], stroke: "#5A3A1E", "stroke-width": 3 / FLAG_K, transform: kStd(FLAG_K, ox, oy) }, room); });
-      E("line", { x1: 800, y1: 26, x2: 800, y2: 62, stroke: "#8A5A35", "stroke-width": 3 }, room);
-      E("circle", { cx: 800, cy: 24, r: 6, fill: "#6B4426" }, room);
-      E("circle", { cx: 800, cy: 158, r: 92, fill: "#C98A4E", stroke: "#8A5A35", "stroke-width": 5 }, room);
-      E("circle", { cx: 800, cy: 158, r: 79, fill: "#F6E7CF" }, room);
-      E("rect", { x: 965, y: 46, width: 300, height: 176, rx: 10, fill: "#C98A4E", stroke: "#8A5A35", "stroke-width": 5 }, room);
-      E("rect", { x: 955, y: 222, width: 320, height: 18, rx: 6, fill: "#A8693A" }, room);
-      E("rect", { x: 981, y: 62, width: 268, height: 144, fill: "#F6E7CF" }, room);
-      E("path", { d: "M934,40 Q960,140 940,250 L970,250 Q985,140 966,40 Z", fill: "#B79CF2", opacity: .95 }, room);
-      E("path", { d: "M1296,40 Q1270,140 1290,250 L1260,250 Q1245,140 1264,40 Z", fill: "#B79CF2", opacity: .95 }, room);
-      E("rect", { x: 925, y: 34, width: 380, height: 10, rx: 5, fill: "#8A5A35" }, room);
-      E("ellipse", { cx: 666, cy: 568, rx: 120, ry: 12, fill: "rgba(90,60,30,.16)" }, room);
-      const teddy = E("g", { transform: "translate(190,520)" }, room);
-      [[0, 0, 46], [-30, -42, 16], [30, -42, 16], [0, -40, 34]].forEach(([x, y, r])=> E("circle", { cx: x, cy: y, r, fill: "#C68B59", stroke: "#8A5A35", "stroke-width": 3 }, teddy));
-      E("circle", { cx: -10, cy: -44, r: 4, fill: "#3B2414" }, teddy); E("circle", { cx: 10, cy: -44, r: 4, fill: "#3B2414" }, teddy); E("ellipse", { cx: 0, cy: -32, rx: 9, ry: 6, fill: "#F2D3B3" }, teddy);
-      /* --- where each decoration goes (the 200-frame shape -> the room) --- */
+      /* (user 2026-10-30: "reposition the scene full screen, a lot of empty space above, a glitch at the bed") the painting has the stage's
+         own shape (1672 x 941 ~ 1333 x 750), so it is shown whole, over the whole stage - no widening, no strip above; the room's svg
+         reaches up over the (hidden) header to cover all of it: viewBox y -150..600, so the mat and the rest keep their places */
+      svg.setAttribute("viewBox", "0 -150 1333 750"); svg.style.height = "750px"; root.style.top = "-150px"; root.style.height = "750px";
+      const SK = 1333 / 1672, SRC = (x, y)=> [x * SK, y * SK - 150];
+      /* each decoration's place: an affine map from the shape's 200-frame onto its dashed outline in the room (three points each),
+         so the paper lands exactly on it - the bunting's blank flag (tilted, painted), the square mat (painted), the rangoli's centre
+         (an oval on the floor: a dashed one drawn in its cream middle), the window's glass for the rectangle */
+      const aff = (f, t)=>{ const [[x0, y0], [x1, y1], [x2, y2]] = f, [[u0, v0], [u1, v1], [u2, v2]] = t.map(q => SRC(q[0], q[1]));
+        const det = (x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0);
+        const a = ((u1 - u0) * (y2 - y0) - (u2 - u0) * (y1 - y0)) / det, c = ((u2 - u0) * (x1 - x0) - (u1 - u0) * (x2 - x0)) / det;
+        const b = ((v1 - v0) * (y2 - y0) - (v2 - v0) * (y1 - y0)) / det, dd = ((v2 - v0) * (x1 - x0) - (v1 - v0) * (x2 - x0)) / det;
+        return [a, b, c, dd, u0 - a * x0 - c * y0, v0 - b * x0 - dd * y0]; };
+      const mStr = m => `matrix(${m.map(v => v.toFixed(4)).join(",")})`, mAt = (m, x, y)=> [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
+      const mK = m => Math.sqrt(Math.abs(m[0] * m[3] - m[1] * m[2]));
       const PLACE = {
-        bunting: { k: FLAG_K, o: flagAt(345) },
-        wallart: { k: 79 / 80, o: [800 - 100 * 79 / 80, 158 - 100 * 79 / 80] },
-        window:  { k: 268 / 160, o: [981 - 20 * 268 / 160, 62 - 58 * 268 / 160 + (144 - 84 * 268 / 160) / 2] },
-        rug:     { k: 1.2, o: [666 - 100 * 1.2, 478 - 100 * 1.2] }
+        /* (user 2026-10-30: "the outer part of the triangle and square should have the dotted line", as the window's and the rangoli's) the flag
+           and the mat's outlines run along their OUTER edge (measured in the painting, 1.5px in), not the dashed line painted inside it */
+        bunting: { m: aff([[24, 28], [176, 28], [100, 172]], [[386, 98], [501.5, 107.5], [438, 214]]) },
+        rug:     { m: aff([[30, 30], [170, 30], [30, 170]], [[1438.5, 586.5], [1629, 586.5], [1438.5, 749]]) },
+        wallart: { m: aff([[100, 100], [180, 100], [100, 180]], [[885, 720], [885 + 222, 720], [885, 720 + 94]]) },
+        window:  { m: aff([[20, 58], [180, 58], [20, 142]], [[1104, 76], [1504, 76], [1104, 400]]) }   // (the window's glass: "the rectangle goes on the window")
       };
+      /* the cat by the bed: asleep - she breathes (a slow rise and fall from the floor), and z's float up from above her head */
+      { const [cx0, cy0] = SRC(130, 630), cat = E("g", { class: "eq-cat" }, room);
+        E("image", { href: "assets/cat_sleep.webp", x: cx0, y: cy0, width: 260 * SK, height: 155 * SK }, cat);
+        const [zx, zy] = SRC(318, 650), zz = E("g", { class: "eq-zzz", transform: `translate(${zx.toFixed(1)},${zy.toFixed(1)})` }, room);
+        [[0, 15], [1, 19], [2, 23]].forEach(([i, f])=>{ const t = E("text", { class: "eq-z", "font-size": f, style: `animation-delay:${(i * 1.1).toFixed(1)}s` }, zz); t.textContent = "z"; }); }
       const items = d.items.map(it =>{
         const p = PLACE[it.key], s = EQ.std(it.shape);
-        const t = E("g", { class: "eq-target", transform: kStd(p.k, p.o[0], p.o[1]) }, ui);
+        const t = E("g", { class: "eq-target" + (it.key === "bunting" || it.key === "rug" ? " eq-target-painted" : ""), transform: mStr(p.m) }, ui);
         E("path", { d: EQ.pathD(s.pts), class: "eq-target-glow", filter: `url(#${svg._blur})` }, t);
+        /* (user 2026-10-30: "in all elements the dotted lines should look the same") the flag and the square mat have a dashed line painted
+           in - thinner and greyer: it is covered with the panel's own cream, and every outline gets the same navy dashed line */
+        if(/eq-target-painted/.test(t.getAttribute("class"))) E("path", { d: EQ.pathD(s.pts), class: "eq-target-cover", "vector-effect": "non-scaling-stroke" }, t);
         E("path", { d: EQ.pathD(s.pts), class: "eq-target-out", "vector-effect": "non-scaling-stroke" }, t);
         const item = Object.assign({}, it, { place: p, s, target: t, att: 0, done: false });
         t.addEventListener("click", ()=> open(item));
@@ -8972,7 +9018,21 @@ const SlideModules = {
       });
       let busy = true, firstOpen = true, left = items.length;
       /* --- the cutting mat --- */
-      const MAT = { x: 403, y: 48, w: 527, h: 500 }, K = 2.05, PO = [666 - 100 * K, 300 - 100 * K];
+      /* (user 2026-10-30: "full screen, the main thing in the middle centre and a little bigger, a paper effect in the green") the sheet sits in
+         the middle of the whole screen (stage y 375 = this svg's 225) and is 28% bigger; it is a sheet of green craft paper now - a soft
+         shadow under it, a slightly deckled edge, a fine fibre grain, light falling from the top left (no frame, no grid) */
+      const MAT = { x: 337, y: -87, w: 659, h: 624 }, K = 2.56, PO = [666.5 - 100 * K, 225 - 100 * K];   // (a touch smaller, so the frame fits the screen too)
+      const pf = E("filter", { id: EQ.nid("paper"), x: "-4%", y: "-4%", width: "108%", height: "108%" }, svg._defs);
+      E("feTurbulence", { type: "fractalNoise", baseFrequency: ".035", numOctaves: 2, seed: 4, result: "warp" }, pf);
+      E("feDisplacementMap", { in: "SourceGraphic", in2: "warp", scale: 0, xChannelSelector: "R", yChannelSelector: "G", result: "edge" }, pf);   // (no deckle: it sits in its frame)
+      E("feTurbulence", { type: "fractalNoise", baseFrequency: ".9", numOctaves: 3, seed: 9, result: "grain" }, pf);
+      E("feColorMatrix", { in: "grain", type: "matrix", values: "0 0 0 0 .05  0 0 0 0 .22  0 0 0 0 .14  1.3 0 0 0 -.62", result: "dark" }, pf);
+      E("feColorMatrix", { in: "grain", type: "matrix", values: "0 0 0 0 1  0 0 0 0 1  0 0 0 0 .9  0 1.2 0 0 -.78", result: "light" }, pf);
+      E("feComposite", { in: "dark", in2: "edge", operator: "in", result: "darkIn" }, pf);
+      E("feComposite", { in: "light", in2: "edge", operator: "in", result: "lightIn" }, pf);
+      const pm = E("feMerge", null, pf); ["edge", "darkIn", "lightIn"].forEach(n => E("feMergeNode", { in: n }, pm));
+      const pl = E("radialGradient", { id: EQ.nid("plight"), cx: .25, cy: .15, r: 1 }, svg._defs);
+      [[0, "#FFFFFF", .16], [.55, "#FFFFFF", 0], [1, "#0B3B2A", .16]].forEach(([o, c, a])=> E("stop", { offset: o, "stop-color": c, "stop-opacity": a }, pl));
       function open(it){
         if(busy || it.done) return; busy = true; stopNudge(); root.dataset.state = "busy";
         try{ sfxTap(); }catch(_){}
@@ -8980,14 +9040,25 @@ const SlideModules = {
       }
       async function cutRound(it){
         over.innerHTML = "";
-        const dim = E("rect", { x: -400, y: -400, width: 2133, height: 1400, fill: "rgba(57,55,55,.6)", opacity: 0 }, over);   // (past the room's edges: the stage's own wall and floor showed in strips at its sides and top)
+        /* the veil (user 2026-10-30: "the background can be better visually" - it was a flat grey wash): a deep navy over the blurred room
+           (past the room's edges - the stage's own wall and floor showed in strips), darker towards the edges, and a warm glow behind the mat */
+        /* (then "a uniform full background screen here") one solid colour behind the mat, the same everywhere on the screen */
+        const dim = E("rect", { x: -400, y: -400, width: 2133, height: 1400, fill: "#2A3A66", opacity: 0 }, over);
         const panel = E("g", { opacity: 0 }, over);
-        E("rect", { x: MAT.x - 14, y: MAT.y - 14, width: MAT.w + 28, height: MAT.h + 28, rx: 34, fill: "#FFF6E3", stroke: "#F2C230", "stroke-width": 5 }, panel);
-        E("rect", { x: MAT.x, y: MAT.y, width: MAT.w, height: MAT.h, rx: 22, fill: "#2FA37E" }, panel);
-        for(let gx = MAT.x + 33; gx < MAT.x + MAT.w; gx += 33) E("line", { x1: gx, y1: MAT.y + 6, x2: gx, y2: MAT.y + MAT.h - 6, stroke: "rgba(255,255,255,.16)", "stroke-width": 1.5 }, panel);
-        for(let gy = MAT.y + 33; gy < MAT.y + MAT.h; gy += 33) E("line", { x1: MAT.x + 6, y1: gy, x2: MAT.x + MAT.w - 6, y2: gy, stroke: "rgba(255,255,255,.16)", "stroke-width": 1.5 }, panel);
+        /* (then "it should look like a graph paper as it was, along with the border") the cream frame with its yellow edge and the grid are
+           back, at the new size; the green keeps the paper's grain and light (a straight edge inside the frame) */
+        E("rect", { x: MAT.x - 10, y: MAT.y - 4, width: MAT.w + 28, height: MAT.h + 28, rx: 36, fill: "rgba(0,0,0,.35)", filter: `url(#${svg._blur})` }, panel);   // its shadow
+        E("rect", { x: MAT.x - 18, y: MAT.y - 18, width: MAT.w + 36, height: MAT.h + 36, rx: 40, fill: "#FFF6E3", stroke: "#F2C230", "stroke-width": 6 }, panel);
+        E("rect", { x: MAT.x, y: MAT.y, width: MAT.w, height: MAT.h, rx: 26, fill: "#2FA37E", filter: `url(#${pf.id})` }, panel);                 // the green paper
+        const G = 42;                                                                                                                                 // (the grid, 33 * 1.28)
+        for(let gx = MAT.x + G; gx < MAT.x + MAT.w - 4; gx += G) E("line", { x1: gx, y1: MAT.y + 8, x2: gx, y2: MAT.y + MAT.h - 8, stroke: "rgba(255,255,255,.18)", "stroke-width": 1.8 }, panel);
+        for(let gy = MAT.y + G; gy < MAT.y + MAT.h - 4; gy += G) E("line", { x1: MAT.x + 8, y1: gy, x2: MAT.x + MAT.w - 8, y2: gy, stroke: "rgba(255,255,255,.18)", "stroke-width": 1.8 }, panel);
+        E("rect", { x: MAT.x, y: MAT.y, width: MAT.w, height: MAT.h, rx: 26, fill: `url(#${pl.id})` }, panel);                                     // its light
         const paper = E("g", { transform: kStd(K, PO[0], PO[1]) }, panel);
         const C = EQ.cuttable(svg, paper, it.s, { kind: "flat", fill: it.color, edge: "#3B2A55", sw: 3 / K });
+        /* (user 2026-10-30: "no element should go out of the green sheet throughout") the parts' frame is the green sheet (in their own units,
+           14 in from its edge): a check-fold that would carry a part off it folds the other part instead */
+        C.bounds = { left: (MAT.x + 14 - PO[0]) / K, right: (MAT.x + MAT.w - 14 - PO[0]) / K, top: (MAT.y + 14 - PO[1]) / K, bottom: (MAT.y + MAT.h - 14 - PO[1]) / K };
         const lineG = E("g", null, paper);
         const chords = it.lines.map(([a, b], i)=>{ const ch = EQ.chord(it.s, a, b);
           const g = E("g", { class: "eq-cutopt" }, lineG);
@@ -9061,10 +9132,12 @@ const SlideModules = {
           const BINS = 20;
           const pos = (c, t)=> [c.a[0] + (c.b[0] - c.a[0]) * t, c.a[1] + (c.b[1] - c.a[1]) * t];
           const pd = e =>{ const q = m(EQ.toSvg(svg, e)), c = nearest(q); if(!c) return;
-            cur = c; got = new Array(BINS).fill(false); moved = false; st = q; lastI = -1; try{ svg.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); mv(e); };
+            cur = c; got = new Array(BINS).fill(false); moved = false; st = q; lastI = -1;
+            { const t0 = EQ.distSeg(q, c.a, c.b).t; c.dir = t0 > .5 ? -1 : 1; c.t0 = t0; }   /* (pressed near b: it will cut towards a) */ try{ svg.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); mv(e); };
           const mv = e =>{ if(!cur) return; const q = m(EQ.toSvg(svg, e)), r = EQ.distSeg(q, cur.a, cur.b);
             if(Math.hypot(q[0] - st[0], q[1] - st[1]) > 6) moved = true;
             if(r.d > 26){ lastI = -1; return; }
+            if(Math.abs(r.t - cur.t0) > .03){ cur.dir = r.t > cur.t0 ? 1 : -1; cur.t0 = r.t; }   // the way the finger is going
             const bi = Math.min(BINS - 1, Math.floor(r.t * BINS));   // fill the gap since the last sample (a quick swipe)
             if(lastI < 0) got[bi] = true; else for(let k = Math.min(bi, lastI); k <= Math.max(bi, lastI); k++) got[k] = true;
             lastI = bi;
@@ -9076,29 +9149,106 @@ const SlideModules = {
           const off = ()=>{ svg.removeEventListener("pointerdown", pd); svg.removeEventListener("pointermove", mv); svg.removeEventListener("pointerup", up); svg.removeEventListener("pointercancel", up); };
           let over_ = false;
           const finish = c =>{ if(over_) return; over_ = true; cur = null; off(); try{ sfxTap(); }catch(_){} res({ i: c.i }); };
-          const auto = c =>{ off(); EQ.tween(1500, t =>{ const p = pos(c, t); c.ink.setAttribute("x1", c.a[0]); c.ink.setAttribute("y1", c.a[1]); c.ink.setAttribute("x2", p[0]); c.ink.setAttribute("y2", p[1]); sc.at([PO[0] + p[0] * K, PO[1] + p[1] * K], c); }).then(()=> finish(c)); };
+          const auto = c =>{ off(); c.dir = 1; EQ.tween(1500, t =>{ const p = pos(c, t); c.ink.setAttribute("x1", c.a[0]); c.ink.setAttribute("y1", c.a[1]); c.ink.setAttribute("x2", p[0]); c.ink.setAttribute("y2", p[1]); sc.at([PO[0] + p[0] * K, PO[1] + p[1] * K], c); }).then(()=> finish(c)); };
           svg.addEventListener("pointerdown", pd); svg.addEventListener("pointermove", mv); svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
         });
       }
       /* [scissors] the user's scissors (EQ.scissors), the cut point where the drawn pair's was; they point the way the line is cut */
       function scissors(parent){
-        const X = EQ.scissors(svg, parent, 57);
-        return { g: X.g, at(p, c){ X.at(p, Math.atan2(c.b[1] - c.a[1], c.b[0] - c.a[0]) * 180 / Math.PI); } };
+        const X = EQ.scissors(svg, parent, 73);   // (73: in step with the bigger sheet)
+        /* (user 2026-10-30: "cutting the triangle from up to down the scissors should point the right way - check all lines and angles") they
+           point the way the cut is going: c.dir 1 = towards b, -1 = towards a (the finger's own direction while it drags) */
+        return { g: X.g, at(p, c){ const d = c.dir || 1; X.at(p, Math.atan2((c.b[1] - c.a[1]) * d, (c.b[0] - c.a[0]) * d) * 180 / Math.PI); } };
       }
       /* the two equal parts fly from the mat into the decoration's outline */
+      /* [fly in] (user 2026-10-30: "the transition to the element can be more smooth and impressive - same for all") the cut paper: its two
+         halves snap back together, it lifts off the mat (a little bigger, a shadow under it), flies to its place on a gentle arc with a slight
+         tilt while the mat and the veil dissolve, lands with a soft squash-and-settle, and a golden ring spreads from its outline */
       async function fly(it, paper, C, dim, panel){
-        const p = it.place;
-        filled.appendChild(paper);
-        await S.anim(EQ.tween(900, t =>{
-          const k = K + (p.k - K) * t, x = PO[0] + (p.o[0] - PO[0]) * t, y = PO[1] + (p.o[1] - PO[1]) * t;
-          paper.setAttribute("transform", kStd(k, x, y));
-          dim.setAttribute("opacity", 1 - t); panel.setAttribute("opacity", 1 - t); veilBlur(1 - t);
-        }));
-        C.parts.A.querySelector(".eq-edge").setAttribute("stroke-width", 3 / p.k);
-        C.parts.B.querySelector(".eq-edge").setAttribute("stroke-width", 3 / p.k);
-        const c = [p.o[0] + 100 * p.k, p.o[1] + 100 * p.k];
-        EQ.sparkles(svg, over, c, 70 * Math.max(.8, p.k), 8);
+        const p = it.place, m0 = [K, 0, 0, K, PO[0], PO[1]];
+        await S.anim(C.part(0, 260));                                          // the halves together
+        over.appendChild(paper);                                               // (above the veil: sharp all the way; into the room when it lands)
+        const put = (mt, arc, rot, sc)=>{ const [cx, cy] = mAt(mt, 100, 100);
+          paper.setAttribute("transform", `translate(0,${(-arc).toFixed(1)}) translate(${cx.toFixed(1)},${cy.toFixed(1)}) rotate(${rot.toFixed(2)}) scale(${sc.toFixed(4)}) translate(${(-cx).toFixed(1)},${(-cy).toFixed(1)}) ${mStr(mt)}`); };
+        paper.setAttribute("filter", `url(#${svg._shadow})`);
+        await S.anim(EQ.tween(280, t => put(m0, 0, 0, 1 + .06 * t), EQ.easeOut));   // lift
+        const [x0] = mAt(m0, 100, 100), [x1, y1] = mAt(p.m, 100, 100), side = x1 >= x0 ? 1 : -1, H = y1 < 100 ? 36 : 110;   // (a low arc to the bunting: up high it would leave the screen)
+        try{ playSfxFile("sfx_whoosh", .45); }catch(_){}
+        await S.anim(EQ.tween(1150, t =>{
+          const mt = m0.map((v, i)=> v + (p.m[i] - v) * t), f = Math.sin(Math.PI * t);
+          put(mt, H * f, side * 9 * f * (1 - t), 1.06 - .06 * t);
+          const d = Math.min(1, t / .6); dim.setAttribute("opacity", (1 - d).toFixed(3)); panel.setAttribute("opacity", (1 - d).toFixed(3)); veilBlur(1 - d);
+        }, EQ.ease));
+        dim.setAttribute("opacity", 0); panel.setAttribute("opacity", 0); veilBlur(0);
+        const ring = E("path", { d: EQ.pathD(it.s.pts), fill: "none", stroke: "#FFD84D", "stroke-width": 7, "vector-effect": "non-scaling-stroke", transform: mStr(p.m) }, over);
+        try{ sfxCubePop(3, true); }catch(_){}
+        /* (user 2026-10-30: "the paper should go there and disappear, and then the sketch should happen") it arrives and is gone - shrinking
+           into its place in a soft golden ring; the decoration is then drawn there */
+        await S.anim(EQ.tween(420, t =>{
+          put(p.m, 0, 0, 1 - .3 * t); paper.setAttribute("opacity", (1 - t).toFixed(3));
+          const [cx, cy] = mAt(p.m, 100, 100), k = 1 + .22 * t;
+          ring.setAttribute("transform", `translate(${cx.toFixed(1)},${cy.toFixed(1)}) scale(${k.toFixed(3)}) translate(${(-cx).toFixed(1)},${(-cy).toFixed(1)}) ${mStr(p.m)}`);
+          ring.setAttribute("opacity", (1 - t).toFixed(3)); }, u => u));
+        ring.remove(); paper.remove();
+        C.parts.A.querySelector(".eq-edge").setAttribute("stroke-width", 3 / mK(p.m));
+        C.parts.B.querySelector(".eq-edge").setAttribute("stroke-width", 3 / mK(p.m));
+        /* [sketch reveal] (user 2026-10-30: "the rangoli transition can happen like a sketch - same for all elements") as it lands the paper
+           melts into a pencil outline that draws itself round the shape (a slightly wobbly hand line), then the colour is scribbled in, crayon
+           strokes sweeping down across it (a mask) - the finished rangoli for the circle, the coloured paper for the others - and the
+           pencil line fades as the dashed outline goes */
+        const fw = 1 / mK(p.m), inv = m =>{ const [a, b, c, d, e, f] = m, D = a * d - b * c; return [d / D, -b / D, -c / D, a / D, (c * f - d * e) / D, (b * e - a * f) / D]; };
+        const sk = E("g", { transform: mStr(p.m) }, ui);                     // (above its cream panel while it is drawn; into the room after)
+        const wob = E("filter", { id: EQ.nid("wob"), x: "-10%", y: "-10%", width: "120%", height: "120%" }, svg._defs);
+        E("feTurbulence", { type: "fractalNoise", baseFrequency: ".08", numOctaves: 1, seed: 3, result: "n" }, wob);
+        E("feDisplacementMap", { in: "SourceGraphic", in2: "n", scale: (2.2 * fw).toFixed(2), xChannelSelector: "R", yChannelSelector: "G" }, wob);
+        const pts = it.s.pts, OL = pts.reduce((L, q, k)=> L + Math.hypot(pts[(k + 1) % pts.length][0] - q[0], pts[(k + 1) % pts.length][1] - q[1]), 0);
+        const ol = E("path", { d: EQ.pathD(pts), fill: "none", stroke: "#4A2E1A", "stroke-width": (3.4 * fw).toFixed(2), "stroke-linecap": "round", "stroke-linejoin": "round",
+          "stroke-dasharray": `${OL.toFixed(1)} ${OL.toFixed(1)}`, "stroke-dashoffset": OL.toFixed(1), filter: `url(#${wob.id})` }, sk);
+        const mk = E("mask", { id: EQ.nid("crayon"), maskUnits: "userSpaceOnUse", x: -60, y: -60, width: 320, height: 320 }, svg._defs);
+        E("rect", { x: -60, y: -60, width: 320, height: 320, fill: "#000" }, mk);
+        const zz = []; for(let k = 0, y = -28; y <= 236; k++, y += 14) zz.push([k % 2 ? 228 : -28, y]);
+        const HL = zz.reduce((L, q, k)=> k ? L + Math.hypot(q[0] - zz[k - 1][0], q[1] - zz[k - 1][1]) : 0, 0);
+        const hatch = E("polyline", { points: zz.map(q => q.join(",")).join(" "), fill: "none", stroke: "#FFF", "stroke-width": 34, "stroke-linecap": "round", "stroke-linejoin": "round",
+          "stroke-dasharray": `${HL.toFixed(1)} ${HL.toFixed(1)}`, "stroke-dashoffset": HL.toFixed(1) }, mk);
+        const art = E("g", { mask: `url(#${mk.id})` }, sk);
+        // 1. the pencil line draws itself round; the paper melts into it, and the dashed line fades (the cream under it stays)
+        const dash = it.target.querySelector(".eq-target-out"), glowT = it.target.querySelector(".eq-target-glow");
+        await S.anim(EQ.tween(750, t =>{ ol.setAttribute("stroke-dashoffset", (OL * (1 - t)).toFixed(1));
+          dash.style.strokeOpacity = (1 - Math.min(1, t * 2)).toFixed(3); if(glowT) glowT.style.opacity = (1 - Math.min(1, t * 2)).toFixed(3); }, EQ.ease));
+        /* the finished decoration (user: "it should look like the other triangle decorations"): drawn in the room's own art - the bunting gets
+           the user's pink heart flag (from their finished room: flag_done.webp, laid on the blank flag by its 3 corners),
+           the window its own sunset back (the painting itself, inside the glass), the circle the finished rangoli; the square a stitched mat */
+        const room_ = E("g", { transform: mStr(inv(p.m)) }, art);           // (room units inside the shape's frame)
+        const mul = (A, B)=> [A[0] * B[0] + A[2] * B[1], A[1] * B[0] + A[3] * B[1], A[0] * B[2] + A[2] * B[3], A[1] * B[2] + A[3] * B[3], A[0] * B[4] + A[2] * B[5] + A[4], A[1] * B[4] + A[3] * B[5] + A[5]];
+        if(it.key === "wallart"){
+          const iv = inv(p.m), [rx, ry] = SRC(893 - 245, 721 - 103), [qx, qy] = SRC(893 + 245, 721 + 103), a0 = mAt(iv, rx, ry), a1 = mAt(iv, qx, qy);
+          E("image", { href: "assets/rangoli_done.webp", x: a0[0], y: a0[1], width: a1[0] - a0[0], height: a1[1] - a0[1], preserveAspectRatio: "none" }, art);
+        } else if(it.key === "bunting"){
+          E("image", { href: "assets/flag_done.webp", x: 0, y: 0, width: 124, height: 126, transform: mStr(aff([[7.6, 18.2], [115.5, 7.1], [70.4, 117]], [[373.0, 90.9], [511.6, 102.0], [437.3, 226.6]])) }, room_);   // (17% over the blank flag's outline: none of the painted blank one shows round it - user: "why is the outline still like this")
+        } else if(it.key === "window"){
+          const cg = E("clipPath", { id: EQ.nid("glass") }, svg._defs); E("path", { d: EQ.pathD(pts) }, cg); art.setAttribute("clip-path", `url(#${cg.id})`);
+          E("image", { href: "assets/bg_pari_bedroom.webp", x: 0, y: -150, width: 1333, height: 941 * SK, preserveAspectRatio: "none" }, room_);
+        } else {
+          /* (user 2026-10-30: "this square will become a gift box - I gave you the gift box asset") the user's own gift box, cut from their
+             finished room (Downloads/Sunset Rangoli in a Cosy Bedroom.png) and set exactly where it stands there (painting 1424,560 - 222 x 208, with the floor round it) */
+          const [gx, gy] = SRC(1424, 560);                                    // (the box with the floor round it from that picture: the mat is covered)
+          E("image", { href: "assets/gift_box.webp", x: gx, y: gy, width: 222 * SK, height: 208 * SK }, room_);
+        }
+        // 2. the colour is scribbled in
+        await S.anim(EQ.tween(1150, t =>{ hatch.setAttribute("stroke-dashoffset", (HL * (1 - t)).toFixed(1));
+          art.removeAttribute("mask"); void art.getBBox(); art.setAttribute("mask", `url(#${mk.id})`); }, EQ.ease));   // (re-applied each frame: Chrome does not repaint a mask's own changes)
+        art.removeAttribute("mask"); mk.remove();
         it.target.style.display = "none";
+        /* (user 2026-10-30: "and little stars after perfectly fitting the elements") a burst of little stars round it, then a second, closer
+           ring of twinkles a beat later */
+        const cS = mAt(p.m, 100, 100), rS = 72 * Math.max(.75, mK(p.m));
+        try{ sfxCubePop(5, true); }catch(_){}
+        EQ.sparkles(svg, over, cS, rS * 1.05, 12);
+        setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * .7, 9); }, 320);
+        setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * 1.3, 7); }, 640);
+        // 3. the pencil line fades
+        await S.anim(EQ.tween(380, t => ol.setAttribute("opacity", (1 - t).toFixed(3))));
+        ol.remove(); wob.remove(); filled.appendChild(sk);
         await S.wait(500);
       }
       function nudgeNext(){ const n = items.find(x => !x.done); if(n) startNudge(slide, n.target.querySelector(".eq-target-out")); }
@@ -9107,7 +9257,7 @@ const SlideModules = {
         GameBus.emit("decor_done", { slide_id: slide.id, phase: slide.phase, first_try: items.every(x => x.att === 0) });
         recordResult(slide, items.every(x => x.att === 0));
         EQ.rightCue();
-        items.forEach(x => EQ.sparkles(svg, over, [x.place.o[0] + 100 * x.place.k, x.place.o[1] + 100 * x.place.k], 80, 8));
+        items.forEach(x => EQ.sparkles(svg, over, mAt(x.place.m, 100, 100), 80, 8));
         await S.say("done");                                    // वाह! परी का पूरा कमरा सज गया!
         await S.wait(700);
         completeSlide(true);
@@ -9719,7 +9869,11 @@ function conceptTileHTML(c){
    from Safari 18.4). */
 /* @asset-sizes:begin (generated by tools/gen_asset_sizes.js - do not edit by hand) */
 const ASSET_SIZES = {
-  "assets/bg_bedroom.webp": 8108,
+  "assets/bg_pari_bedroom.webp": 103244,
+  "assets/cat_sleep.webp": 8062,
+  "assets/rangoli_done.webp": 45732,
+  "assets/flag_done.webp": 2590,
+  "assets/gift_box.webp": 6796,
   "assets/bg_dining.webp": 19792,
   "assets/bg_dining_table.webp": 28620,
   "assets/bg_landing_pizza.webp": 26660,
@@ -9991,6 +10145,7 @@ const Assets = (function(){
     if(/^ROTI_/.test(s.type)) out.push(EQ_FOOD.img, EQ_FOOD.back);
     if(s.type === "ROTI_FREE_CUT" || s.type === "ROTI_TRACE") out.push("assets/cutter_scooter.webp");   // [scooter cutter]
     if(s.type === "DOT_SPLIT" || s.type === "DECOR_GAME") out.push("assets/scissors.webp", "assets/sfx/scissor_snip.wav");   // [scissors]
+    if(s.type === "DECOR_GAME") out.push("assets/cat_sleep.webp", "assets/rangoli_done.webp", "assets/flag_done.webp", "assets/gift_box.webp");             // [pari room]
     if(s.type === "ROTI_INTRO" || s.type === "ROTI_HALVES_HELD" || (s.type === "ROTI_TRACE" && d.give_to_kids)) ["char_aaru_bust", "char_pari_bust", "char_aaru_bust_pupils", "char_pari_bust_pupils"].forEach(img);   // [3d portraits]
     if(s.type === "ROTI_AGAIN") ["bg_dining", "bg_dining_table", "pizza_board", "char_aaru_happy", "char_pari_happy", "char_aaru_pupils", "char_pari_pupils", "char_aaru_smile", "char_pari_smile"].forEach(img);
     if(s.type === "CELEBRATION"){ img("end_screen"); out.push(art("sw_lg_celebrating_anim.webp"), vo("sfx_celebrate")); }

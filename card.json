@@ -610,7 +610,7 @@
         "done": "vo_d_done"
       },
       "data": {
-        "bg": "bedroom",
+        "bg": "pariroom",
         "items": [
           {
             "key": "bunting",
