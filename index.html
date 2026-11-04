@@ -4617,8 +4617,9 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
             "correct": 0
           },
           {
-            "key": "pinboard",
+            "key": "window",
             "shape": "rect",
+            "box": [20, 35.2, 160, 129.6],
             "color": "#8CCBF5",
             "lines": [
               [
@@ -4693,7 +4694,7 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
             "correct": 2
           },
           {
-            "key": "frame",
+            "key": "rug",
             "shape": "square",
             "color": "#A77BE8",
             "lines": [
@@ -9222,38 +9223,24 @@ const SlideModules = {
         /* (user 2026-10-30: "the outer part of the triangle and square should have the dotted line", as the window's and the rangoli's) the flag's
            outline runs along its OUTER edge (measured in the painting, 1.5px in), not the dashed line painted inside it */
         bunting:  { m: aff([[24, 28], [176, 28], [100, 172]], [[386, 98], [501.5, 107.5], [438, 214]]) },
-        /* [wall] (1st review #17: "fitting the square into a square picture frame on the wall"; #19: "use the rectangle as a pinboard"; #15:
-           "it should remain visually recognisable as the same shape") on the empty wall between the bunting and the window, each place its
-           shape's own proportions - nothing stretched to fit (the rectangle went on the window's glass, 1.9 : 1 squeezed to 1.2 : 1) */
-        frame:    { m: aff([[30, 30], [170, 30], [30, 170]], [[602, 284], [724, 284], [602, 406]]), box: [584, 266, 158, 158] },           // its picture: 122 square
-        pinboard: { m: aff([[20, 58], [180, 58], [20, 142]], [[773, 299], [949, 299], [773, 391.4]]), box: [761, 287, 200, 116.4] },      // its board: 176 x 92.4
+        /* (user 2026-11-04: "the square and rectangle should go back as gift box and window scene as it was" - over 1st review #17 / #19's
+           picture frame and pinboard on the wall) the square on the painted mat on the floor (it becomes the gift box), the rectangle on
+           the window's glass (it becomes the window's own sunset) */
+        rug:      { m: aff([[30, 30], [170, 30], [30, 170]], [[1438.5, 586.5], [1629, 586.5], [1438.5, 749]]) },
+        /* (user 2026-11-05: "the rectangle given me to cut and the rectangle window length and breadth look different") the window's paper is
+           cut to the glass's own proportions - 160 x 129.6, as 400 x 324 - not the lessons' 160 x 84 rectangle squeezed into it (data.items box) */
+        window:   { m: aff([[20, 35.2], [180, 35.2], [20, 164.8]], [[1104, 76], [1504, 76], [1104, 400]]) },   // (the window's glass: "the rectangle goes on the window")
         /* the rangoli's cream middle (an oval on the floor: a circle lying down) */
         rangoli:  { m: aff([[100, 100], [180, 100], [100, 180]], [[885, 720], [885 + 222, 720], [885, 720 + 94]]) }
       };
-      /* the frame and the pinboard, empty, drawn on the wall (in the painting's own light: from the window, upper right) - a wooden frame
-         hanging from a nail on a cord, a pine-edged board on two nails; each one's dashed place inside it */
-      { const D = svg._defs, lg = (id, stops)=>{ const g = E("linearGradient", { id, x1: 0, y1: 0, x2: 1, y2: 1 }, D); stops.forEach(([o, c])=> E("stop", { offset: o, "stop-color": c }, g)); return `url(#${id})`; };
-        const wf = lg(EQ.nid("wood"), [[0, "#C98B4E"], [.5, "#A8662F"], [1, "#7C4519"]]), wp = lg(EQ.nid("pine"), [[0, "#E7B77A"], [.55, "#CF9452"], [1, "#A9692E"]]);
-        const sh = E("filter", { id: EQ.nid("wsh"), x: "-20%", y: "-20%", width: "150%", height: "150%" }, D);
-        E("feDropShadow", { dx: -5, dy: 7, stdDeviation: 5, "flood-color": "#6B3A12", "flood-opacity": .3 }, sh);
-        const box = (b, fill, bw)=>{ const [x, y] = SRC(b[0], b[1]), w = b[2] * SK, hh = b[3] * SK, g = E("g", { filter: `url(#${sh.id})` }, room);
-          E("rect", { x, y, width: w, height: hh, rx: 4, fill }, g);
-          E("rect", { x: x + 2, y: y + 2, width: w - 4, height: hh - 4, rx: 3, fill: "none", stroke: "rgba(255,255,255,.35)", "stroke-width": 1.5 }, g);   // its lit outer edge
-          E("rect", { x: x + bw - 1.5, y: y + bw - 1.5, width: w - 2 * bw + 3, height: hh - 2 * bw + 3, fill: "none", stroke: "rgba(60,30,8,.45)", "stroke-width": 2 }, g);   // the inner edge's shadow
-          return [x, y, w, hh]; };
-        const nail = (x, y)=>{ E("circle", { cx: x, cy: y, r: 3.4, fill: "#8D96A3", stroke: "#5E6672", "stroke-width": 1 }, room); E("circle", { cx: x - .9, cy: y - .9, r: 1.1, fill: "#E8ECF0" }, room); };
-        { const [x, y, w] = box(PLACE.frame.box, wf, 14 * SK), nx = x + w / 2, ny = y - 30;   // the frame on its cord
-          const cord = E("path", { d: `M${(x + 18).toFixed(1)},${(y + 4).toFixed(1)} L${nx.toFixed(1)},${ny.toFixed(1)} L${(x + w - 18).toFixed(1)},${(y + 4).toFixed(1)}`, fill: "none", stroke: "#6B4A2E", "stroke-width": 1.8 });
-          room.insertBefore(cord, room.lastChild); nail(nx, ny); }
-        { const [x, y, w] = box(PLACE.pinboard.box, wp, 12 * SK); nail(x + 22, y + 5); nail(x + w - 22, y + 5); } }
       /* the cat by the bed: asleep - she breathes (a slow rise and fall from the floor), and z's float up from above her head */
       { const [cx0, cy0] = SRC(130, 630), cat = E("g", { class: "eq-cat" }, room);
         E("image", { href: "assets/cat_sleep.webp", x: cx0, y: cy0, width: 260 * SK, height: 155 * SK }, cat);
         const [zx, zy] = SRC(318, 650), zz = E("g", { class: "eq-zzz", transform: `translate(${zx.toFixed(1)},${zy.toFixed(1)})` }, room);
         [[0, 15], [1, 19], [2, 23]].forEach(([i, f])=>{ const t = E("text", { class: "eq-z", "font-size": f, style: `animation-delay:${(i * 1.1).toFixed(1)}s` }, zz); t.textContent = "z"; }); }
       const items = d.items.map(it =>{
-        const p = PLACE[it.key], s = EQ.std(it.shape);
-        const t = E("g", { class: "eq-target" + (it.key === "bunting" ? " eq-target-painted" : ""), transform: mStr(p.m) }, ui);
+        const p = PLACE[it.key], s = it.box ? EQ.shape(it.shape, { x: it.box[0], y: it.box[1], w: it.box[2], h: it.box[3] }) : EQ.std(it.shape);   // (box: a paper cut to its place's own proportions)
+        const t = E("g", { class: "eq-target" + (it.key === "bunting" || it.key === "rug" ? " eq-target-painted" : ""), transform: mStr(p.m) }, ui);
         E("path", { d: EQ.pathD(s.pts), class: "eq-target-glow", filter: `url(#${svg._blur})` }, t);
         /* (user 2026-10-30: "in all elements the dotted lines should look the same") the flag and the square mat have a dashed line painted
            in - thinner and greyer: it is covered with the panel's own cream, and every outline gets the same navy dashed line */
@@ -9390,7 +9377,7 @@ const SlideModules = {
       const vs = xs => xs.map(x => [[x, 0], [x, 200]]), hs = ys => ys.map(y => [[0, y], [200, y]]), dg = [[[30, 30], [170, 170]], [[170, 30], [30, 170]]];
       const LINES = {
         flag:   [40, 52, 64, 76, 88, 100, 112, 124, 136, 150, 162].map(x => [[100, 172], [x, 28]]).concat(hs([62, 84, 106, 128])),
-        rect:   vs([36, 50, 62, 76, 88, 100, 112, 124, 138, 150, 164]).concat(hs([70, 82, 91, 100, 109, 118, 130])),       // (no slant: a rectangle cut slanting through its middle has halves that never fold onto each other)
+        rect:   vs([36, 50, 62, 76, 88, 100, 112, 124, 138, 150, 164]).concat(hs([46, 58, 70, 82, 91, 100, 109, 118, 130, 142, 154])),   // (hs over the window's paper: 35-165 high)       // (no slant: a rectangle cut slanting through its middle has halves that never fold onto each other)
         circle: vs([34, 48, 64, 82, 100, 118, 136, 152, 166]).concat(hs([34, 48, 62, 74, 87, 100, 113, 126, 140, 152, 166]), dg),
         square: vs([44, 56, 66, 78, 89, 100, 111, 122, 134, 144, 156]).concat(hs([44, 56, 66, 78, 89, 100, 111, 120, 134, 144, 156]), dg)
       };
@@ -9442,6 +9429,43 @@ const SlideModules = {
       /* [fly in] (user 2026-10-30: "the transition to the element can be more smooth and impressive - same for all") the cut paper: its two
          halves snap back together, it lifts off the mat (a little bigger, a shadow under it), flies to its place on a gentle arc with a slight
          tilt while the mat and the veil dissolve, lands with a soft squash-and-settle, and a golden ring spreads from its outline */
+      /* [paper plane] (user 2026-11-04: "when the triangle shape transition from correct cut to pasting on wall is happening it can happen as
+         a paper plane transition effect smooth and simple") the flag folds into a little paper plane in its own colour, swoops up to the
+         bunting on one smooth S-curve - its nose along the path, a short dotted trail behind it - and unfolds into the flag in its place */
+      async function plane(it, paper, put, m0, dim, panel){
+        const p = it.place, [sx, sy] = mAt(m0, 100, 100), [ex, ey] = mAt(p.m, 100, 100);
+        const c1 = [sx + 260, sy - 40], c2 = [ex + 260, ey + 70];               // (out to the right, then back up and left to the flag)
+        const at = t =>{ const u = 1 - t; return [u * u * u * sx + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * ex, u * u * u * sy + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * ey]; };
+        const dir = t =>{ const u = 1 - t, dx = 3 * u * u * (c1[0] - sx) + 6 * u * t * (c2[0] - c1[0]) + 3 * t * t * (ex - c2[0]), dy = 3 * u * u * (c1[1] - sy) + 6 * u * t * (c2[1] - c1[1]) + 3 * t * t * (ey - c2[1]);
+          return Math.atan2(dy, dx) * 180 / Math.PI; };
+        const shade = (hex, k)=>{ const n = parseInt(hex.slice(1), 16), f = v => Math.round(v * k).toString(16).padStart(2, "0"); return "#" + f(n >> 16) + f((n >> 8) & 255) + f(n & 255); };
+        const col = it.color || "#FF7A7A";
+        const trail = E("polyline", { fill: "none", stroke: "#FFFFFF", "stroke-width": 3, "stroke-linecap": "round", "stroke-dasharray": "1 9", opacity: .8 }, over);
+        const pl = E("g", { filter: `url(#${svg._shadow})` }, over), body = E("g", null, pl);   // (its nose along +x, about its middle)
+        E("path", { d: "M34,0 L-30,-20 L-14,0 Z", fill: col, stroke: "#FFFFFF", "stroke-width": 1.6, "stroke-linejoin": "round" }, body);   // the near wing
+        E("path", { d: "M34,0 L-14,0 L-26,15 Z", fill: shade(col, .78), stroke: "#FFFFFF", "stroke-width": 1.6, "stroke-linejoin": "round" }, body);   // its underside
+        E("path", { d: "M34,0 L-14,0", stroke: shade(col, .55), "stroke-width": 1.4, "stroke-linecap": "round" }, body);   // the fold
+        const place = (x, y, rot, k, bank)=> pl.setAttribute("transform", `translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(1)}) scale(${k.toFixed(3)},${(k * (1 - .25 * bank)).toFixed(3)})`);
+        const veil = d =>{ dim.setAttribute("opacity", (1 - d).toFixed(3)); panel.setAttribute("opacity", (1 - d).toFixed(3)); veilBlur(1 - d); };
+        // 1. it folds: the flag shrinks away as the plane opens out where it was
+        const r0 = dir(0);
+        await S.anim(EQ.tween(340, t =>{ put(m0, 0, r0 * .3 * t, 1.06 * (1 - .8 * t)); paper.setAttribute("opacity", (1 - t).toFixed(3));
+          place(sx, sy, r0, 1.4 * EQ.easeOut(t), 0); veil(.5 * t); }));   // (the mat goes as it folds: the plane flies over the room)
+        paper.setAttribute("opacity", 0);
+        // 2. it flies: one smooth swoop, rolling a little as it turns, a dotted trail fading out behind
+        const N = 48, pts = [];
+        await S.anim(EQ.tween(1450, t =>{
+          const [x, y] = at(t); place(x, y, dir(t), 1.4 - .25 * t, Math.sin(Math.PI * t));
+          pts.length = 0; for(let k = Math.max(0, t - .35); k <= t; k += .35 / N) pts.push(at(k).map(v => v.toFixed(1)).join(","));
+          trail.setAttribute("points", pts.join(" ")); trail.setAttribute("opacity", (.8 * (1 - Math.max(0, t - .8) / .2)).toFixed(3));
+          veil(.5 + .5 * Math.min(1, t / .3)); }, EQ.ease));
+        trail.remove(); veil(1);
+        // 3. it unfolds into the flag, in its place
+        const r1 = dir(1);
+        await S.anim(EQ.tween(320, t =>{ place(ex, ey, r1 * (1 - t), 1.15 * (1 - t), 0); pl.setAttribute("opacity", (1 - t).toFixed(3));
+          put(p.m, 0, 0, .35 + .65 * EQ.easeOut(t)); paper.setAttribute("opacity", t.toFixed(3)); }));
+        pl.remove(); paper.setAttribute("opacity", 1); put(p.m, 0, 0, 1);
+      }
       async function fly(it, paper, C, dim, panel){
         const p = it.place, m0 = [K, 0, 0, K, PO[0], PO[1]];
         await S.anim(C.part(0, 260));                                          // the halves together
@@ -9455,17 +9479,18 @@ const SlideModules = {
         const lie = it.key === "rangoli", mUp = lie ? (()=>{ const [cx, cy] = mAt(p.m, 100, 100), kx = Math.hypot(p.m[0], p.m[1]); return [kx, 0, 0, kx, cx - 100 * kx, cy - 100 * kx]; })() : p.m;
         const [x0] = mAt(m0, 100, 100), [x1, y1] = mAt(p.m, 100, 100), side = x1 >= x0 ? 1 : -1, H = y1 < 100 ? 36 : (y1 < 350 ? 60 : 110);   // (a low arc up to the wall: up high it would leave the screen)
         try{ playSfxFile("sfx_whoosh", .45); }catch(_){}
-        await S.anim(EQ.tween(1150, t =>{
+        if(it.key === "bunting") await plane(it, paper, put, m0, dim, panel);
+        else await S.anim(EQ.tween(1150, t =>{
           const mt = m0.map((v, i)=> v + (mUp[i] - v) * t), f = Math.sin(Math.PI * t);
           put(mt, H * f, side * 9 * f * (1 - t), 1.06 - .06 * t);
           const d = Math.min(1, t / .6); dim.setAttribute("opacity", (1 - d).toFixed(3)); panel.setAttribute("opacity", (1 - d).toFixed(3)); veilBlur(1 - d);
         }, EQ.ease));
         dim.setAttribute("opacity", 0); panel.setAttribute("opacity", 0); veilBlur(0);
         if(lie){ await S.wait(150); await S.anim(EQ.tween(560, t => put(mUp.map((v, i)=> v + (p.m[i] - v) * t), 0, 0, 1), EQ.easeOut)); }
-        if(it.key !== "bunting") return settleIn(it, paper, C);
         const ring = E("path", { d: EQ.pathD(it.s.pts), fill: "none", stroke: "#FFD84D", "stroke-width": 7, "vector-effect": "non-scaling-stroke", transform: mStr(p.m) }, over);
         try{ sfxCubePop(3, true); }catch(_){}
-        /* (the flag only - 1st review #18: "the triangles fitting into the hanging decoration work well. Please retain this approach")
+        /* (the flag - 1st review #18: "the triangles fitting into the hanging decoration work well. Please retain this approach"; and the
+           gift box, the window and the finished rangoli again, user 2026-11-04 - the circle had settled in as a plain orange disc, #16)
            (user 2026-10-30: "the paper should go there and disappear, and then the sketch should happen") it arrives and is gone - shrinking
            into its place in a soft golden ring; the decoration is then drawn there */
         await S.anim(EQ.tween(420, t =>{
@@ -9499,10 +9524,27 @@ const SlideModules = {
         const dash = it.target.querySelector(".eq-target-out"), glowT = it.target.querySelector(".eq-target-glow");
         await S.anim(EQ.tween(750, t =>{ ol.setAttribute("stroke-dashoffset", (OL * (1 - t)).toFixed(1));
           dash.style.strokeOpacity = (1 - Math.min(1, t * 2)).toFixed(3); if(glowT) glowT.style.opacity = (1 - Math.min(1, t * 2)).toFixed(3); }, EQ.ease));
-        /* the finished flag (user: "it should look like the other triangle decorations"): the user's pink heart flag (from their finished room:
-           flag_done.webp, laid on the blank flag by its 3 corners) */
+        /* the finished decoration (user: "it should look like the other triangle decorations"): drawn in the room's own art - the bunting gets
+           the user's pink heart flag (from their finished room: flag_done.webp, laid on the blank flag by its 3 corners), the window its own
+           sunset back (the painting itself, inside the glass), the circle the finished rangoli, the square the user's gift box */
         const room_ = E("g", { transform: mStr(inv(p.m)) }, art);           // (room units inside the shape's frame)
-        E("image", { href: "assets/flag_done.webp", x: 0, y: 0, width: 124, height: 126, transform: mStr(aff([[7.6, 18.2], [115.5, 7.1], [70.4, 117]], [[373.0, 90.9], [511.6, 102.0], [437.3, 226.6]])) }, room_);   // (17% over the blank flag's outline: none of the painted blank one shows round it - user: "why is the outline still like this")
+        if(it.key === "rangoli"){
+          /* (user 2026-11-05: "the circle rangoli looks untidy now") the finished disc is fitted to the circle itself - its white rim on the
+             circle's edge, under the outline (it was set 8px right of the circle and a tenth bigger, its rings running in and out of it) */
+          const cg = E("clipPath", { id: EQ.nid("rgl") }, svg._defs); E("path", { d: EQ.pathD(pts) }, cg);
+          E("image", { href: "assets/rangoli_done.webp", x: 20, y: 20, width: 160, height: 160, preserveAspectRatio: "none", "clip-path": `url(#${cg.id})` }, art);
+        } else if(it.key === "bunting"){
+          E("image", { href: "assets/flag_done.webp", x: 0, y: 0, width: 124, height: 126, transform: mStr(aff([[7.6, 18.2], [115.5, 7.1], [70.4, 117]], [[373.0, 90.9], [511.6, 102.0], [437.3, 226.6]])) }, room_);   // (17% over the blank flag's outline: none of the painted blank one shows round it - user: "why is the outline still like this")
+        } else if(it.key === "window"){
+          const cg = E("clipPath", { id: EQ.nid("glass") }, svg._defs); E("path", { d: EQ.pathD(pts) }, cg); art.setAttribute("clip-path", `url(#${cg.id})`);
+          E("image", { href: "assets/bg_pari_bedroom.webp", x: 0, y: -150, width: 1333, height: 941 * SK, preserveAspectRatio: "none" }, room_);
+        } else {
+          /* (user 2026-11-04: "gift box will be this after the square shape gets completed") the user's purple polka-dot box with its pink bow,
+             standing where the mat was on the bare floorboards (the room without its mat), its shadow cast down-left from the window - one
+             picture with the floor round it, painting 1400,485 - 268 x 295, so the mat under it is covered */
+          const [gx, gy] = SRC(1400, 485);
+          E("image", { href: "assets/gift_box.webp", x: gx, y: gy, width: 268 * SK, height: 295 * SK }, room_);
+        }
         // 2. the colour is scribbled in
         await S.anim(EQ.tween(1150, t =>{ hatch.setAttribute("stroke-dashoffset", (HL * (1 - t)).toFixed(1));
           art.removeAttribute("mask"); void art.getBBox(); art.setAttribute("mask", `url(#${mk.id})`); }, EQ.ease));   // (re-applied each frame: Chrome does not repaint a mask's own changes)
@@ -9515,38 +9557,13 @@ const SlideModules = {
         EQ.sparkles(svg, over, cS, rS * 1.05, 12);
         setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * .7, 9); }, 320);
         setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * 1.3, 7); }, 640);
-        // 3. the pencil line fades
-        await S.anim(EQ.tween(380, t => ol.setAttribute("opacity", (1 - t).toFixed(3))));
+        // 3. the pencil line fades - (the circle) into a clear outline that stays: user 2026-11-04 "circle rangoli outer circle outline can be
+        //    more seen so that child can differentiate" - the finished rangoli's rings ran on past the circle's edge, hiding it
+        const keep = it.key === "rangoli" ? [["#FFFFFF", 7], ["#1F3B73", 3.2]].map(([c, w])=> E("path", { d: EQ.pathD(pts), fill: "none", stroke: c, "stroke-width": w,
+          "vector-effect": "non-scaling-stroke", opacity: 0 }, sk)) : [];   // (a white halo under a navy line: it reads on every colour of the rangoli)
+        await S.anim(EQ.tween(380, t =>{ ol.setAttribute("opacity", (1 - t).toFixed(3)); keep.forEach(k => k.setAttribute("opacity", t.toFixed(3))); }));
         ol.remove(); wob.remove(); filled.appendChild(sk);
         await S.wait(500);
-      }
-      /* [plain] (1st review #15: "there is no need to add a pattern to every shape. After a shape is divided equally and placed in the room, it
-         should remain visually recognisable as the same shape"; #16 the circle "a plain circle in a suitable contrasting colour"; #17 the square
-         no "sudden transformation" into a gift box) the paper itself stays: it settles in with a little squash, its two halves' seam still
-         there, the dashed place gone under it; a gold ring spreads, stars burst - and the pinboard gets its two pins */
-      async function settleIn(it, paper, C){
-        const p = it.place, kk = mK(p.m);
-        const ring = E("path", { d: EQ.pathD(it.s.pts), fill: "none", stroke: "#FFD84D", "stroke-width": 7, "vector-effect": "non-scaling-stroke", transform: mStr(p.m) }, over);
-        it.target.style.display = "none";
-        [C.parts.A, C.parts.B].forEach(x => x.querySelector(".eq-edge").setAttribute("stroke-width", (2.4 / kk).toFixed(3)));
-        try{ sfxCubePop(3, true); }catch(_){}
-        await S.anim(EQ.tween(420, t =>{ const [cx, cy] = mAt(p.m, 100, 100), q = Math.sin(Math.PI * t);
-          paper.setAttribute("transform", `translate(${cx.toFixed(1)},${cy.toFixed(1)}) scale(${(1 + .05 * q).toFixed(4)},${(1 - .05 * q).toFixed(4)}) translate(${(-cx).toFixed(1)},${(-cy).toFixed(1)}) ${mStr(p.m)}`);
-          const k = 1 + .22 * t; ring.setAttribute("transform", `translate(${cx.toFixed(1)},${cy.toFixed(1)}) scale(${k.toFixed(3)}) translate(${(-cx).toFixed(1)},${(-cy).toFixed(1)}) ${mStr(p.m)}`);
-          ring.setAttribute("opacity", (1 - t).toFixed(3)); }, u => u));
-        ring.remove();
-        paper.removeAttribute("filter"); paper.setAttribute("transform", mStr(p.m)); paper.style.pointerEvents = "none"; filled.appendChild(paper);
-        if(it.key === "pinboard"){                                             // its pins, popping in at the top corners
-          [[34, 68, "#E2402E"], [166, 68, "#F2B705"]].forEach(([x, y, col], i)=>{ const [px, py] = mAt(p.m, x, y), pin = E("g", { transform: `translate(${px.toFixed(1)},${py.toFixed(1)}) scale(0)` }, filled);
-            E("ellipse", { cx: 1.5, cy: 3, rx: 6, ry: 3, fill: "rgba(0,0,0,.25)" }, pin); E("circle", { r: 6.5, fill: col }, pin); E("circle", { cx: -2, cy: -2, r: 2, fill: "rgba(255,255,255,.7)" }, pin);
-            setTimeout(()=> EQ.tween(320, t => pin.setAttribute("transform", `translate(${px.toFixed(1)},${py.toFixed(1)}) scale(${(t < .7 ? t / .7 * 1.2 : 1.2 - .2 * (t - .7) / .3).toFixed(3)})`)), 120 + i * 140); });
-        }
-        const cS = mAt(p.m, 100, 100), rS = 72 * Math.max(.75, kk);
-        try{ sfxCubePop(5, true); }catch(_){}
-        EQ.sparkles(svg, over, cS, rS * 1.05, 12);
-        setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * .7, 9); }, 320);
-        setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * 1.3, 7); }, 640);
-        await S.wait(900);
       }
       function nudgeNext(){ const n = items.find(x => !x.done); if(n) startNudge(slide, n.target.querySelector(".eq-target-out")); }
       async function finishAll(){
@@ -10166,16 +10183,17 @@ function conceptTileHTML(c){
    from Safari 18.4). */
 /* @asset-sizes:begin (generated by tools/gen_asset_sizes.js - do not edit by hand) */
 const ASSET_SIZES = {
-  "assets/bg_pari_bedroom.webp": 94836,
+  "assets/bg_pari_bedroom.webp": 103244,
   "assets/cat_sleep.webp": 8062,
   "assets/flag_done.webp": 2590,
+  "assets/gift_box.webp": 9530,
+  "assets/rangoli_done.webp": 45732,
   "assets/bg_dining.webp": 19792,
   "assets/bg_dining_table.webp": 28620,
   "assets/bg_landing_pizza.webp": 26660,
   "assets/bgdeco_spark.svg": 220,
   "assets/bgdeco_star.svg": 391,
   "assets/bgdeco_star_o.svg": 448,
-  "assets/btn-play-round-waiting.svg": 2655,
   "assets/btn-play-round.svg": 2645,
   "assets/char_aaru_pupils.webp": 2112,
   "assets/char_aaru_smile.webp": 2088,
@@ -10229,7 +10247,6 @@ const ASSET_SIZES = {
   "assets/startnew_bg_plain.webp": 24446,
   "assets/sw_head_celebrate.webp": 41998,
   "assets/sw_head_hint.webp": 36812,
-  "assets/sw_head_neutral.webp": 31940,
   "assets/sw_head_talking.webp": 37384,
   "assets/sw_head_tryagain.webp": 48836,
   "assets/tug_aaru.webp": 117870,
@@ -10440,7 +10457,7 @@ const Assets = (function(){
     if(/^ROTI_/.test(s.type)) out.push(EQ_FOOD.img, EQ_FOOD.back);
     if(s.type === "ROTI_FREE_CUT" || s.type === "ROTI_TRACE") out.push("assets/cutter_scooter.webp");   // [scooter cutter]
     if(s.type === "DOT_SPLIT" || s.type === "DECOR_GAME") out.push("assets/scissors.webp", "assets/sfx/scissor_snip.wav");   // [scissors]
-    if(s.type === "DECOR_GAME") out.push("assets/cat_sleep.webp", "assets/flag_done.webp");             // [pari room]
+    if(s.type === "DECOR_GAME") out.push("assets/cat_sleep.webp", "assets/flag_done.webp", "assets/gift_box.webp", "assets/rangoli_done.webp");             // [pari room]
     if(s.type === "ROTI_INTRO" || s.type === "ROTI_HALVES_HELD" || (s.type === "ROTI_TRACE" && d.give_to_kids)) ["char_aaru_bust", "char_pari_bust", "char_aaru_bust_pupils", "char_pari_bust_pupils"].forEach(img);   // [3d portraits]
     if(s.type === "ROTI_AGAIN") ["bg_dining", "bg_dining_table", "pizza_board", "char_aaru_happy", "char_pari_happy", "char_aaru_pupils", "char_pari_pupils", "char_aaru_smile", "char_pari_smile"].forEach(img);
     if(s.type === "CELEBRATION"){ img("end_screen"); out.push(art("sw_lg_celebrating_anim.webp"), vo("sfx_celebrate")); }
@@ -10457,7 +10474,7 @@ const Assets = (function(){
     ["startnew_bg_plain.webp", "start_card.webp", "bg_landing_pizza.webp", "pizza.webp",
      "tug_aaru.webp", "tug_pari.webp", "tug_aaru_hands.webp", "tug_pari_hands.webp",   // [landing tug]
      "sfx/tug_cheese.wav", "sfx/tug_tear.wav",                                       // [landing tug: sound]
-     "btn-play-round-waiting.svg", "btn-play-round.svg", "bgdeco_star.svg", "bgdeco_star_o.svg",
+     "btn-play-round.svg", "bgdeco_star.svg", "bgdeco_star_o.svg",
      "bgdeco_spark.svg"].forEach(f => add("assets/" + f, CRIT));
     add(art("new_landing_swiftee_anim.webp"), CRIT);                                // Swiftee's wave (sgMascotPlayer reads its Blob)
     add(FONTS[0], CRIT);                                                            // the title's weight; the others next

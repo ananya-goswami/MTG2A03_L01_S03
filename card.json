@@ -709,8 +709,9 @@
             "correct": 0
           },
           {
-            "key": "pinboard",
+            "key": "window",
             "shape": "rect",
+            "box": [20, 35.2, 160, 129.6],
             "color": "#8CCBF5",
             "lines": [
               [
@@ -785,7 +786,7 @@
             "correct": 2
           },
           {
-            "key": "frame",
+            "key": "rug",
             "shape": "square",
             "color": "#A77BE8",
             "lines": [
