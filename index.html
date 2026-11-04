@@ -3596,6 +3596,15 @@ body.vo-lock .dev-nav{z-index:150001;}
 .eq-over .eq-edge{stroke:#00B132 !important;stroke-width:7px;transition:stroke .2s;}
 .eq-over.eq-mismatch .eq-edge{stroke:#E2202C !important;}
 .eq-freecut{stroke:#5B2E0E;stroke-width:6px;stroke-linecap:round;stroke-dasharray:2 12;}
+/* [1st review 2026-10-30] the folded part's place while it is over (#6), the one line two halves rest on (#2), a label popping on its
+   word (#4) and lit on "आधा" (#5), the crumbs (#3) */
+.eq-fold-ghost,.eq-baseline,.eq-crumbs{pointer-events:none;}
+.eq-baseline{stroke:#1E6BE0;stroke-opacity:.6;stroke-width:4px;stroke-linecap:round;stroke-dasharray:12 10;}
+.eq-label-in{transform-box:fill-box;transform-origin:center;}
+.eq-label.pop .eq-label-in{animation:eqPop .45s cubic-bezier(.34,1.5,.6,1) both;}
+.eq-label.hi .eq-label-in{animation:eqLabelHi .6s cubic-bezier(.34,1.5,.6,1) both;}
+.eq-label.hi rect{fill:#FFD84D;stroke:#F08A00;stroke-width:4px;}
+@keyframes eqLabelHi{0%{scale:1}55%{scale:1.34}100%{scale:1.2}}
 
 /* the dotted line to trace */
 .eq-trace-glow{stroke:#FFE066;stroke-width:26px;stroke-linecap:round;opacity:0;}
@@ -3725,6 +3734,7 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
 .eq-cutopt.pulse .eq-cutopt-dash{stroke:#FFE066;stroke-width:9px;}
 .eq-cutopt.key .eq-cutopt-dash{stroke:#FFE066;stroke-width:9px;animation:eqHalo 1s ease-in-out infinite;}
 .eq-cutopt.off{opacity:.2;}
+.eq-follow .eq-cutopt-ink{transition:opacity .15s;}
 .eq-scissors{pointer-events:none;filter:drop-shadow(0 3px 3px rgba(0,0,0,.3));}
 .eq-scissor-cut{stroke:#0B2E6B;stroke-opacity:.55;stroke-width:3px;stroke-linecap:round;stroke-dasharray:1 0;pointer-events:none;}   /* [scissors] the cut behind them */
 .eq-scooter{pointer-events:none;filter:drop-shadow(0 4px 3px rgba(74,32,8,.35));}   /* [scooter cutter] */
@@ -3916,7 +3926,7 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
   "food": {
     "img": "assets/pizza.webp",
     "back": "assets/pizza_back.webp",
-    "name_hi": "पिज़्ज़ा",
+    "name_hi": "रोटी",
     "rim": "#C9681C"
   },
   "skill_description_hi": "एक ही आकृति के हिस्सों को देखकर बताता है कि वे बराबर हैं या असमान, और किसी आकृति को दो बराबर हिस्सों में बाँटता है।",
@@ -3954,7 +3964,7 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
       "phase": "tutorial",
       "eis": "iconic",
       "type": "ROTI_INTRO",
-      "prompt_hi": "पिज़्ज़ा बाँटते हैं",
+      "prompt_hi": "रोटी बाँटते हैं",
       "audio": {
         "prompt": "vo_t1_a",
         "line_b": "vo_t1_b"
@@ -3966,7 +3976,7 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
       "phase": "tutorial",
       "eis": "enactive",
       "type": "ROTI_FREE_CUT",
-      "prompt_hi": "एक पूरा पिज़्ज़ा",
+      "prompt_hi": "एक पूरी रोटी",
       "audio": {
         "prompt": "vo_t2_prompt",
         "instruction": "vo_t2_draw",
@@ -3975,7 +3985,11 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
         "next": "vo_t2_next"
       },
       "data": {
-        "snap": 0.12
+        "snap": 0.12,
+        "unequal_at": [
+          1.3,
+          2.62
+        ]
       }
     },
     {
@@ -4023,7 +4037,11 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
       "data": {
         "axis": "horizontal",
         "rise_in": true,
-        "aadha_concept": true
+        "aadha_concept": true,
+        "aadha_at": [
+          4.76,
+          5.44
+        ]
       }
     },
     {
@@ -4159,6 +4177,40 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
         "guide": [
           1,
           5
+        ],
+        "dots_frac": [
+          [
+            0.25,
+            0
+          ],
+          [
+            0.5,
+            0
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1,
+            0.5
+          ],
+          [
+            0.6667,
+            1
+          ],
+          [
+            0.5,
+            1
+          ],
+          [
+            0.3333,
+            1
+          ],
+          [
+            0,
+            0.5
+          ]
         ]
       }
     },
@@ -4215,6 +4267,10 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
               ]
             ]
           }
+        ],
+        "wa3_at": [
+          3.14,
+          4.09
         ]
       }
     },
@@ -4271,6 +4327,10 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
             ],
             "correct": true
           }
+        ],
+        "wa3_at": [
+          3.37,
+          4.32
         ]
       }
     },
@@ -4327,6 +4387,10 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
               ]
             ]
           }
+        ],
+        "wa3_at": [
+          3.47,
+          4.42
         ]
       }
     },
@@ -4383,6 +4447,10 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
               ]
             ]
           }
+        ],
+        "wa3_at": [
+          3.28,
+          4.23
         ]
       }
     },
@@ -4549,7 +4617,7 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
             "correct": 0
           },
           {
-            "key": "window",
+            "key": "pinboard",
             "shape": "rect",
             "color": "#8CCBF5",
             "lines": [
@@ -4587,9 +4655,9 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
             "correct": 1
           },
           {
-            "key": "wallart",
+            "key": "rangoli",
             "shape": "circle",
-            "color": "#FFC94D",
+            "color": "#FF8F1F",
             "lines": [
               [
                 [
@@ -4625,9 +4693,9 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
             "correct": 2
           },
           {
-            "key": "rug",
+            "key": "frame",
             "shape": "square",
-            "color": "#4DBFA6",
+            "color": "#A77BE8",
             "lines": [
               [
                 [
@@ -4750,20 +4818,20 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
     },
     "audio_text": {
       "vo_landing": "नमस्ते, दोस्त! मैं हूँ स्विफ्टी। आओ, आरू और परी के साथ मिलकर सीखते हैं कि कैसे पहचानें कि किसी चीज़ के दो हिस्से बराबर हैं या नहीं!",
-      "vo_t1_a": "बाबा ने आज एक गोल पिज़्ज़ा बनाया है।",
+      "vo_t1_a": "बाबा ने आज एक गोल रोटी बनाई है।",
       "vo_t1_b": "आओ, इसे आरू और परी के बीच बाँटते हैं।",
       "vo_t2_prompt": "आओ, इसे दो बराबर हिस्सों में बाँटते हैं।",
-      "vo_t2_draw": "अपनी उँगली से पिज़्ज़ा पर एक रेखा खींचो।",
-      "vo_t2_equal": "वाह! तुमने पिज़्ज़ा को दो बराबर हिस्सों में बाँट दिया।",
+      "vo_t2_draw": "अपनी उँगली से रोटी पर एक रेखा खींचो।",
+      "vo_t2_equal": "वाह! तुमने रोटी को दो बराबर हिस्सों में बाँट दिया।",
       "vo_t2_unequal": "अरे! एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं।",
       "vo_t2_next": "चलो, एक और बार कोशिश करते हैं।",
-      "vo_t3_a": "चलो, इस पिज़्ज़ा को दो बराबर हिस्सों में बाँटते हैं।",
+      "vo_t3_a": "चलो, इस रोटी को दो बराबर हिस्सों में बाँटते हैं।",
       "vo_trace": "इस रेखा पर अपनी उँगली चलाओ।",
       "vo_t3_match": "देखो! दोनों हिस्से एक-दूसरे पर बिल्कुल मिल रहे हैं।",
       "vo_t3_equal": "ये दोनों बराबर हिस्से हैं।",
-      "vo_t4_a": "अरे वाह! बाबा ने आरू और परी के लिए एक और पिज़्ज़ा बनाया है!",
+      "vo_t4_a": "अरे वाह! बाबा ने आरू और परी के लिए एक और रोटी बनाई है!",
       "vo_t4_b": "चलो, इस बार इसे एक नए तरीके से दो बराबर हिस्सों में बाँटते हैं!",
-      "vo_t5_a": "चलो, इस पूरे पिज़्ज़ा को फिर से दो बराबर हिस्सों में बाँटते हैं।",
+      "vo_t5_a": "चलो, इस पूरी रोटी को फिर से दो बराबर हिस्सों में बाँटते हैं।",
       "vo_t5_equal": "देखो! ये दोनों बराबर हिस्से हैं।",
       "vo_t5_aadha": "जब हम किसी पूरी चीज़ को दो बराबर हिस्सों में बाँटते हैं, तो हर हिस्सा आधा कहलाता है।",
       "vo_t6": "अब हमारे पास दो बराबर हिस्से हैं।",
@@ -4781,22 +4849,22 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
       "vo_g4_ok": "शाबाश! दोनों हिस्से बराबर हैं।",
       "vo_g4_wa1": "फिर से देखो। कौन-सा वर्ग दो बराबर हिस्सों में बँटा है?",
       "vo_g4_wa2": "देखो, इस वर्ग का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
-      "vo_g4_wa3": "देखो, यह वर्ग बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_g4_wa3": "देखिए, यह वर्ग बीच से दो बराबर हिस्सों में बँटा है। इसे चुनिए।",
       "vo_p1_prompt": "कौन-सा वृत्त दो बराबर हिस्सों में बँटा है? सही वृत्त पर टैप करो।",
       "vo_p1_ok": "शाबाश! यह वृत्त दो बराबर हिस्सों में बँटा है।",
       "vo_p1_wa1": "फिर से देखो। कौन-सा वृत्त दो बराबर हिस्सों में बँटा है?",
       "vo_p1_wa2": "इस वृत्त का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
-      "vo_p1_wa3": "देखो, यह वृत्त बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_p1_wa3": "देखिए, यह वृत्त बीच से दो बराबर हिस्सों में बँटा है। इसे चुनिए।",
       "vo_p2_prompt": "कौन-सा त्रिभुज दो बराबर हिस्सों में बँटा है? सही त्रिभुज पर टैप करो।",
       "vo_p2_ok": "शाबाश! यह त्रिभुज दो बराबर हिस्सों में बँटा है।",
       "vo_p2_wa1": "फिर से देखो। कौन-सा त्रिभुज दो बराबर हिस्सों में बँटा है?",
       "vo_p2_wa2": "इस त्रिभुज का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
-      "vo_p2_wa3": "देखो, यह त्रिभुज बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_p2_wa3": "देखिए, यह त्रिभुज बीच से दो बराबर हिस्सों में बँटा है। इसे चुनिए।",
       "vo_p3_prompt": "कौन-सा आयत दो बराबर हिस्सों में बँटा है? सही आयत पर टैप करो।",
       "vo_p3_ok": "शाबाश! यह आयत दो बराबर हिस्सों में बँटा है।",
       "vo_p3_wa1": "फिर से देखो। कौन-सा आयत दो बराबर हिस्सों में बँटा है?",
       "vo_p3_wa2": "इस आयत का एक हिस्सा बड़ा है और दूसरा छोटा। ये बराबर नहीं हैं। फिर से चुनो।",
-      "vo_p3_wa3": "देखो, यह आयत बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।",
+      "vo_p3_wa3": "देखिए, यह आयत बीच से दो बराबर हिस्सों में बँटा है। इसे चुनिए।",
       "vo_p4_prompt": "आकृतियों को सही डिब्बे में डालो।",
       "vo_p4_ok_eq": "शाबाश! ये हिस्से बराबर हैं।",
       "vo_p4_ok_uneq": "शाबाश! ये हिस्से असमान हैं।",
@@ -5288,6 +5356,20 @@ function sfxScooterRoll(ms){
     [noise, tick, motor, wob].forEach(n =>{ n.start(t0); n.stop(t0 + T + .05); });
   }catch(e){}
 }
+/* [eat] a bite (1st review 2026-10-30, #3): the crust cracking - two quick bursts of band-passed noise, the second brighter - over a soft
+   low thud, synthesised (no file) */
+function sfxChomp(){
+  const c = _ac(); if(!c || !c.createBufferSource) return;
+  try{ const t0 = c.currentTime;
+    [[0, 1700, .3], [.07, 2700, .2]].forEach(([dt, f, v])=>{ const n = Math.ceil(c.sampleRate * .09), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
+      for(let k = 0; k < n; k++) d[k] = (Math.random() * 2 - 1) * Math.pow(1 - k / n, 2.2);
+      const s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain(); s.buffer = b;
+      bp.type = "bandpass"; bp.frequency.value = f; bp.Q.value = .9; g.gain.value = v;
+      s.connect(bp); bp.connect(g); g.connect(c.destination); s.start(t0 + dt); s.stop(t0 + dt + .09); });
+    const o = c.createOscillator(), og = c.createGain(); o.type = "sine"; o.frequency.setValueAtTime(150, t0); o.frequency.exponentialRampToValueAtTime(70, t0 + .1);
+    og.gain.setValueAtTime(.0001, t0); og.gain.exponentialRampToValueAtTime(.16, t0 + .01); og.gain.exponentialRampToValueAtTime(.0001, t0 + .12);
+    o.connect(og); og.connect(c.destination); o.start(t0); o.stop(t0 + .13);
+  }catch(e){} }
 /* the robot mop's drive sound (review 2026-10-09: "can we have an SFX of the robo mop's entry - keeping everything in mind"):
    synthesised live in Web Audio, not a file, so it follows the drive frame by frame (MDK.robot drive() calls update()):
    a soft motor - a low sawtooth through a low-pass and a sine an octave up, with a slow wobble - and its brushes -
@@ -7711,6 +7793,8 @@ const EQ = (function(){
     return [m00, m10, m01, m11, a[0] - (m00 * a[0] + m01 * a[1]), a[1] - (m10 * a[0] + m11 * a[1])];
   }
   function apply(m, p){ return [m[0] * p[0] + m[2] * p[1] + m[4], m[1] * p[0] + m[3] * p[1] + m[5]]; }
+  function mul(A, B){ return [A[0] * B[0] + A[2] * B[1], A[1] * B[0] + A[3] * B[1], A[0] * B[2] + A[2] * B[3], A[1] * B[2] + A[3] * B[3], A[0] * B[4] + A[2] * B[5] + A[4], A[1] * B[4] + A[3] * B[5] + A[5]]; }
+  function inv(m){ const D = m[0] * m[3] - m[1] * m[2]; return [m[3] / D, -m[1] / D, -m[2] / D, m[0] / D, (m[2] * m[5] - m[3] * m[4]) / D, (m[1] * m[4] - m[0] * m[5]) / D]; }
   /* does folding A across the cut lay it exactly on B? (true for every equal cut of a circle, a square, a median of an
      isosceles triangle, a rectangle's middle lines - NOT a rectangle's diagonal: those halves are equal but match by a turn) */
   function foldMatches(A, B, a, b){ const m = foldMatrix(a, b, -1); return A.every((p, i)=> i % 3 ? true : nearPoly(apply(m, p), B, 2.5)); }
@@ -7723,7 +7807,7 @@ const EQ = (function(){
     return new Promise(res =>{
       if(reduce() || ms <= 0){ fn(1); res(); return; }
       const t0 = performance.now();
-      const step = now =>{ const t = Math.min(1, (now - t0) / ms); fn(ez(t)); if(t < 1) requestAnimationFrame(step); else res(); };
+      const step = now =>{ const t = Math.max(0, Math.min(1, (now - t0) / ms)); fn(ez(t)); if(t < 1) requestAnimationFrame(step); else res(); };   // (a rAF stamp can fall just before t0: t < 0 sent a radius below 0)
       requestAnimationFrame(step);
     });
   }
@@ -7745,6 +7829,17 @@ const EQ = (function(){
         setTimeout(poll, 120);
         return p;
       },
+      /* (1st review 2026-10-30, #1 / #14: "sync every instruction and explanation with its related animation") the line `key` with
+         things done at points of it - list [[s, fn], ...], seconds into the line by its own clock (whisper's word starts + .3s);
+         any not reached when it ends are done then */
+      cue(key, list){ const p = S.say(key), todo = list.slice().sort((x, y)=> x[0] - y[0]);
+        const poll = ()=>{ if(!alive()) return; const t = voEl.currentTime || 0;
+          while(todo.length && (!isPlaying || t >= todo[0][0])) todo.shift()[1]();
+          if(todo.length) setTimeout(poll, 40); };
+        setTimeout(poll, 60); return p; },
+      /* resolves once the line now playing is `sec` seconds in (or has stopped) */
+      atTime(sec){ return new Promise(res =>{ const poll = ()=>{ if(!alive()) return; if(!isPlaying || (voEl.currentTime || 0) >= sec) res(); else setTimeout(poll, 40); };
+        setTimeout(poll, 40); }).then(chk); },
       wait(ms){ return new Promise(res =>{ let left = ms, last = performance.now();
         const tick = ()=>{ if(!alive()) return; const now = performance.now(); if(!document.hidden) left -= now - last; last = now; if(left <= 0) res(); else setTimeout(tick, Math.min(100, left)); };
         setTimeout(tick, Math.min(100, Math.max(0, ms))); }).then(chk); },
@@ -7799,6 +7894,12 @@ const EQ = (function(){
       if(s.m) t += ` matrix(${s.m.map(v => v.toFixed(4)).join(",")})`;
       g.setAttribute("transform", t);
       if(g._face) g._face(!!s.m && s.m[0] * s.m[3] - s.m[1] * s.m[2] < 0); };   // a mirroring matrix = turned over
+    /* the part's whole transform as one matrix, and a point of it mapped to where it is now (a label rides a part that turns) */
+    g._mat = ()=>{ const s = g._st; let M = [1, 0, 0, 1, s.tx, s.ty];
+      if(s.sc !== 1 && s.rc) M = mul(M, [s.sc, 0, 0, s.sc, s.rc[0] * (1 - s.sc), s.rc[1] * (1 - s.sc)]);
+      if(s.rot && s.rc){ const r = s.rot * Math.PI / 180, c = Math.cos(r), n = Math.sin(r); M = mul(M, [c, n, -n, c, s.rc[0] - c * s.rc[0] + n * s.rc[1], s.rc[1] - n * s.rc[0] - c * s.rc[1]]); }
+      return s.m ? mul(M, s.m) : M; };
+    g._map = p => apply(g._mat(), p);
     return g;
   }
   function glow(g, on){ if(g && g._halo) g.classList.toggle("eq-glow", !!on); }
@@ -7807,7 +7908,7 @@ const EQ = (function(){
   function cuttable(svg, layer, s, look){
     const g = el("g", { class: "eq-cuttable" }, layer);
     const frame = { cx: s.cx, cy: s.cy, r: s.r || 0 };
-    let whole = drawPiece(g, svg, s.pts, look, frame), parts = null, line = null, labels = [];
+    let whole = drawPiece(g, svg, s.pts, look, frame), parts = null, line = null, labels = [], base = null;
     const api = {
       g, shape: s, get whole(){ return whole; }, get parts(){ return parts; },
       cut(a, b, tintSide){
@@ -7820,7 +7921,7 @@ const EQ = (function(){
         parts = { A, B, info: r };
         return parts;
       },
-      restore(){ if(parts){ parts.A.remove(); parts.B.remove(); parts = null; } labels.forEach(l => l.remove()); labels = []; if(!whole) whole = drawPiece(g, svg, s.pts, look, frame); line = null; },
+      restore(){ if(parts){ parts.A.remove(); parts.B.remove(); parts = null; } labels.forEach(l => l.remove()); labels = []; if(base){ base.remove(); base = null; } if(!whole) whole = drawPiece(g, svg, s.pts, look, frame); line = null; },
       normal(){ const d = sub(line[1], line[0]), L = len(d) || 1; return [-d[1] / L, d[0] / L]; },
       /* [title clear] (user 2026-10-29: "nothing should overlap the title, even when the pizza folds") the room the pieces and
          plates may use, in svg units: below the screen's title, above the card's bottom edge (measured from the page) */
@@ -7844,8 +7945,7 @@ const EQ = (function(){
         const aT = fit(parts.info.A, [n[0] * gap, n[1] * gap]), bT = fit(parts.info.B, [-n[0] * gap, -n[1] * gap]);
         return tween(ms || 600, t =>{ A._st.tx = a0[0] + (aT[0] - a0[0]) * t; A._st.ty = a0[1] + (aT[1] - a0[1]) * t;
           B._st.tx = b0[0] + (bT[0] - b0[0]) * t; B._st.ty = b0[1] + (bT[1] - b0[1]) * t; A._apply(); B._apply(); labels.forEach(l => l._follow && l._follow()); }); },
-      /* lay `who` (A or B) over the other one: a fold across the cut where that matches, else (a rectangle's diagonal) a
-         half-turn about the centre. hold, then back. returns whether it covered exactly */
+      /* lay `who` (A or B) over the other one: a fold across the cut. hold, then back. returns whether it covered exactly */
       async overlay(who, hold, onOver){
         let P = who || parts.A; const info = parts.info;
         /* [title clear] folded over, a piece lies where the other one is - mirrored across the cut. If that would reach the title
@@ -7856,23 +7956,28 @@ const EQ = (function(){
         const Q = P === parts.A ? parts.B : parts.A;
         const [a, b] = line, pts = P === parts.A ? info.A : info.B, qts = P === parts.A ? info.B : info.A;
         const g0 = [P._st.tx, P._st.ty], q0 = [Q._st.tx, Q._st.ty];
-        await tween(450, t =>{ P._st.tx = g0[0] * (1 - t); P._st.ty = g0[1] * (1 - t); Q._st.tx = q0[0] * (1 - t); Q._st.ty = q0[1] * (1 - t); P._apply(); Q._apply(); });
+        await tween(450, t =>{ P._st.tx = g0[0] * (1 - t); P._st.ty = g0[1] * (1 - t); Q._st.tx = q0[0] * (1 - t); Q._st.ty = q0[1] * (1 - t); P._apply(); Q._apply(); labels.forEach(l => l._follow && l._follow()); });
         const lp = labels.find(l => l._piece === P); if(lp) lp.classList.add("eq-hide");
+        /* [fold ghost] (1st review 2026-10-30, #6: "keep a dotted outline and a faint shadow of the folded section in its original
+           position. This should help the child follow the movement") where the folded part lay: its dashed outline over a faint
+           shadow of it, there while it is folded over, gone once it is back */
+        const gcol = look.rim || look.edge || "#0B2E6B";
+        const ghost = el("path", { d: pathD(pts), class: "eq-fold-ghost", fill: gcol, "fill-opacity": .14, stroke: gcol, "stroke-opacity": .8,
+          "stroke-width": look.kind === "food" ? 4 : (look.sw || 4) * .85, "stroke-dasharray": look.kind === "food" ? "10 8" : `${(look.sw || 4) * 2.4} ${(look.sw || 4) * 2}`, "stroke-linejoin": "round", opacity: 0 });
+        g.insertBefore(ghost, g.firstChild);
         P.parentNode.appendChild(P); P.classList.add("eq-lifted"); P.setAttribute("filter", `url(#${svg._shadow})`);
-        const byFold = foldMatches(pts, qts, a, b) || !info.equal;
-        /* a half-turn about the shape's centre swings the part far out; the same move done as a turn about the part's own
-           middle while it slides across lands in the same place and stays compact */
-        const gP = centroid(pts), gQ = centroid(qts);
-        if(byFold) await tween(1100, t =>{ P._st.m = foldMatrix(a, b, 1 - 2 * t); P._apply(); });
-        else { P._st.rc = gP; await tween(1100, t =>{ P._st.rot = 180 * t; P._st.sc = 1 - .22 * Math.sin(Math.PI * t); P._st.tx = (gQ[0] - gP[0]) * t; P._st.ty = (gQ[1] - gP[1]) * t; P._apply(); }); }
+        /* (1st review #7: "the rectangle currently rotates before overlapping ... it folds along the dividing line and one half overlaps
+           the other naturally") always a fold across the cut. The half-turn a rectangle's diagonal needed is gone: no screen offers that
+           cut any more (G3's dots, P5's lines) */
+        await tween(1100, t =>{ P._st.m = foldMatrix(a, b, 1 - 2 * t); P._apply(); ghost.setAttribute("opacity", Math.min(1, t * 2.5).toFixed(3)); });
         P.classList.add("eq-over"); if(!info.equal) P.classList.add("eq-mismatch");
         if(onOver) onOver();
         /* hold: ms, or a function whose promise ends the hold (e.g. the line said over it) */
         await (typeof hold === "function" ? hold() : new Promise(r => setTimeout(r, hold || 1200)));
         P.classList.remove("eq-over", "eq-mismatch");
-        if(byFold) await tween(900, t =>{ P._st.m = foldMatrix(a, b, -1 + 2 * t); P._apply(); });
-        else await tween(900, t =>{ P._st.rot = 180 * (1 - t); P._st.sc = 1 - .22 * Math.sin(Math.PI * t); P._st.tx = (gQ[0] - gP[0]) * (1 - t); P._st.ty = (gQ[1] - gP[1]) * (1 - t); P._apply(); });
+        await tween(900, t =>{ P._st.m = foldMatrix(a, b, -1 + 2 * t); P._apply(); });
         P._st.m = null; P._st.rot = 0; P._st.sc = 1; P._st.tx = 0; P._st.ty = 0; P._apply(); P.classList.remove("eq-lifted"); P.removeAttribute("filter");
+        tween(260, t => ghost.setAttribute("opacity", (1 - t).toFixed(3))).then(()=> ghost.remove());
         labels.forEach(l => g.appendChild(l));   // the plates back on top of the parts
         if(lp) lp.classList.remove("eq-hide");
         return info.equal;
@@ -7885,15 +7990,88 @@ const EQ = (function(){
         { const n = api.normal(), a = line[0], dot = p => (p[0] - a[0]) * n[0] + (p[1] - a[1]) * n[1];
           const ext = Math.max.apply(null, pts.map(p => Math.abs(dot(p)))), hw = 54 * Math.abs(n[0]) + 27 * Math.abs(n[1]);
           if(ext < 2 * hw + 16){ const sg = dot(c) < 0 ? -1 : 1, k = ext + hw + 12 - Math.abs(dot(c)); c = [c[0] + sg * n[0] * k, c[1] + sg * n[1] * k]; } }
-        const t = el("g", { class: "eq-label" }, g);
-        el("rect", { x: -54, y: -27, width: 108, height: 54, rx: 16, fill: "#FFF7CC", stroke: "#F2C230", "stroke-width": 3 }, t);
-        el("text", { x: 0, y: 2, "text-anchor": "middle", "dominant-baseline": "middle", class: "eq-label-tx" }, t).textContent = text;
+        const t = el("g", { class: "eq-label" }, g), tin = el("g", { class: "eq-label-in" }, t);   // (tin: what swells when it is lit - .hi)
+        el("rect", { x: -54, y: -27, width: 108, height: 54, rx: 16, fill: "#FFF7CC", stroke: "#F2C230", "stroke-width": 3 }, tin);
+        el("text", { x: 0, y: 2, "text-anchor": "middle", "dominant-baseline": "middle", class: "eq-label-tx" }, tin).textContent = text;
         const lim = api.limits();                                              // [title clear] the plate stays under the title
-        t._piece = P; t._follow = ()=>{ const y = Math.max(lim.top + 31, Math.min(lim.bottom - 31, c[1] + P._st.ty));
-          t.setAttribute("transform", `translate(${(c[0] + P._st.tx).toFixed(1)},${y.toFixed(1)})`); };
+        t._piece = P; t._follow = ()=>{ const q = P._map(c), y = Math.max(lim.top + 31, Math.min(lim.bottom - 31, q[1]));   // (it turns with its part: [same line])
+          t.setAttribute("transform", `translate(${q[0].toFixed(1)},${y.toFixed(1)})`); };
         t._follow(); labels.push(t); return t;
       },
-      labels: ()=> labels
+      labels: ()=> labels,
+      /* [same line] (1st review 2026-10-30, #2: "after the roti or pizza is divided equally, align both pieces along the same starting
+         line so that they clearly look like two equal halves, even from a distance") the two halves come to rest side by side, both
+         standing on ONE line, a thin dashed line under them. An upright cut (T3) leaves them upright, their curves on the line; any other
+         (T5's level cut, a slanting cut of the child's own in T2) turns each the right way up, its cut edge flat on the line. o: gap
+         (between them), y (the line; else the shape's middle stays the row's middle), cx, ms. api.lineY: where the line is */
+      settle(o){ o = o || {};
+        const [a, b] = line, d = sub(b, a), ang = ((Math.atan2(d[1], d[0]) * 180 / Math.PI) % 180 + 180) % 180, upright = Math.abs(ang - 90) < 22;
+        const ch = chord(s, a, b) || line, mid = [(ch[0][0] + ch[1][0]) / 2, (ch[0][1] + ch[1][1]) / 2], n = api.normal();
+        const plan = [parts.A, parts.B].map(P =>{ const pts = P === parts.A ? parts.info.A : parts.info.B, gc = centroid(pts);
+          const sd = (gc[0] - mid[0]) * n[0] + (gc[1] - mid[1]) * n[1] >= 0 ? 1 : -1, nx = n[0] * sd, ny = n[1] * sd;   // from the cut towards the part
+          let rot = (upright ? (nx < 0 ? 180 : 0) : -90) - Math.atan2(ny, nx) * 180 / Math.PI;
+          rot = ((rot % 360) + 540) % 360 - 180;
+          const r = rot * Math.PI / 180, cs = Math.cos(r), sn = Math.sin(r), R = q =>{ const x = q[0] - mid[0], y = q[1] - mid[1]; return [mid[0] + x * cs - y * sn, mid[1] + x * sn + y * cs]; };
+          const rp = pts.map(R), xs = rp.map(q => q[0]), ys = rp.map(q => q[1]);
+          return { P, rot, gx: gc[0], gy: gc[1], lo: Math.min.apply(null, xs), hi: Math.max.apply(null, xs), top: Math.min.apply(null, ys), base: Math.max.apply(null, ys) }; });
+        plan.sort((u, v)=> Math.abs(u.gx - v.gx) > 1 ? u.gx - v.gx : u.gy - v.gy);   // the one on the left stays on the left (a level cut: the top one)
+        const gap = o.gap == null ? 40 : o.gap, W = plan.reduce((w, q)=> w + q.hi - q.lo, 0) + gap, Hh = Math.max.apply(null, plan.map(q => q.base - q.top)), lim = api.limits();
+        let Y = o.y != null ? o.y : s.cy + Hh / 2;
+        Y = Math.min(lim.bottom - 6, Math.max(lim.top + Hh + 6, Y));
+        const cx = o.cx != null ? o.cx : s.cx; let x = cx - W / 2;
+        plan.forEach(q =>{ q.tx = x - q.lo; q.ty = Y - q.base; q.tx0 = q.P._st.tx; q.ty0 = q.P._st.ty; q.r0 = q.P._st.rot || 0; x += q.hi - q.lo + gap; });
+        if(base) base.remove();
+        base = el("line", { x1: (cx - W / 2 - 18).toFixed(1), y1: (Y + 3).toFixed(1), x2: (cx + W / 2 + 18).toFixed(1), y2: (Y + 3).toFixed(1), class: "eq-baseline", opacity: 0 });
+        g.insertBefore(base, g.firstChild); api.lineY = Y;
+        return tween(o.ms || 900, t =>{ plan.forEach(q =>{ const P = q.P; P._st.rc = mid; P._st.rot = q.r0 + (q.rot - q.r0) * t;
+            P._st.tx = q.tx0 + (q.tx - q.tx0) * t; P._st.ty = q.ty0 + (q.ty - q.ty0) * t; P._apply(); });
+          base.setAttribute("opacity", Math.max(0, t * 2 - 1).toFixed(3)); labels.forEach(l => l._follow && l._follow()); });
+      },
+      /* [eat] (1st review #3: "after showing the equal halves, Aru and Pari should eat their pieces. Only crumbs should remain") a part eaten
+         in bites from its side nearest the eater (o.dir, a unit vector in this drawing's units): each bite a round mouthful out of it (a
+         mask; its edge scalloped like teeth) with a crunch, crumbs dropping from it to o.floor (y) and staying there; after the last bite
+         only the crumbs are left. o.onBite(k), o.gap (ms between bites) */
+      async eat(P, o){ o = o || {};
+        const pts = P === parts.A ? parts.info.A : parts.info.B, gc = centroid(pts), sg = P._map(gc), iv = inv(P._mat());
+        let dl = sub(apply(iv, [sg[0] + o.dir[0] * 100, sg[1] + o.dir[1] * 100]), gc); { const L = len(dl) || 1; dl = [dl[0] / L, dl[1] / L]; }
+        const pp = [-dl[1], dl[0]], pr = pts.map(p => (p[0] - gc[0]) * dl[0] + (p[1] - gc[1]) * dl[1]), pw = pts.map(p => (p[0] - gc[0]) * pp[0] + (p[1] - gc[1]) * pp[1]);
+        const near = Math.max.apply(null, pr), far = Math.min.apply(null, pr), span = near - far, wid = Math.max.apply(null, pw) - Math.min.apply(null, pw);
+        /* the bites: a row of three along the edge facing the eater (middle, then either side), a second row of two behind them, then the
+           last mouthful - each round, set into the food from its edge there (edgeAt: how far the food reaches towards the eater at that
+           point across it), its inner edge notched by teeth */
+        const rb = Math.max(.2 * wid, .3 * span), smp = [];
+        pts.forEach((p, i)=>{ const q = pts[(i + 1) % pts.length]; for(let j = 0; j < 12; j++){ const x = p[0] + (q[0] - p[0]) * j / 12, y = p[1] + (q[1] - p[1]) * j / 12;
+          smp.push([(x - gc[0]) * dl[0] + (y - gc[1]) * dl[1], (x - gc[0]) * pp[0] + (y - gc[1]) * pp[1]]); } });
+        const lat0 = Math.min.apply(null, pw), edgeAt = u =>{ let m = -1e9; smp.forEach(([dd, ll])=>{ if(Math.abs(ll - u) < wid * .1 && dd > m) m = dd; }); return m > -1e9 ? m : near; };
+        const wc = lat0 + wid / 2, PLAN = [[0, 0], [-.3, 0], [.3, 0], [-.15, 1], [.15, 1], [0, 2]], K = PLAN.length;
+        const mk = el("mask", { id: nid("bite"), maskUnits: "userSpaceOnUse", x: -3000, y: -3000, width: 7000, height: 7000 }, svg._defs);
+        el("rect", { x: -3000, y: -3000, width: 7000, height: 7000, fill: "#FFFFFF" }, mk);
+        P.setAttribute("mask", `url(#${mk.id})`);
+        const lp = labels.find(l => l._piece === P); if(lp) lp.classList.add("eq-hide");
+        const CR = ["#C98E4E", "#D9A766", "#3E7F1C", "#F08A1E", "#D8452B", "#FFF0C6", "#FFCF33"];   // (2026-11-04) the whole-wheat veggie pizza: wheat crust, broccoli, carrot, tomato, cheese, corn
+        for(let k = 0; k < K; k++){
+          const [fu, row] = PLAN[k], last = k === K - 1, u = wc + fu * wid, dk = edgeAt(u) + .45 * rb - row * .95 * rb;
+          const ck = [gc[0] + dl[0] * dk + pp[0] * u, gc[1] + dl[1] * dk + pp[1] * u], rr = last ? Math.max(span, wid) * 1.6 : rb;
+          const bite = el("g", null, mk), cs = [[ck, rr]];
+          if(!last) [-48, -24, 0, 24, 48].forEach(dg =>{ const r = (180 + dg) * Math.PI / 180, ux = dl[0] * Math.cos(r) - dl[1] * Math.sin(r), uy = dl[0] * Math.sin(r) + dl[1] * Math.cos(r);
+            cs.push([[ck[0] + ux * rr, ck[1] + uy * rr], rr * .15]); });   // its teeth marks: small scallops along the bite's inner edge
+          const circ = cs.map(([c, r])=>{ const e = el("circle", { cx: c[0].toFixed(1), cy: c[1].toFixed(1), r: 0, fill: "#000" }, bite); return [e, r]; });
+          try{ sfxChomp(); }catch(_){}
+          if(o.onBite) o.onBite(k);
+          await tween(reduce() ? 0 : 130, t => circ.forEach(([e, r])=> e.setAttribute("r", (r * t).toFixed(1))), easeOut);
+          /* the crumbs: from the bite's edge, falling to the floor and staying */
+          if(!reduce()){ const cg = el("g", { class: "eq-crumbs" }, o.crumbs || g);
+            for(let i = 0; i < (last ? 8 : 5); i++){
+              const u = (Math.random() - .5) * 1.6, rc = last ? rb : rr, q = P._map([ck[0] - dl[0] * rc * .7 + pp[0] * u * rc, ck[1] - dl[1] * rc * .7 + pp[1] * u * rc]);   // (the last mouthful's crumbs: from what was left, not its whole reach)
+              const sz = 3 + Math.random() * 4.5, sides = 4 + (i % 3), poly = [];
+              for(let j = 0; j < sides; j++){ const t = j / sides * 2 * Math.PI + Math.random() * .5, rj = sz * (.6 + Math.random() * .5); poly.push((Math.cos(t) * rj).toFixed(1) + "," + (Math.sin(t) * rj).toFixed(1)); }
+              const cr = el("polygon", { points: poly.join(" "), fill: CR[(k * 3 + i) % CR.length], class: "eq-crumb" }, cg);
+              const x0 = q[0], y0 = q[1], x1 = x0 + (Math.random() - .5) * 46, y1 = (o.floor != null ? o.floor : y0 + 60) - Math.random() * 8, sp = (Math.random() - .5) * 400;
+              tween(420 + Math.random() * 300, t => cr.setAttribute("transform", `translate(${(x0 + (x1 - x0) * t).toFixed(1)},${(y0 + (y1 - y0) * t * t).toFixed(1)}) rotate(${(sp * t).toFixed(0)})`), u => u); } }
+          await new Promise(r => setTimeout(r, reduce() ? 0 : (o.gap || 260)));
+        }
+        P.style.visibility = "hidden";
+      }
     };
     return api;
   }
@@ -7985,7 +8163,7 @@ const EQ = (function(){
     await new Promise(r => setTimeout(r, 500));
     glow(C.parts.A, false); glow(C.parts.B, false);
     const lines = svg.querySelectorAll("line"); lines.forEach(l => l.style.opacity = 0);
-    await C.overlay(P, holdMs || 1300);
+    await C.overlay(P, holdMs || 1300);   // (holdMs: ms, or a function whose promise ends the hold)
     lines.forEach(l => l.style.opacity = "");
   }
   /* the landing's pizza: WHOLE at rest - two halves cut by clips, flush, with no line between them (the old 3px rim
@@ -8206,7 +8384,7 @@ const SlideModules = {
       S.run(async ()=>{
         await S.wait(450);
         EQ.glow(roti.whole, true);
-        await S.say("prompt");                                   // बाबा ने आज एक गोल पिज़्ज़ा बनाया है।
+        await S.say("prompt");                                   // बाबा ने आज एक गोल रोटी बनाई है।
         EQ.glow(roti.whole, false);
         await S.wait(250);
         aru.classList.add("lit");
@@ -8259,6 +8437,7 @@ const SlideModules = {
           await S.anim(C.part(26, 650));
           GameBus.emit("teach_cut_done", { slide_id: slide.id, phase: slide.phase, equal });
           if(equal){
+            await S.anim(C.settle({ gap: 44 }));               // [same line] (1st review #2) side by side on one line
             try{ sfxCorrect(); }catch(_){} setSwMood("happy");
             EQ.sparkles(svg, top, c, R + 40, 10);
             C.label(P.A, "आधा"); C.label(P.B, "आधा");
@@ -8266,12 +8445,17 @@ const SlideModules = {
             await S.praise("equal");
             EQ.glow(P.A, false); EQ.glow(P.B, false);
           } else {
-            const big = P.info.aa >= P.info.ab ? P.A : P.B, small = big === P.A ? P.B : P.A;
-            C.label(big, "बड़ा"); C.label(small, "छोटा");
-            EQ.glow(big, true);
-            await S.sayAt("unequal", .45, ()=>{ EQ.glow(big, false); EQ.glow(small, true); });   // अरे! एक हिस्सा बड़ा है और दूसरा छोटा…
-            EQ.glow(small, false);
+            /* (1st review #4: "after the pizza is divided into two unequal parts, show a folding animation that overlaps the parts and clearly
+               shows the mismatch. Then label the larger part बड़ा and the smaller part छोटा") the big part folds over the small one - red
+               where they do not match, the small one's place dashed under it - and back; then the line, each label popping on as its word
+               is said, its part lit with it (data.unequal_at: the times of बड़ा and छोटा, s) */
+            const big = P.info.aa >= P.info.ab ? P.A : P.B, small = big === P.A ? P.B : P.A, T = d.unequal_at || [1.3, 2.6];
+            await S.wait(250);
             await S.anim(C.overlay(big, 1300));
+            await S.anim(C.part(26, 350));
+            await S.cue("unequal", [[T[0], ()=>{ C.label(big, "बड़ा").classList.add("pop"); EQ.glow(big, true); }],    // अरे! एक हिस्सा बड़ा है
+                                   [T[1], ()=>{ C.label(small, "छोटा").classList.add("pop"); EQ.glow(big, false); EQ.glow(small, true); }]]);   // …और दूसरा छोटा
+            EQ.glow(small, false);
             await S.say("next");                               // चलो, एक और बार कोशिश करते हैं।
           }
           await S.wait(500);
@@ -8284,7 +8468,7 @@ const SlideModules = {
       S.run(async ()=>{
         await S.wait(350);
         await S.say("prompt");                                 // आओ, इसे दो बराबर हिस्सों में बाँटते हैं।
-        await S.say("instruction");                            // अपनी उँगली से पिज़्ज़ा पर एक रेखा खींचो।
+        await S.say("instruction");                            // अपनी उँगली से रोटी पर एक रेखा खींचो।
         enabled = true; if(!touched) S.hold(false);
         /* idle: show a finger drawing a line across the roti, every ~7s until the child starts */
         while(!touched && !done){
@@ -8321,13 +8505,16 @@ const SlideModules = {
          again), grey again from the child's first touch to the end of the screen */
       S.hold(true);
       S.run(async ()=>{
-        if(d.rise_in){   // the roti comes up from the table of the screen before
+        if(d.rise_in){   // the roti comes up from the table of the screen before - (1st review #1, T5 "the voice-over is lagging") its line with it
           C.g.style.opacity = 1;
+          const pr = S.say("prompt");
           await S.anim(EQ.tween(900, t => C.g.setAttribute("transform", `translate(0,${(190 * (1 - t)).toFixed(1)})`), EQ.easeOut));
           C.g.removeAttribute("transform");
+          await pr;
+        } else {
+          await S.wait(300);
+          await S.say("prompt");
         }
-        await S.wait(300);
-        await S.say("prompt");
         const T = EQ.traceLine(svg, top, a, b, { need: .8 });
         T.g.style.opacity = 0; await S.anim(EQ.tween(400, t => T.g.style.opacity = t));
         T.glowOn(true);
@@ -8354,28 +8541,41 @@ const SlideModules = {
         await S.anim(C.part(30, 700));
         EQ.sparkles(svg, top, c, R + 36, 10);
         C.label(P.A, "आधा"); C.label(P.B, "आधा");
-        await S.wait(600);
-        /* one half over the other - they match exactly */
-        await S.anim(C.overlay(P.A, ()=> S.say("match")));     // देखो! दोनों हिस्से एक-दूसरे पर बिल्कुल मिल रहे हैं।
-        await S.anim(C.part(GAP, 600));
+        await S.wait(450);
+        /* one half over the other - they match exactly. (1st review #1 / #14: the fold used to come first and its line only after it had
+           landed) the line and the fold start together: the half is over by "...एक-दूसरे पर", and stays there until the line is done */
+        const mv = S.say("match");                             // देखो! दोनों हिस्से एक-दूसरे पर बिल्कुल मिल रहे हैं।
+        await S.anim(C.overlay(P.A, ()=> mv.then(()=> S.wait(250))));
+        await S.anim(C.settle({ gap: concept ? 34 : 2 * GAP }));   // [same line] (1st review #2) the two halves side by side on one line
         EQ.glow(P.A, true); EQ.glow(P.B, true);
         try{ sfxCorrect(); }catch(_){} setSwMood("happy");
         await S.praise("equal");                               // ये दोनों बराबर हिस्से हैं।
         EQ.glow(P.A, false); EQ.glow(P.B, false);
-        if(concept){   // "आधा किसे कहते हैं?" - the word, then each half lit in turn
-          const w = EQ.el("text", { x: 550, y: 44, class: "eq-word" }, top); w.textContent = "आधा";
-          w.classList.add("pop");
-          EQ.glow(P.B, true);
-          await S.sayAt("aadha", .55, ()=>{ EQ.glow(P.B, false); EQ.glow(P.A, true); });
+        if(concept){
+          /* (1st review #5: "when the VO explains that each part is called आधा, highlight the word आधा on both sides. Keep the existing labels
+             on the pizza and remove the extra blue आधा on-screen text appearing above them") no word over the pizza any more: on "हर हिस्सा"
+             both halves light up, on "आधा" both labels light up and swell, until the line is done (data.aadha_at: those two times, s) */
+          const T = d.aadha_at || [4.75, 5.45];
+          await S.cue("aadha", [[T[0], ()=>{ EQ.glow(P.A, true); EQ.glow(P.B, true); }], [T[1], ()=> C.labels().forEach(l => l.classList.add("hi"))]]);
+          await S.wait(500);
           EQ.glow(P.A, false); EQ.glow(P.B, false);
         }
         if(d.give_to_kids){   // SME Animation 4: Aru and Pari each get a half
           const face = (who, x)=> EQ.badge(svg, kids, who, x, c[1], 84, { cls: "pop" });   // [3d portraits] (r 84, rim 90: the 176px portraits were)
-          face("aaru", 172); face("pari", 928);
+          const kA = face("aaru", 172), kP = face("pari", 928);
           await S.wait(450);
           const A0 = P.A._st.tx, B0 = P.B._st.tx;
           await S.anim(EQ.tween(900, t =>{ P.A._st.tx = A0 - 50 * t; P.B._st.tx = B0 + 50 * t; P.A._apply(); P.B._apply(); C.labels().forEach(l => l._follow()); }));
           EQ.sparkles(svg, top, [172, c[1]], 105, 8); EQ.sparkles(svg, top, [928, c[1]], 105, 8);
+          await S.wait(600);
+          /* [eat] (1st review #3: "after showing the equal halves, Aru and Pari should eat their pieces. Only crumbs should remain") each eats
+             theirs, bite by bite from the side nearest them - each chewing with every bite - the crumbs dropping onto the line under the
+             halves and staying there (then T4: "बाबा ने ... एक और रोटी बनाई है!") */
+          const chew = k =>{ try{ k.querySelector(".eq-kid-body").animate([{ scale: "1 1" }, { scale: "1.05 .94" }, { scale: ".98 1.03" }, { scale: "1 1" }], { duration: 300, easing: "ease-out" }); }catch(_){} };
+          const xA = P.A._map(EQ.centroid(P.info.A))[0], xB = P.B._map(EQ.centroid(P.info.B))[0], Lh = xA < xB ? P.A : P.B, Rh = Lh === P.A ? P.B : P.A;
+          const fl = (C.lineY || c[1] + R) - 3;
+          await S.anim(Promise.all([C.eat(Lh, { dir: [-1, 0], floor: fl, onBite: ()=> chew(kA) }),
+                                    S.wait(220).then(()=> C.eat(Rh, { dir: [1, 0], floor: fl, onBite: ()=> chew(kP) }))]));
           await S.wait(700);
         }
         setSwMood("point");
@@ -8513,7 +8713,7 @@ const SlideModules = {
       S.hold(true);                                            // [speaker grey] a scripted screen: grey from start to end
       S.run(async ()=>{
         await S.wait(300);
-        const vo = S.say("prompt");                            // अरे वाह! बाबा ने… एक और पिज़्ज़ा बनाया है!
+        const vo = S.say("prompt");                            // अरे वाह! बाबा ने… एक और रोटी बनाई है!
         await S.wait(1400);                                    // (was 500: first they look out at the child - user "they should be looking at the user's eyes first")
         try{ playSfxFile("sfx_whoosh", .55); }catch(_){}
         await S.anim(EQ.tween(1200, t => at(FROM + (CX - FROM) * t), EQ.easeOut));
@@ -8550,14 +8750,15 @@ const SlideModules = {
          one smooth glide out to the child */
       const pupils = [];
       const face = (who, x)=>{ const g = EQ.badge(svg, svg, who, x, 200, 112, { look: true }); pupils.push(...g._pupils); return g; };
-      face("aaru", 245); face("pari", 855);
-      const halves = [];
-      [[245, -8], [855, 8]].forEach(([x, rot])=>{
-        const g = E("g", { transform: `translate(${x - 500},${400 - 300}) rotate(${rot} 500 300)`, filter: `url(#${svg._shadow})` }, svg);
+      const kA = face("aaru", 245), kP = face("pari", 855);
+      const halves = [], cuts = [];
+      /* (1st review #2: "align both pieces along the same starting line") level, both cut edges on one line - they leaned -8 / +8 deg */
+      [245, 855].forEach(x =>{
+        const g = E("g", { transform: `translate(${x - 500},${400 - 300})`, filter: `url(#${svg._shadow})` }, svg);
         const Cx = EQ.cuttable(svg, g, EQ.shape("circle", { cx: 500, cy: 300, r: 112 }), EQ_FOOD);
         const P = Cx.cut([380, 300], [620, 300]);
         P.B.remove();                                          // (B: the top half - each child holds the bottom one up)
-        halves.push(P.A);
+        halves.push(P.A); cuts.push(Cx);
       });
       /* [bubble] (user 2026-10-29: "I don't like this dialogue box - find the issues and fix it": a heavy purple outline that matched
          nothing in the game, a long thin spike of a tail from mid-box to the corner of her circle, the box floating up at the top
@@ -8584,6 +8785,15 @@ const SlideModules = {
         halves.forEach(h => EQ.glow(h, true));
         await S.say("prompt");                                 // अब हमारे पास दो बराबर हिस्से हैं।
         halves.forEach(h => EQ.glow(h, false));
+        /* [eat] (1st review #3: "Aru and Pari should eat their pieces. Only crumbs should remain") each lifts their half up to their mouth and
+           eats it, bite by bite from the top, chewing; the crumbs fall to where the half was held and stay */
+        await S.wait(300);
+        EQ.tween(300, t => bub.setAttribute("opacity", (1 - t).toFixed(3)));   // (its words said - it goes as they start eating)
+        const chew = k =>{ try{ k.querySelector(".eq-kid-body").animate([{ scale: "1 1" }, { scale: "1.05 .94" }, { scale: ".98 1.03" }, { scale: "1 1" }], { duration: 300, easing: "ease-out" }); }catch(_){} };
+        await S.anim(EQ.tween(450, t => halves.forEach(h =>{ h._st.ty = -64 * t; h._apply(); }), EQ.easeOut));
+        await S.anim(Promise.all([cuts[0].eat(halves[0], { dir: [0, -1], floor: 372, onBite: ()=> chew(kA) }),
+                                  S.wait(220).then(()=> cuts[1].eat(halves[1], { dir: [0, -1], floor: 372, onBite: ()=> chew(kP) }))]));
+        await S.wait(600);
         $("navBtn").style.display = ""; setNavActive(true);
       });
     }
@@ -8604,7 +8814,12 @@ const SlideModules = {
       else { const f = d.shape === "square" ? { x: 340, y: 50, w: 320, h: 320 } : { x: 230, y: 75, w: 540, h: 270 };
         s = EQ.shape(d.shape, f);
         const { x, y, w, h } = f;
-        dots = [[x, y], [x + w / 2, y], [x + w, y], [x + w, y + h / 2], [x + w, y + h], [x + w / 2, y + h], [x, y + h], [x, y + h / 2]]; }
+        /* data.dots_frac: the screen's own dots, as fractions of its width / height (1st review #7, G3: "the rectangle currently rotates
+           before overlapping" - joining a rectangle's opposite corners cuts two equal halves that only match by a half-turn, never by a
+           fold; its dots have no corners now - the top in quarters, the bottom in thirds - so no two of them make a line through its middle
+           other than its two middle lines) */
+        dots = d.dots_frac ? d.dots_frac.map(([u, v])=> [x + w * u, y + h * v])
+                           : [[x, y], [x + w / 2, y], [x + w, y], [x + w, y + h / 2], [x + w, y + h], [x + w / 2, y + h], [x, y + h], [x, y + h / 2]]; }
       const shapeL = E("g", null, svg), hintL = E("g", null, svg), lineL = E("g", null, svg), dotL = E("g", null, svg), top = E("g", null, svg);
       const C = EQ.cuttable(svg, shapeL, s, { kind: "flat", fill: d.fill, edge: d.edge, sw: 5 });
       const dotEls = dots.map((p, i)=>{ const g = E("g", { class: "eq-dot", transform: `translate(${p[0].toFixed(1)},${p[1].toFixed(1)})` }, dotL);
@@ -8784,11 +8999,20 @@ const SlideModules = {
             GameBus.emit("answer_revealed", { slide_id: slide.id, phase: slide.phase, attempts, reason: "wrong" });
             /* WA3 as the PPT says it: "[hand nudge] highlight the correct one and fade the other two. Gently wiggle the correct
                option" - all of it as the line starts (the hand used to come only after it), the wiggle twice, softly */
+            /* (1st review #8: "show the folding animation during the third incorrect-attempt explanation ... for the triangle, square and
+               circle ... along with the explanation and selection instruction") the right one's halves fold one over the other (green:
+               they match) as the line says "...बीच से दो बराबर हिस्सों में बँटा है", back as it says "इसे चुनिए" - and with that the hand
+               comes and the card wiggles (data.wa3_at: [unfold, hand], s into the line) */
             cells.forEach(c =>{ if(c !== right) c.classList.add("faded"); });
             right.classList.add("reveal-pulse"); setSwMood("hint");
+            const T = d.wa3_at || [3.5, 4.0];
+            const vo = S.say("wa3");                           // देखिए, यह … बीच से दो बराबर हिस्सों में बँटा है। इसे चुनिए।
+            await S.wait(150);
+            const fold = S.anim(EQ.cardCompare(right._svg, ()=> S.atTime(T[0])));
+            await S.atTime(T[1]);
             right.classList.remove("eq-opt-wiggle"); void right.offsetWidth; right.classList.add("eq-opt-wiggle");
             placeNudge(right);
-            await S.say("wa3");                                // देखो, यह … बीच से दो बराबर हिस्सों में बँटा है। इसे चुनो।
+            await fold; await vo;
           }
           setSwMood("point"); busy = false;
           if(attempts < 3) idle();
@@ -8897,7 +9121,10 @@ const SlideModules = {
         S.run(async ()=>{
           await S.wait(600); card.classList.remove("eq-wiggle-card"); home(card);
           if(card._att === 1) await S.say("wa1");
-          else if(card._att === 2){ GameBus.emit("hint_shown", { slide_id: slide.id, manual: false }); card.classList.add("outline"); await S.say("wa2"); }
+          /* (1st review #9: "the second incorrect-attempt hint keeps running ... the dotted-line explanation remains visible during inactivity
+             ... let the hint finish, then return the screen to its normal interactive state") the dashed part goes with its line */
+          else if(card._att === 2){ GameBus.emit("hint_shown", { slide_id: slide.id, manual: false }); card.classList.add("outline"); await S.say("wa2");
+            await S.wait(400); card.classList.remove("outline"); }
           else { if(card._att === 3) GameBus.emit("answer_revealed", { slide_id: slide.id, phase: slide.phase, attempts: card._att, reason: "wrong" });
             want.classList.add("lit"); focusOn(card); await S.say(card._eq ? "wa3_equal" : "wa3_unequal"); }
           setSwMood("point"); busy = false; idle();
@@ -8992,13 +9219,33 @@ const SlideModules = {
       const mStr = m => `matrix(${m.map(v => v.toFixed(4)).join(",")})`, mAt = (m, x, y)=> [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
       const mK = m => Math.sqrt(Math.abs(m[0] * m[3] - m[1] * m[2]));
       const PLACE = {
-        /* (user 2026-10-30: "the outer part of the triangle and square should have the dotted line", as the window's and the rangoli's) the flag
-           and the mat's outlines run along their OUTER edge (measured in the painting, 1.5px in), not the dashed line painted inside it */
-        bunting: { m: aff([[24, 28], [176, 28], [100, 172]], [[386, 98], [501.5, 107.5], [438, 214]]) },
-        rug:     { m: aff([[30, 30], [170, 30], [30, 170]], [[1438.5, 586.5], [1629, 586.5], [1438.5, 749]]) },
-        wallart: { m: aff([[100, 100], [180, 100], [100, 180]], [[885, 720], [885 + 222, 720], [885, 720 + 94]]) },
-        window:  { m: aff([[20, 58], [180, 58], [20, 142]], [[1104, 76], [1504, 76], [1104, 400]]) }   // (the window's glass: "the rectangle goes on the window")
+        /* (user 2026-10-30: "the outer part of the triangle and square should have the dotted line", as the window's and the rangoli's) the flag's
+           outline runs along its OUTER edge (measured in the painting, 1.5px in), not the dashed line painted inside it */
+        bunting:  { m: aff([[24, 28], [176, 28], [100, 172]], [[386, 98], [501.5, 107.5], [438, 214]]) },
+        /* [wall] (1st review #17: "fitting the square into a square picture frame on the wall"; #19: "use the rectangle as a pinboard"; #15:
+           "it should remain visually recognisable as the same shape") on the empty wall between the bunting and the window, each place its
+           shape's own proportions - nothing stretched to fit (the rectangle went on the window's glass, 1.9 : 1 squeezed to 1.2 : 1) */
+        frame:    { m: aff([[30, 30], [170, 30], [30, 170]], [[602, 284], [724, 284], [602, 406]]), box: [584, 266, 158, 158] },           // its picture: 122 square
+        pinboard: { m: aff([[20, 58], [180, 58], [20, 142]], [[773, 299], [949, 299], [773, 391.4]]), box: [761, 287, 200, 116.4] },      // its board: 176 x 92.4
+        /* the rangoli's cream middle (an oval on the floor: a circle lying down) */
+        rangoli:  { m: aff([[100, 100], [180, 100], [100, 180]], [[885, 720], [885 + 222, 720], [885, 720 + 94]]) }
       };
+      /* the frame and the pinboard, empty, drawn on the wall (in the painting's own light: from the window, upper right) - a wooden frame
+         hanging from a nail on a cord, a pine-edged board on two nails; each one's dashed place inside it */
+      { const D = svg._defs, lg = (id, stops)=>{ const g = E("linearGradient", { id, x1: 0, y1: 0, x2: 1, y2: 1 }, D); stops.forEach(([o, c])=> E("stop", { offset: o, "stop-color": c }, g)); return `url(#${id})`; };
+        const wf = lg(EQ.nid("wood"), [[0, "#C98B4E"], [.5, "#A8662F"], [1, "#7C4519"]]), wp = lg(EQ.nid("pine"), [[0, "#E7B77A"], [.55, "#CF9452"], [1, "#A9692E"]]);
+        const sh = E("filter", { id: EQ.nid("wsh"), x: "-20%", y: "-20%", width: "150%", height: "150%" }, D);
+        E("feDropShadow", { dx: -5, dy: 7, stdDeviation: 5, "flood-color": "#6B3A12", "flood-opacity": .3 }, sh);
+        const box = (b, fill, bw)=>{ const [x, y] = SRC(b[0], b[1]), w = b[2] * SK, hh = b[3] * SK, g = E("g", { filter: `url(#${sh.id})` }, room);
+          E("rect", { x, y, width: w, height: hh, rx: 4, fill }, g);
+          E("rect", { x: x + 2, y: y + 2, width: w - 4, height: hh - 4, rx: 3, fill: "none", stroke: "rgba(255,255,255,.35)", "stroke-width": 1.5 }, g);   // its lit outer edge
+          E("rect", { x: x + bw - 1.5, y: y + bw - 1.5, width: w - 2 * bw + 3, height: hh - 2 * bw + 3, fill: "none", stroke: "rgba(60,30,8,.45)", "stroke-width": 2 }, g);   // the inner edge's shadow
+          return [x, y, w, hh]; };
+        const nail = (x, y)=>{ E("circle", { cx: x, cy: y, r: 3.4, fill: "#8D96A3", stroke: "#5E6672", "stroke-width": 1 }, room); E("circle", { cx: x - .9, cy: y - .9, r: 1.1, fill: "#E8ECF0" }, room); };
+        { const [x, y, w] = box(PLACE.frame.box, wf, 14 * SK), nx = x + w / 2, ny = y - 30;   // the frame on its cord
+          const cord = E("path", { d: `M${(x + 18).toFixed(1)},${(y + 4).toFixed(1)} L${nx.toFixed(1)},${ny.toFixed(1)} L${(x + w - 18).toFixed(1)},${(y + 4).toFixed(1)}`, fill: "none", stroke: "#6B4A2E", "stroke-width": 1.8 });
+          room.insertBefore(cord, room.lastChild); nail(nx, ny); }
+        { const [x, y, w] = box(PLACE.pinboard.box, wp, 12 * SK); nail(x + 22, y + 5); nail(x + w - 22, y + 5); } }
       /* the cat by the bed: asleep - she breathes (a slow rise and fall from the floor), and z's float up from above her head */
       { const [cx0, cy0] = SRC(130, 630), cat = E("g", { class: "eq-cat" }, room);
         E("image", { href: "assets/cat_sleep.webp", x: cx0, y: cy0, width: 260 * SK, height: 155 * SK }, cat);
@@ -9006,7 +9253,7 @@ const SlideModules = {
         [[0, 15], [1, 19], [2, 23]].forEach(([i, f])=>{ const t = E("text", { class: "eq-z", "font-size": f, style: `animation-delay:${(i * 1.1).toFixed(1)}s` }, zz); t.textContent = "z"; }); }
       const items = d.items.map(it =>{
         const p = PLACE[it.key], s = EQ.std(it.shape);
-        const t = E("g", { class: "eq-target" + (it.key === "bunting" || it.key === "rug" ? " eq-target-painted" : ""), transform: mStr(p.m) }, ui);
+        const t = E("g", { class: "eq-target" + (it.key === "bunting" ? " eq-target-painted" : ""), transform: mStr(p.m) }, ui);
         E("path", { d: EQ.pathD(s.pts), class: "eq-target-glow", filter: `url(#${svg._blur})` }, t);
         /* (user 2026-10-30: "in all elements the dotted lines should look the same") the flag and the square mat have a dashed line painted
            in - thinner and greyer: it is covered with the panel's own cream, and every outline gets the same navy dashed line */
@@ -9016,7 +9263,7 @@ const SlideModules = {
         t.addEventListener("click", ()=> open(item));
         return item;
       });
-      let busy = true, firstOpen = true, left = items.length;
+      let busy = true, firstOpen = true, left = items.length, lineG = null, drawLine = null;   // (lineG / drawLine: the open sheet's lines)
       /* --- the cutting mat --- */
       /* (user 2026-10-30: "full screen, the main thing in the middle centre and a little bigger, a paper effect in the green") the sheet sits in
          the middle of the whole screen (stage y 375 = this svg's 225) and is 28% bigger; it is a sheet of green craft paper now - a soft
@@ -9059,26 +9306,30 @@ const SlideModules = {
         /* (user 2026-10-30: "no element should go out of the green sheet throughout") the parts' frame is the green sheet (in their own units,
            14 in from its edge): a check-fold that would carry a part off it folds the other part instead */
         C.bounds = { left: (MAT.x + 14 - PO[0]) / K, right: (MAT.x + MAT.w - 14 - PO[0]) / K, top: (MAT.y + 14 - PO[1]) / K, bottom: (MAT.y + MAT.h - 14 - PO[1]) / K };
-        const lineG = E("g", null, paper);
-        const chords = it.lines.map(([a, b], i)=>{ const ch = EQ.chord(it.s, a, b);
-          const g = E("g", { class: "eq-cutopt" }, lineG);
+        /* (1st review #10: "when a shape is selected and moved to the cutting area, mixed or mismatched dotted lines are already visible ...
+           the selected shape starts clean") no lines on it: the child's finger makes the line (cutPick); a hint brings lines up for a while */
+        lineG = E("g", null, paper);
+        drawLine = (ab, cls)=>{ const ch = EQ.chord(it.s, ab[0], ab[1]), g = E("g", { class: "eq-cutopt" + (cls ? " " + cls : "") }, lineG);
           E("line", { x1: ch[0][0], y1: ch[0][1], x2: ch[1][0], y2: ch[1][1], class: "eq-cutopt-under", "vector-effect": "non-scaling-stroke" }, g);
           E("line", { x1: ch[0][0], y1: ch[0][1], x2: ch[1][0], y2: ch[1][1], class: "eq-cutopt-dash", "vector-effect": "non-scaling-stroke" }, g);
-          const ink = E("line", { x1: ch[0][0], y1: ch[0][1], x2: ch[0][0], y2: ch[0][1], class: "eq-cutopt-ink", "vector-effect": "non-scaling-stroke" }, g);
-          return { a: ch[0], b: ch[1], g, ink, i }; });
-        const sc = scissors(panel); sc.g.setAttribute("opacity", 0);
+          return { a: ch[0], b: ch[1], g }; };
+        const SC = EQ.scissors(svg, panel, 73);                                 // (73: in step with the bigger sheet)
         const H = EQ.hand(svg, over);
         await S.anim(EQ.tween(350, t =>{ dim.setAttribute("opacity", t); panel.setAttribute("opacity", t); veilBlur(t); }));
         if(firstOpen){ firstOpen = false; await S.say("cut"); }  // कागज़ को दो बराबर हिस्सों में काटना है। सही रेखा पर कैंची चलाओ।
-        if(it.att >= 2) await ladder(it, chords, H, true);
-        /* the child picks a line by running the scissors along it (or tapping it) */
+        if(it.att >= 2) await ladder(it, H, true);
+        /* the child draws the cut with a finger; then the scissors cut along it */
         for(;;){
           root.dataset.state = "cut";                           // (QA / test hook: what the room is waiting for)
-          const pick = await S.anim(cutPick(chords, sc, it));
+          const pick = await S.anim(cutPick(it));
           root.dataset.state = "busy";
-          const ln = it.lines[pick.i], r = EQ.split(it.s, ln[0], ln[1]);
-          lineG.style.opacity = 0; sc.g.setAttribute("opacity", 0);
-          const P = C.cut(ln[0], ln[1]);
+          /* (1st review #13: "the scissors should appear and perform the cutting animation only after the child has completed the full finger
+             movement across the shape") only now: they cut along the line, the way the finger went, the paper parting behind them */
+          { const toR = p => [PO[0] + p[0] * K, PO[1] + p[1] * K];
+            await S.anim(SC.ride(toR(pick.a), toR(pick.b), 1500, { gap: "#2FA37E", edge: "#3B2A55", w: 7 })); }
+          const r = EQ.split(it.s, pick.a, pick.b);
+          lineG.innerHTML = "";
+          const P = C.cut(pick.a, pick.b);
           await S.anim(C.part(7, 450));
           const ok = r.equal;
           const att = it.att + 1;
@@ -9093,9 +9344,9 @@ const SlideModules = {
           it.att++;
           state.scaffoldLevel = Math.max(state.scaffoldLevel, Math.min(it.att, 3));
           await S.anim(C.part(0, 350));
-          C.restore(); lineG.style.opacity = 1; chords.forEach(c =>{ c.ink.setAttribute("x2", c.a[0]); c.ink.setAttribute("y2", c.a[1]); });
+          C.restore();                                          // (the paper whole again, and clean)
           if(it.att === 1) await S.say("wa1");
-          else await ladder(it, chords, H, false);
+          else await ladder(it, H, false);
           setSwMood("point");
         }
         over.innerHTML = ""; veilBlur(0);
@@ -9105,60 +9356,87 @@ const SlideModules = {
           await S.say("next"); busy = false; root.dataset.state = "pick"; nudgeNext(); }
         else await finishAll();
       }
-      async function ladder(it, chords, H, reopen){
-        if(it.att === 2){                                      // WA2: each line lit in turn; nothing marked
+      async function ladder(it, H, reopen){
+        lineG.innerHTML = "";
+        if(it.att === 2){                                      // WA2: the deck's three lines, each lit in turn; nothing marked
+          /* (as 1st review #9 asks of P4: a hint finishes, then the screen is as it was) they come for the line and go after it: the paper
+             clean again for the child's own cut */
           GameBus.emit("hint_shown", { slide_id: slide.id, manual: false });
+          const ls = it.lines.map(ab => drawLine(ab));
+          ls.forEach(l => l.g.style.opacity = 0); await S.anim(EQ.tween(300, t => ls.forEach(l => l.g.style.opacity = t)));
           const vo = S.say("wa2");
-          for(const c of chords){ c.g.classList.add("pulse"); await S.wait(650); c.g.classList.remove("pulse"); }
-          await vo;
-        } else if(it.att >= 3){                                // WA3: the line, the others faded; the hand runs it
+          for(const c of ls){ c.g.classList.add("pulse"); await S.wait(650); c.g.classList.remove("pulse"); }
+          await vo; await S.wait(500);
+          await S.anim(EQ.tween(300, t => ls.forEach(l => l.g.style.opacity = 1 - t)));
+          lineG.innerHTML = "";
+        } else if(it.att >= 3){                                // WA3: only the right line - it stays, the guide for the finger; the hand runs it
           if(!reopen) GameBus.emit("answer_revealed", { slide_id: slide.id, phase: slide.phase, item: it.key, attempts: it.att, reason: "wrong" });
-          chords.forEach(c =>{ c.g.classList.toggle("key", c.i === it.correct); c.g.classList.toggle("off", c.i !== it.correct); });
+          const c = drawLine(it.lines[it.correct], "key");
           setSwMood("hint");
-          const c = chords[it.correct], m = p => [PO[0] + p[0] * K, PO[1] + p[1] * K];
+          const m = p => [PO[0] + p[0] * K, PO[1] + p[1] * K];
           const vo = S.say("wa3");
           await S.wait(500);
           await S.anim(H.glide(m(c.a), m(c.b), 1400));
           await vo;
         }
       }
-      /* resolves { i } once a line is cut: dragged along (80% of it) or tapped */
-      function cutPick(chords, sc, it){
+      /* [finger line] (1st review #12: "as the child moves their finger over the shape, the dotted line should move with it and show the proposed
+         dividing line ... work out the line's position and movement for each shape so that the interaction feels clear and consistent") the
+         line through where the finger came down and where it is now, held to the nearest of the shape's own lines (LINES: its middles and a
+         row either side of them, a fan from the flag's tip; the deck's three among them) so it moves in the same steps on every shape - it
+         glides from one to the next as the finger turns or slides. The part of it the finger has covered turns solid. Resolves { a, b }
+         (the line, in the way the finger went) once the finger has gone along 80% of it; lifted sooner, the line goes again. From the 3rd
+         miss only the right line is there to draw. */
+      const vs = xs => xs.map(x => [[x, 0], [x, 200]]), hs = ys => ys.map(y => [[0, y], [200, y]]), dg = [[[30, 30], [170, 170]], [[170, 30], [30, 170]]];
+      const LINES = {
+        flag:   [40, 52, 64, 76, 88, 100, 112, 124, 136, 150, 162].map(x => [[100, 172], [x, 28]]).concat(hs([62, 84, 106, 128])),
+        rect:   vs([36, 50, 62, 76, 88, 100, 112, 124, 138, 150, 164]).concat(hs([70, 82, 91, 100, 109, 118, 130])),       // (no slant: a rectangle cut slanting through its middle has halves that never fold onto each other)
+        circle: vs([34, 48, 64, 82, 100, 118, 136, 152, 166]).concat(hs([34, 48, 62, 74, 87, 100, 113, 126, 140, 152, 166]), dg),
+        square: vs([44, 56, 66, 78, 89, 100, 111, 122, 134, 144, 156]).concat(hs([44, 56, 66, 78, 89, 100, 111, 120, 134, 144, 156]), dg)
+      };
+      function cutPick(it){
         return new Promise(res =>{
           const m = p => [(p[0] - PO[0]) / K, (p[1] - PO[1]) / K];
-          const live = ()=> chords.filter(c => !c.g.classList.contains("off"));
-          let cur = null, got = null, moved = false, st = null, lastI = -1;
-          const nearest = q =>{ let best = null, bd = 17; live().forEach(c =>{ const r = EQ.distSeg(q, c.a, c.b); if(r.d < bd){ bd = r.d; best = c; } }); return best; };
+          const cands = (it.att >= 3 ? [it.lines[it.correct]] : LINES[it.shape].concat(it.lines)).map(ab => EQ.chord(it.s, ab[0], ab[1])).filter(Boolean).map(ch => ({ a: ch[0], b: ch[1] }));
+          const g = E("g", { class: "eq-cutopt eq-follow", opacity: 0 }, lineG), mk = cls => E("line", { class: cls, "vector-effect": "non-scaling-stroke" }, g);
+          const under = mk("eq-cutopt-under"), dash = mk("eq-cutopt-dash"), ink = mk("eq-cutopt-ink");
+          const setL = (l, a, b)=>{ l.setAttribute("x1", a[0].toFixed(1)); l.setAttribute("y1", a[1].toFixed(1)); l.setAttribute("x2", b[0].toFixed(1)); l.setAttribute("y2", b[1].toFixed(1)); };
+          const dist = (p, c)=>{ const u = EQ.sub(c.b, c.a), L = EQ.len(u) || 1; return Math.abs(u[0] * (p[1] - c.a[1]) - u[1] * (p[0] - c.a[0])) / L; };
+          const cost = (c, s0, p)=>{ const d = EQ.sub(p, s0), u = EQ.sub(c.b, c.a), A = Math.abs(Math.atan2(d[0] * u[1] - d[1] * u[0], d[0] * u[0] + d[1] * u[1])) * 180 / Math.PI;
+            return Math.min(A, 180 - A) * .7 + (dist(s0, c) + dist(p, c)) / 2; };
           const BINS = 20;
+          let path = null, cur = null, shown = null, glideT = null, doneP = false;
+          const show = (c, ms)=>{ const a0 = shown ? shown.a : c.a, b0 = shown ? shown.b : c.b; shown = { a: c.a, b: c.b };
+            const t0 = performance.now(), step = ()=>{ if(shown.a !== c.a) return; const t = Math.min(1, (performance.now() - t0) / (ms || 1)), e = 1 - Math.pow(1 - t, 3);
+              const a = [a0[0] + (c.a[0] - a0[0]) * e, a0[1] + (c.a[1] - a0[1]) * e], b = [b0[0] + (c.b[0] - b0[0]) * e, b0[1] + (c.b[1] - b0[1]) * e];
+              setL(under, a, b); setL(dash, a, b); if(t < 1) requestAnimationFrame(step); };
+            step(); };
+          const cover = c =>{ const got = new Array(BINS).fill(false); let t0 = null, t1 = null;
+            path.forEach(q =>{ const r = EQ.distSeg(q, c.a, c.b); if(r.d > 24) return; got[Math.min(BINS - 1, Math.floor(r.t * BINS))] = true; if(t0 === null) t0 = r.t; t1 = r.t; });
+            return { got, t0, t1 }; };
           const pos = (c, t)=> [c.a[0] + (c.b[0] - c.a[0]) * t, c.a[1] + (c.b[1] - c.a[1]) * t];
-          const pd = e =>{ const q = m(EQ.toSvg(svg, e)), c = nearest(q); if(!c) return;
-            cur = c; got = new Array(BINS).fill(false); moved = false; st = q; lastI = -1;
-            { const t0 = EQ.distSeg(q, c.a, c.b).t; c.dir = t0 > .5 ? -1 : 1; c.t0 = t0; }   /* (pressed near b: it will cut towards a) */ try{ svg.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); mv(e); };
-          const mv = e =>{ if(!cur) return; const q = m(EQ.toSvg(svg, e)), r = EQ.distSeg(q, cur.a, cur.b);
-            if(Math.hypot(q[0] - st[0], q[1] - st[1]) > 6) moved = true;
-            if(r.d > 26){ lastI = -1; return; }
-            if(Math.abs(r.t - cur.t0) > .03){ cur.dir = r.t > cur.t0 ? 1 : -1; cur.t0 = r.t; }   // the way the finger is going
-            const bi = Math.min(BINS - 1, Math.floor(r.t * BINS));   // fill the gap since the last sample (a quick swipe)
-            if(lastI < 0) got[bi] = true; else for(let k = Math.min(bi, lastI); k <= Math.max(bi, lastI); k++) got[k] = true;
-            lastI = bi;
-            const lo = got.indexOf(true) / BINS, hi = (got.lastIndexOf(true) + 1) / BINS, a = pos(cur, lo), b = pos(cur, Math.min(1, hi));
-            cur.ink.setAttribute("x1", a[0]); cur.ink.setAttribute("y1", a[1]); cur.ink.setAttribute("x2", b[0]); cur.ink.setAttribute("y2", b[1]);
-            sc.at([PO[0] + pos(cur, r.t)[0] * K, PO[1] + pos(cur, r.t)[1] * K], cur);
-            if(got.filter(Boolean).length >= BINS * .8) finish(cur); };
-          const up = ()=>{ if(!cur) return; const c = cur; cur = null; if(!moved) auto(c); else { c.ink.setAttribute("x2", c.ink.getAttribute("x1")); c.ink.setAttribute("y2", c.ink.getAttribute("y1")); sc.g.setAttribute("opacity", 0); } };
+          const update = ()=>{
+            const s0 = path[0], p = path[path.length - 1]; if(EQ.len(EQ.sub(p, s0)) < 16) return;
+            let best = null, bc = 1e9; cands.forEach(c =>{ const k = cost(c, s0, p); if(k < bc){ bc = k; best = c; } });
+            if(!cur || (best !== cur && bc < cost(cur, s0, p) * .8)){ const first = !cur; cur = best; show(cur, first ? 0 : 140);
+              if(first) EQ.tween(160, t => g.setAttribute("opacity", t.toFixed(3))); }
+            const cv = cover(cur), lo = cv.got.indexOf(true), hi = cv.got.lastIndexOf(true);
+            if(lo >= 0){ setL(ink, pos(cur, lo / BINS), pos(cur, (hi + 1) / BINS)); ink.style.opacity = 1; } else ink.style.opacity = 0;
+            if(cv.got.filter(Boolean).length >= BINS * .8 && !doneP){ doneP = true; off();
+              const fwd = cv.t1 >= cv.t0;                                      // the way the finger went
+              setL(ink, cur.a, cur.b); try{ sfxTap(); }catch(_){}
+              res(fwd ? { a: cur.a, b: cur.b } : { a: cur.b, b: cur.a }); } };
+          const add = q =>{ const last = path[path.length - 1], L = last ? EQ.len(EQ.sub(q, last)) : 0, n = Math.max(1, Math.ceil(L / 4));
+            for(let i = 1; i <= n; i++) path.push(last ? [last[0] + (q[0] - last[0]) * i / n, last[1] + (q[1] - last[1]) * i / n] : q); };
+          const pd = e =>{ if(doneP) return; const q = m(EQ.toSvg(svg, e)); if(q[0] < -45 || q[0] > 245 || q[1] < -45 || q[1] > 245) return;   // on (or right by) the paper
+            path = [q]; cur = null; shown = null; ink.style.opacity = 0; g.setAttribute("opacity", 0);
+            try{ svg.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); };
+          const mv = e =>{ if(!path || doneP) return; add(m(EQ.toSvg(svg, e))); update(); };
+          const up = ()=>{ if(!path || doneP) return; path = null; cur = null;
+            const o0 = parseFloat(g.getAttribute("opacity")) || 0; EQ.tween(220, t => g.setAttribute("opacity", (o0 * (1 - t)).toFixed(3))); };   // lifted too soon: the line goes
           const off = ()=>{ svg.removeEventListener("pointerdown", pd); svg.removeEventListener("pointermove", mv); svg.removeEventListener("pointerup", up); svg.removeEventListener("pointercancel", up); };
-          let over_ = false;
-          const finish = c =>{ if(over_) return; over_ = true; cur = null; off(); try{ sfxTap(); }catch(_){} res({ i: c.i }); };
-          const auto = c =>{ off(); c.dir = 1; EQ.tween(1500, t =>{ const p = pos(c, t); c.ink.setAttribute("x1", c.a[0]); c.ink.setAttribute("y1", c.a[1]); c.ink.setAttribute("x2", p[0]); c.ink.setAttribute("y2", p[1]); sc.at([PO[0] + p[0] * K, PO[1] + p[1] * K], c); }).then(()=> finish(c)); };
           svg.addEventListener("pointerdown", pd); svg.addEventListener("pointermove", mv); svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
         });
-      }
-      /* [scissors] the user's scissors (EQ.scissors), the cut point where the drawn pair's was; they point the way the line is cut */
-      function scissors(parent){
-        const X = EQ.scissors(svg, parent, 73);   // (73: in step with the bigger sheet)
-        /* (user 2026-10-30: "cutting the triangle from up to down the scissors should point the right way - check all lines and angles") they
-           point the way the cut is going: c.dir 1 = towards b, -1 = towards a (the finger's own direction while it drags) */
-        return { g: X.g, at(p, c){ const d = c.dir || 1; X.at(p, Math.atan2((c.b[1] - c.a[1]) * d, (c.b[0] - c.a[0]) * d) * 180 / Math.PI); } };
       }
       /* the two equal parts fly from the mat into the decoration's outline */
       /* [fly in] (user 2026-10-30: "the transition to the element can be more smooth and impressive - same for all") the cut paper: its two
@@ -9172,17 +9450,23 @@ const SlideModules = {
           paper.setAttribute("transform", `translate(0,${(-arc).toFixed(1)}) translate(${cx.toFixed(1)},${cy.toFixed(1)}) rotate(${rot.toFixed(2)}) scale(${sc.toFixed(4)}) translate(${(-cx).toFixed(1)},${(-cy).toFixed(1)}) ${mStr(mt)}`); };
         paper.setAttribute("filter", `url(#${svg._shadow})`);
         await S.anim(EQ.tween(280, t => put(m0, 0, 0, 1 + .06 * t), EQ.easeOut));   // lift
-        const [x0] = mAt(m0, 100, 100), [x1, y1] = mAt(p.m, 100, 100), side = x1 >= x0 ? 1 : -1, H = y1 < 100 ? 36 : 110;   // (a low arc to the bunting: up high it would leave the screen)
+        /* (1st review #16, #20: "fit the circle into the rangoli as a circle ... the child can clearly see the connection") the circle flies
+           upright - a circle as wide as the rangoli's middle - and then lies down into it */
+        const lie = it.key === "rangoli", mUp = lie ? (()=>{ const [cx, cy] = mAt(p.m, 100, 100), kx = Math.hypot(p.m[0], p.m[1]); return [kx, 0, 0, kx, cx - 100 * kx, cy - 100 * kx]; })() : p.m;
+        const [x0] = mAt(m0, 100, 100), [x1, y1] = mAt(p.m, 100, 100), side = x1 >= x0 ? 1 : -1, H = y1 < 100 ? 36 : (y1 < 350 ? 60 : 110);   // (a low arc up to the wall: up high it would leave the screen)
         try{ playSfxFile("sfx_whoosh", .45); }catch(_){}
         await S.anim(EQ.tween(1150, t =>{
-          const mt = m0.map((v, i)=> v + (p.m[i] - v) * t), f = Math.sin(Math.PI * t);
+          const mt = m0.map((v, i)=> v + (mUp[i] - v) * t), f = Math.sin(Math.PI * t);
           put(mt, H * f, side * 9 * f * (1 - t), 1.06 - .06 * t);
           const d = Math.min(1, t / .6); dim.setAttribute("opacity", (1 - d).toFixed(3)); panel.setAttribute("opacity", (1 - d).toFixed(3)); veilBlur(1 - d);
         }, EQ.ease));
         dim.setAttribute("opacity", 0); panel.setAttribute("opacity", 0); veilBlur(0);
+        if(lie){ await S.wait(150); await S.anim(EQ.tween(560, t => put(mUp.map((v, i)=> v + (p.m[i] - v) * t), 0, 0, 1), EQ.easeOut)); }
+        if(it.key !== "bunting") return settleIn(it, paper, C);
         const ring = E("path", { d: EQ.pathD(it.s.pts), fill: "none", stroke: "#FFD84D", "stroke-width": 7, "vector-effect": "non-scaling-stroke", transform: mStr(p.m) }, over);
         try{ sfxCubePop(3, true); }catch(_){}
-        /* (user 2026-10-30: "the paper should go there and disappear, and then the sketch should happen") it arrives and is gone - shrinking
+        /* (the flag only - 1st review #18: "the triangles fitting into the hanging decoration work well. Please retain this approach")
+           (user 2026-10-30: "the paper should go there and disappear, and then the sketch should happen") it arrives and is gone - shrinking
            into its place in a soft golden ring; the decoration is then drawn there */
         await S.anim(EQ.tween(420, t =>{
           put(p.m, 0, 0, 1 - .3 * t); paper.setAttribute("opacity", (1 - t).toFixed(3));
@@ -9215,25 +9499,10 @@ const SlideModules = {
         const dash = it.target.querySelector(".eq-target-out"), glowT = it.target.querySelector(".eq-target-glow");
         await S.anim(EQ.tween(750, t =>{ ol.setAttribute("stroke-dashoffset", (OL * (1 - t)).toFixed(1));
           dash.style.strokeOpacity = (1 - Math.min(1, t * 2)).toFixed(3); if(glowT) glowT.style.opacity = (1 - Math.min(1, t * 2)).toFixed(3); }, EQ.ease));
-        /* the finished decoration (user: "it should look like the other triangle decorations"): drawn in the room's own art - the bunting gets
-           the user's pink heart flag (from their finished room: flag_done.webp, laid on the blank flag by its 3 corners),
-           the window its own sunset back (the painting itself, inside the glass), the circle the finished rangoli; the square a stitched mat */
+        /* the finished flag (user: "it should look like the other triangle decorations"): the user's pink heart flag (from their finished room:
+           flag_done.webp, laid on the blank flag by its 3 corners) */
         const room_ = E("g", { transform: mStr(inv(p.m)) }, art);           // (room units inside the shape's frame)
-        const mul = (A, B)=> [A[0] * B[0] + A[2] * B[1], A[1] * B[0] + A[3] * B[1], A[0] * B[2] + A[2] * B[3], A[1] * B[2] + A[3] * B[3], A[0] * B[4] + A[2] * B[5] + A[4], A[1] * B[4] + A[3] * B[5] + A[5]];
-        if(it.key === "wallart"){
-          const iv = inv(p.m), [rx, ry] = SRC(893 - 245, 721 - 103), [qx, qy] = SRC(893 + 245, 721 + 103), a0 = mAt(iv, rx, ry), a1 = mAt(iv, qx, qy);
-          E("image", { href: "assets/rangoli_done.webp", x: a0[0], y: a0[1], width: a1[0] - a0[0], height: a1[1] - a0[1], preserveAspectRatio: "none" }, art);
-        } else if(it.key === "bunting"){
-          E("image", { href: "assets/flag_done.webp", x: 0, y: 0, width: 124, height: 126, transform: mStr(aff([[7.6, 18.2], [115.5, 7.1], [70.4, 117]], [[373.0, 90.9], [511.6, 102.0], [437.3, 226.6]])) }, room_);   // (17% over the blank flag's outline: none of the painted blank one shows round it - user: "why is the outline still like this")
-        } else if(it.key === "window"){
-          const cg = E("clipPath", { id: EQ.nid("glass") }, svg._defs); E("path", { d: EQ.pathD(pts) }, cg); art.setAttribute("clip-path", `url(#${cg.id})`);
-          E("image", { href: "assets/bg_pari_bedroom.webp", x: 0, y: -150, width: 1333, height: 941 * SK, preserveAspectRatio: "none" }, room_);
-        } else {
-          /* (user 2026-10-30: "this square will become a gift box - I gave you the gift box asset") the user's own gift box, cut from their
-             finished room (Downloads/Sunset Rangoli in a Cosy Bedroom.png) and set exactly where it stands there (painting 1424,560 - 222 x 208, with the floor round it) */
-          const [gx, gy] = SRC(1424, 560);                                    // (the box with the floor round it from that picture: the mat is covered)
-          E("image", { href: "assets/gift_box.webp", x: gx, y: gy, width: 222 * SK, height: 208 * SK }, room_);
-        }
+        E("image", { href: "assets/flag_done.webp", x: 0, y: 0, width: 124, height: 126, transform: mStr(aff([[7.6, 18.2], [115.5, 7.1], [70.4, 117]], [[373.0, 90.9], [511.6, 102.0], [437.3, 226.6]])) }, room_);   // (17% over the blank flag's outline: none of the painted blank one shows round it - user: "why is the outline still like this")
         // 2. the colour is scribbled in
         await S.anim(EQ.tween(1150, t =>{ hatch.setAttribute("stroke-dashoffset", (HL * (1 - t)).toFixed(1));
           art.removeAttribute("mask"); void art.getBBox(); art.setAttribute("mask", `url(#${mk.id})`); }, EQ.ease));   // (re-applied each frame: Chrome does not repaint a mask's own changes)
@@ -9250,6 +9519,34 @@ const SlideModules = {
         await S.anim(EQ.tween(380, t => ol.setAttribute("opacity", (1 - t).toFixed(3))));
         ol.remove(); wob.remove(); filled.appendChild(sk);
         await S.wait(500);
+      }
+      /* [plain] (1st review #15: "there is no need to add a pattern to every shape. After a shape is divided equally and placed in the room, it
+         should remain visually recognisable as the same shape"; #16 the circle "a plain circle in a suitable contrasting colour"; #17 the square
+         no "sudden transformation" into a gift box) the paper itself stays: it settles in with a little squash, its two halves' seam still
+         there, the dashed place gone under it; a gold ring spreads, stars burst - and the pinboard gets its two pins */
+      async function settleIn(it, paper, C){
+        const p = it.place, kk = mK(p.m);
+        const ring = E("path", { d: EQ.pathD(it.s.pts), fill: "none", stroke: "#FFD84D", "stroke-width": 7, "vector-effect": "non-scaling-stroke", transform: mStr(p.m) }, over);
+        it.target.style.display = "none";
+        [C.parts.A, C.parts.B].forEach(x => x.querySelector(".eq-edge").setAttribute("stroke-width", (2.4 / kk).toFixed(3)));
+        try{ sfxCubePop(3, true); }catch(_){}
+        await S.anim(EQ.tween(420, t =>{ const [cx, cy] = mAt(p.m, 100, 100), q = Math.sin(Math.PI * t);
+          paper.setAttribute("transform", `translate(${cx.toFixed(1)},${cy.toFixed(1)}) scale(${(1 + .05 * q).toFixed(4)},${(1 - .05 * q).toFixed(4)}) translate(${(-cx).toFixed(1)},${(-cy).toFixed(1)}) ${mStr(p.m)}`);
+          const k = 1 + .22 * t; ring.setAttribute("transform", `translate(${cx.toFixed(1)},${cy.toFixed(1)}) scale(${k.toFixed(3)}) translate(${(-cx).toFixed(1)},${(-cy).toFixed(1)}) ${mStr(p.m)}`);
+          ring.setAttribute("opacity", (1 - t).toFixed(3)); }, u => u));
+        ring.remove();
+        paper.removeAttribute("filter"); paper.setAttribute("transform", mStr(p.m)); paper.style.pointerEvents = "none"; filled.appendChild(paper);
+        if(it.key === "pinboard"){                                             // its pins, popping in at the top corners
+          [[34, 68, "#E2402E"], [166, 68, "#F2B705"]].forEach(([x, y, col], i)=>{ const [px, py] = mAt(p.m, x, y), pin = E("g", { transform: `translate(${px.toFixed(1)},${py.toFixed(1)}) scale(0)` }, filled);
+            E("ellipse", { cx: 1.5, cy: 3, rx: 6, ry: 3, fill: "rgba(0,0,0,.25)" }, pin); E("circle", { r: 6.5, fill: col }, pin); E("circle", { cx: -2, cy: -2, r: 2, fill: "rgba(255,255,255,.7)" }, pin);
+            setTimeout(()=> EQ.tween(320, t => pin.setAttribute("transform", `translate(${px.toFixed(1)},${py.toFixed(1)}) scale(${(t < .7 ? t / .7 * 1.2 : 1.2 - .2 * (t - .7) / .3).toFixed(3)})`)), 120 + i * 140); });
+        }
+        const cS = mAt(p.m, 100, 100), rS = 72 * Math.max(.75, kk);
+        try{ sfxCubePop(5, true); }catch(_){}
+        EQ.sparkles(svg, over, cS, rS * 1.05, 12);
+        setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * .7, 9); }, 320);
+        setTimeout(()=>{ if(root.isConnected) EQ.sparkles(svg, over, cS, rS * 1.3, 7); }, 640);
+        await S.wait(900);
       }
       function nudgeNext(){ const n = items.find(x => !x.done); if(n) startNudge(slide, n.target.querySelector(".eq-target-out")); }
       async function finishAll(){
@@ -9869,11 +10166,9 @@ function conceptTileHTML(c){
    from Safari 18.4). */
 /* @asset-sizes:begin (generated by tools/gen_asset_sizes.js - do not edit by hand) */
 const ASSET_SIZES = {
-  "assets/bg_pari_bedroom.webp": 103244,
+  "assets/bg_pari_bedroom.webp": 94836,
   "assets/cat_sleep.webp": 8062,
-  "assets/rangoli_done.webp": 45732,
   "assets/flag_done.webp": 2590,
-  "assets/gift_box.webp": 6796,
   "assets/bg_dining.webp": 19792,
   "assets/bg_dining_table.webp": 28620,
   "assets/bg_landing_pizza.webp": 26660,
@@ -9914,10 +10209,10 @@ const ASSET_SIZES = {
   "assets/nudge_fx_ring_outer.svg": 769,
   "assets/nudge_fx_sparks.svg": 2476,
   "assets/nudge_hand_new.svg": 6860,
-  "assets/pizza.webp": 215510,
-  "assets/pizza_back.webp": 209136,
+  "assets/pizza.webp": 243862,
+  "assets/pizza_back.webp": 244542,
   "assets/scissors.webp": 140662,
-  "assets/pizza_board.webp": 102794,
+  "assets/pizza_board.webp": 93712,
   "assets/sfx/bgm.ogg": 1443997,
   "assets/sfx/sfx_confetti.ogg": 11582,
   "assets/sfx/sfx_correct.ogg": 10099,
@@ -9959,23 +10254,23 @@ const ASSET_SIZES = {
   "assets/voiceover/vo_g4_prompt.ogg": 20194,
   "assets/voiceover/vo_g4_wa1.ogg": 18809,
   "assets/voiceover/vo_g4_wa2.ogg": 28363,
-  "assets/voiceover/vo_g4_wa3.ogg": 21308,
+  "assets/voiceover/vo_g4_wa3.ogg": 19629,
   "assets/voiceover/vo_landing.ogg": 45154,
   "assets/voiceover/vo_p1_ok.ogg": 16180,
   "assets/voiceover/vo_p1_prompt.ogg": 21373,
   "assets/voiceover/vo_p1_wa1.ogg": 18440,
   "assets/voiceover/vo_p1_wa2.ogg": 25879,
-  "assets/voiceover/vo_p1_wa3.ogg": 21047,
+  "assets/voiceover/vo_p1_wa3.ogg": 19397,
   "assets/voiceover/vo_p2_ok.ogg": 17623,
   "assets/voiceover/vo_p2_prompt.ogg": 23150,
   "assets/voiceover/vo_p2_wa1.ogg": 19364,
   "assets/voiceover/vo_p2_wa2.ogg": 26838,
-  "assets/voiceover/vo_p2_wa3.ogg": 22130,
+  "assets/voiceover/vo_p2_wa3.ogg": 20123,
   "assets/voiceover/vo_p3_ok.ogg": 15824,
   "assets/voiceover/vo_p3_prompt.ogg": 19684,
   "assets/voiceover/vo_p3_wa1.ogg": 18731,
   "assets/voiceover/vo_p3_wa2.ogg": 25938,
-  "assets/voiceover/vo_p3_wa3.ogg": 20792,
+  "assets/voiceover/vo_p3_wa3.ogg": 19284,
   "assets/voiceover/vo_p4_ok_eq.ogg": 10164,
   "assets/voiceover/vo_p4_ok_uneq.ogg": 10024,
   "assets/voiceover/vo_p4_prompt.ogg": 10452,
@@ -9989,19 +10284,19 @@ const ASSET_SIZES = {
   "assets/voiceover/vo_split_ok.ogg": 14138,
   "assets/voiceover/vo_split_wa1.ogg": 17594,
   "assets/voiceover/vo_split_wa3.ogg": 21161,
-  "assets/voiceover/vo_t1_a.ogg": 12967,
+  "assets/voiceover/vo_t1_a.ogg": 10512,
   "assets/voiceover/vo_t1_b.ogg": 12352,
-  "assets/voiceover/vo_t2_draw.ogg": 13373,
-  "assets/voiceover/vo_t2_equal.ogg": 18016,
+  "assets/voiceover/vo_t2_draw.ogg": 10540,
+  "assets/voiceover/vo_t2_equal.ogg": 14820,
   "assets/voiceover/vo_t2_next.ogg": 10593,
   "assets/voiceover/vo_t2_prompt.ogg": 13471,
   "assets/voiceover/vo_t2_unequal.ogg": 19830,
-  "assets/voiceover/vo_t3_a.ogg": 18342,
+  "assets/voiceover/vo_t3_a.ogg": 15104,
   "assets/voiceover/vo_t3_equal.ogg": 8861,
   "assets/voiceover/vo_t3_match.ogg": 18092,
-  "assets/voiceover/vo_t4_a.ogg": 20374,
+  "assets/voiceover/vo_t4_a.ogg": 16674,
   "assets/voiceover/vo_t4_b.ogg": 21409,
-  "assets/voiceover/vo_t5_a.ogg": 21682,
+  "assets/voiceover/vo_t5_a.ogg": 17749,
   "assets/voiceover/vo_t5_aadha.ogg": 28720,
   "assets/voiceover/vo_t5_equal.ogg": 11848,
   "assets/voiceover/vo_t6.ogg": 11501,
@@ -10145,7 +10440,7 @@ const Assets = (function(){
     if(/^ROTI_/.test(s.type)) out.push(EQ_FOOD.img, EQ_FOOD.back);
     if(s.type === "ROTI_FREE_CUT" || s.type === "ROTI_TRACE") out.push("assets/cutter_scooter.webp");   // [scooter cutter]
     if(s.type === "DOT_SPLIT" || s.type === "DECOR_GAME") out.push("assets/scissors.webp", "assets/sfx/scissor_snip.wav");   // [scissors]
-    if(s.type === "DECOR_GAME") out.push("assets/cat_sleep.webp", "assets/rangoli_done.webp", "assets/flag_done.webp", "assets/gift_box.webp");             // [pari room]
+    if(s.type === "DECOR_GAME") out.push("assets/cat_sleep.webp", "assets/flag_done.webp");             // [pari room]
     if(s.type === "ROTI_INTRO" || s.type === "ROTI_HALVES_HELD" || (s.type === "ROTI_TRACE" && d.give_to_kids)) ["char_aaru_bust", "char_pari_bust", "char_aaru_bust_pupils", "char_pari_bust_pupils"].forEach(img);   // [3d portraits]
     if(s.type === "ROTI_AGAIN") ["bg_dining", "bg_dining_table", "pizza_board", "char_aaru_happy", "char_pari_happy", "char_aaru_pupils", "char_pari_pupils", "char_aaru_smile", "char_pari_smile"].forEach(img);
     if(s.type === "CELEBRATION"){ img("end_screen"); out.push(art("sw_lg_celebrating_anim.webp"), vo("sfx_celebrate")); }
@@ -11108,7 +11403,7 @@ function boot(){
     const svgF = mk("svg", { class: "eq-tug-svg eq-tug-front" });
     KIDS.forEach(w =>{ piece[w] = mk("g", {}, svgF); const c = mk("g", { "clip-path": "url(#" + (w === "aaru" ? "eqTugClipL" : "eqTugClipR") + ")" }, piece[w]);
       mk("image", { href: "assets/pizza.webp", x: -R, y: -R, width: 2 * R, height: 2 * R }, c);
-      torn[w] = mk("path", { fill: "none", stroke: "#F4D08A", "stroke-width": 8, "stroke-linejoin": "round", "stroke-linecap": "round", "clip-path": "url(#eqTugDisc)" }, c);   // the torn crumb: dough, half of it on each piece
+      torn[w] = mk("path", { fill: "none", stroke: "#E6C596", "stroke-width": 3, "stroke-linejoin": "round", "stroke-linecap": "round", "clip-path": "url(#eqTugDisc)" }, c);   // the torn crumb: whole-wheat dough, half of it on each piece (3, was 8: user 2026-11-04 "too much thickness after we tear - roti is thinner than a pizza base")
       edge[w] = mk("g", { opacity: 0 }, piece[w]); });   // [cheese edge] melted cheese oozing over the torn edge (built per play: cheeseEdge)
     const crackG = mk("g", {}, svgF), crack = mk("path", { fill: "none", stroke: "#6E2A08", "stroke-opacity": ".85", "stroke-width": 2.6, "stroke-linejoin": "round", "stroke-linecap": "round", "clip-path": "url(#eqTugDisc)" }, crackG);
     /* [cheese pull] (user 2026-10-29: the first one was "very bad - delete it and reanimate it better"). Made as real
@@ -11118,12 +11413,12 @@ function boot(){
        hangs. Before it breaks a strand necks (pinches thin in the middle), then snaps: the two tails spring back elastically,
        droop, and stay as drips on the edges. Creamy, glossy, no outline - a soft underside shade and a shine along each. */
     const strG = mk("g", {}, svgF);
-    const CH = { fill: "#FFDF85", shade: "#D99A2B", shine: "#FFF8DA", line: "#E0A43A" };
+    const CH = { fill: "#FFE6A3", shade: "#C98A2E", shine: "#FFFBEA", line: "#CF9640" };   // (2026-11-04) the new pizza's cheese: a warm cream mozzarella, paler than the old yellow (all-white strands vanished into the cream sky)
     const STRINGS = [];
     [-58, -39, -20, -1, 18, 37, 56].forEach(bv =>{ for(let k = 0; k < 3; k++){ const g = mk("g", {}, strG);
-      STRINGS.push({ bv, k, sh: mk("path", { fill: CH.shade, opacity: .55 }, g), band: mk("path", { fill: CH.fill, stroke: CH.line, "stroke-width": .5, "stroke-opacity": .6 }, g),
+      STRINGS.push({ bv, k, sh: mk("path", { fill: CH.shade, opacity: .8 }, g), band: mk("path", { fill: CH.fill, stroke: CH.line, "stroke-width": .6, "stroke-opacity": .85 }, g),
         hi: mk("path", { fill: "none", stroke: CH.shine, "stroke-linecap": "round", opacity: .9 }, g),
-        tl: [0, 1].map(()=> mk("path", { fill: CH.fill, stroke: CH.line, "stroke-width": .5, "stroke-opacity": .6 }, g)), dr: [0, 1].map(()=> mk("circle", { fill: CH.fill, stroke: CH.line, "stroke-width": .5, "stroke-opacity": .6 }, g)) }); } });
+        tl: [0, 1].map(()=> mk("path", { fill: CH.fill, stroke: CH.line, "stroke-width": .6, "stroke-opacity": .85 }, g)), dr: [0, 1].map(()=> mk("circle", { fill: CH.fill, stroke: CH.line, "stroke-width": .6, "stroke-opacity": .85 }, g)) }); } });
     /* a tapered band along a quadratic (p -> control c -> q), width w(s): w0 at both ends, wm in the middle */
     function goo(p, c, q, w0, wm, wEnd){
       const N = 14, L = [], R = [];
@@ -11169,21 +11464,28 @@ function boot(){
       try{ crackLen = crack.getTotalLength() || 180; }catch(e){ crackLen = 180; }
       crack.setAttribute("stroke-dasharray", crackLen.toFixed(1) + " " + (crackLen + 10).toFixed(1));
       atT = pizzaAt(T - 1e-4);
-      /* the crumbs are the pizza's own bits (user 2026-10-29: "just looks like colour dots"): crust crumbs, a tomato piece, a
-         green pepper sliver, an olive ring, corn, a paneer cube - each drawn small with an outline in its own dark, the same
-         toppings as the pizza art; they tumble as they fly and lie still where they land */
+      /* the crumbs are the pizza's own bits (user 2026-10-29: "just looks like colour dots"): each drawn small with an outline in
+         its own dark, the same toppings as the pizza art; they tumble as they fly and lie still where they land. (user 2026-11-04,
+         the new whole-wheat veggie pizza: "elements that get fell on the floor will be different now") whole-wheat crust crumbs
+         with a flax / sesame seed, a tomato piece, a broccoli floret, a carrot shred, a coriander leaf, corn, a toasted paneer
+         cube - no olive rings or pepper slivers, the new pizza has none */
       const BITS = [
-        g =>{ mk("path", { d: "M-4,-2.6L-.6,-4.2L3.8,-2.4L4.4,1.6L1,3.8L-3.6,2.8Z", fill: "#E0A657", stroke: "#9A5B1F", "stroke-width": 1 }, g);   // crust
-              mk("path", { d: "M-2,-1.2L1.4,-2", stroke: "#F6CF8C", "stroke-width": 1.1, "stroke-linecap": "round" }, g); },
-        g =>{ mk("path", { d: "M-3.2,-1.8L.4,-3.4L3.4,-1L2.4,2.6L-2.2,2.4Z", fill: "#D9934A", stroke: "#8E4F18", "stroke-width": 1 }, g); },   // crust
+        g =>{ mk("path", { d: "M-4,-2.6L-.6,-4.2L3.8,-2.4L4.4,1.6L1,3.8L-3.6,2.8Z", fill: "#D9A766", stroke: "#8F5A22", "stroke-width": 1 }, g);   // crust
+              mk("ellipse", { cx: -1.2, cy: .4, rx: 1.5, ry: .8, fill: "#5A2E14", transform: "rotate(-30 -1.2 .4)" }, g);                         // ...a flax seed
+              mk("ellipse", { cx: 2, cy: -1, rx: 1, ry: .6, fill: "#F6E7C4" }, g); },                                                          // ...a sesame seed
+        g =>{ mk("path", { d: "M-3.2,-1.8L.4,-3.4L3.4,-1L2.4,2.6L-2.2,2.4Z", fill: "#C98E4E", stroke: "#86501C", "stroke-width": 1 }, g);   // crust, browner
+              mk("circle", { cx: .6, cy: -.2, r: 1, fill: "#7A3F14", opacity: .6 }, g); },                                                   // ...a char spot
         g =>{ mk("path", { d: "M-4.6,0A4.6,4.6 0 0 1 4.6,0Z", fill: "#E5432F", stroke: "#9E2216", "stroke-width": 1 }, g);                   // tomato
               mk("path", { d: "M-2.6,-.9A2.6,2.6 0 0 1 2.6,-.9", fill: "none", stroke: "#FF8A6E", "stroke-width": 1 }, g); },
-        g =>{ mk("path", { d: "M-5,1.2Q0,-4.2 5,1.2", fill: "none", stroke: "#2E8B2A", "stroke-width": 3.4, "stroke-linecap": "round" }, g);     // pepper
-              mk("path", { d: "M-3.6,.3Q0,-3 3.6,.3", fill: "none", stroke: "#6CC24A", "stroke-width": 1.4, "stroke-linecap": "round" }, g); },
-        g =>{ mk("circle", { r: 3.3, fill: "none", stroke: "#2A2422", "stroke-width": 2.2 }, g); },                                        // olive ring
+        g =>{ mk("path", { d: "M-.9,4.2L-.6,.4L.6,.4L.9,4.2Z", fill: "#8DBF3A", stroke: "#4E7A16", "stroke-width": .8, "stroke-linejoin": "round" }, g);   // broccoli: its stalk
+              [[-2.2, -.6, 2.1], [2.2, -.6, 2.1], [0, -2.4, 2.4]].forEach(([cx, cy, r])=> mk("circle", { cx, cy, r, fill: "#3E7F1C", stroke: "#24520E", "stroke-width": .8 }, g));   // ...its floret
+              mk("circle", { cx: -.6, cy: -3, r: .8, fill: "#6FAE34" }, g); },
+        g =>{ mk("path", { d: "M-4.4,1.4L4.4,-1.4", stroke: "#B35A0A", "stroke-width": 3.2, "stroke-linecap": "round" }, g);                // carrot shred
+              mk("path", { d: "M-4.4,1.4L4.4,-1.4", stroke: "#F08A1E", "stroke-width": 1.8, "stroke-linecap": "round" }, g); },
+        g =>{ [0, 120, 240].forEach(r => mk("ellipse", { cx: 0, cy: -2, rx: 1.7, ry: 2.2, fill: "#3F9A2A", stroke: "#22601A", "stroke-width": .6, transform: "rotate(" + r + ")" }, g)); },   // coriander leaf
         g =>{ mk("ellipse", { rx: 2.4, ry: 2.9, fill: "#FFCF33", stroke: "#C58A0B", "stroke-width": .9 }, g); },                             // corn
-        g =>{ mk("rect", { x: -3, y: -3, width: 6, height: 6, rx: 1.2, fill: "#FFF6DD", stroke: "#C7A86B", "stroke-width": 1 }, g);          // paneer
-              mk("rect", { x: -3, y: -3, width: 6, height: 2.2, rx: 1, fill: "#F2C46A", opacity: .7 }, g); }];
+        g =>{ mk("rect", { x: -3, y: -3, width: 6, height: 6, rx: 1.2, fill: "#FFF6DD", stroke: "#C7A86B", "stroke-width": 1 }, g);          // paneer, toasted
+              mk("circle", { cx: -1.2, cy: -1, r: 1, fill: "#C9772A", opacity: .75 }, g); mk("circle", { cx: 1.4, cy: 1.2, r: .8, fill: "#C9772A", opacity: .6 }, g); }];
       KIDS.forEach(w => cheeseEdge(w));
       STRINGS.forEach(S =>{
         S.vL = S.bv + (S.k - 1) * 2.5 + (rnd() - .5) * 2; S.vR = S.bv + (S.k - 1) * 2.5 + (rnd() - .5) * 3;   // a cluster's strands share their roots
@@ -11212,22 +11514,22 @@ function boot(){
     function cheeseEdge(w){
       const g = edge[w]; g.textContent = "";
       const x0 = sg * D, dir = w === "aaru" ? 1 : -1, H = Math.sqrt(R * R - x0 * x0) - 4;
-      const ph = [rnd() * 6, rnd() * 6, rnd() * 6], drips = [0, 1, 2].map(k => ({ v: -H * .55 + k * H * .55 + (rnd() - .5) * 18, len: 8 + rnd() * 9 }));
-      const o = v => 2.8 + 1.5 * Math.sin(v * .13 + ph[0]) + .9 * Math.sin(v * .29 + ph[1]);   // soft lumps, no jitter
+      const ph = [rnd() * 6, rnd() * 6, rnd() * 6], drips = [0, 1, 2].map(k => ({ v: -H * .55 + k * H * .55 + (rnd() - .5) * 18, len: 3 + rnd() * 3 }));
+      const o = v => 1.1 + .5 * Math.sin(v * .13 + ph[0]) + .3 * Math.sin(v * .29 + ph[1]);   // soft lumps, no jitter - a thin lip (user 2026-11-04: the thin whole-wheat base, "roti is thinner than a pizza base"; it bulged 0.4-5.2px)
       const vs = []; for(let v = -H; v <= H; v += 1.5) vs.push(v); vs.push(H);
       const P = a => a.map(q => q[0].toFixed(1) + "," + q[1].toFixed(1)).join("L");
       /* one outline: the ribbon's lumpy outer edge with each drip grown out of it (a teardrop hanging from the edge) */
-      const out = []; vs.slice().reverse().forEach(v =>{ out.push([x0 + dir * Math.max(1, o(v)), v]);
+      const out = []; vs.slice().reverse().forEach(v =>{ out.push([x0 + dir * Math.max(.4, o(v)), v]);
         drips.forEach(d =>{ if(Math.abs(d.v) > H - 10 || Math.abs(v - d.v) > .75) return; const bx = x0 + dir * o(d.v);
-          out.push([bx + dir * 2.4, d.v - 1], [bx + dir * 3.6, d.v + d.len * .45], [bx + dir * 3.2, d.v + d.len * .85], [bx + dir * 1.6, d.v + d.len], [bx + dir * .2, d.v + d.len * .8], [bx, d.v + 4]); }); });
-      const inner = vs.map(v =>[x0 - dir * (3.8 + .6 * Math.sin(v * .2 + ph[2])), v]);
+          out.push([bx + dir * 1, d.v - .5], [bx + dir * 1.5, d.v + d.len * .45], [bx + dir * 1.3, d.v + d.len * .85], [bx + dir * .7, d.v + d.len], [bx + dir * .1, d.v + d.len * .8], [bx, d.v + 2]); }); });
+      const inner = vs.map(v =>[x0 - dir * (1.4 + .3 * Math.sin(v * .2 + ph[2])), v]);
       const d = "M" + P(inner) + "L" + P(out) + "Z";
       const cl = mk("g", { "clip-path": "url(#eqTugDisc)" }, g);                       // (all of it ends at the crust, top and bottom)
-      mk("path", { d, fill: "#B8731C", opacity: .28, transform: "translate(" + dir * 1.2 + " 1.6)" }, cl);   // its soft shadow on the pizza / the air
-      mk("path", { d, fill: "#FFDF85", stroke: "#E0A43A", "stroke-width": .6, "stroke-linejoin": "round" }, cl);   // melted cheese
-      mk("path", { d: "M" + P(inner.map(q =>[q[0] + dir * 1.5, q[1]])) + "L" + P(vs.slice().reverse().map(v =>[x0 + dir * Math.max(.4, o(v) - 1.6), v])) + "Z", fill: "#FFEDB0" }, cl);   // its lighter top
-      [0, 1, 2, 3, 4].forEach(()=>{ const v = (rnd() * 2 - 1) * H * .85; mk("ellipse", { cx: (x0 + dir * (rnd() * 3 - 2.5)).toFixed(1), cy: v.toFixed(1), rx: (1 + rnd() * .8).toFixed(1), ry: (1.6 + rnd() * 1.6).toFixed(1), fill: "#E8A33A", opacity: .5 }, cl); });   // browned spots
-      mk("path", { d: "M" + vs.filter((_, i)=> i % 2 === 0).map(v => (x0 + dir * Math.max(.3, o(v) - 2)).toFixed(1) + "," + v.toFixed(1)).join("L"), fill: "none", stroke: "#FFF8DC", "stroke-width": 1.1, "stroke-linecap": "round", opacity: .9 }, cl);   // its shine
+      mk("path", { d, fill: "#B8731C", opacity: .28, transform: "translate(" + dir * .6 + " .8)" }, cl);   // its soft shadow on the pizza / the air
+      mk("path", { d, fill: "#FFE6A3", stroke: "#CF9640", "stroke-width": .6, "stroke-linejoin": "round" }, cl);   // melted cheese (the art's pale cream)
+      mk("path", { d: "M" + P(inner.map(q =>[q[0] + dir * .6, q[1]])) + "L" + P(vs.slice().reverse().map(v =>[x0 + dir * Math.max(.2, o(v) - .7), v])) + "Z", fill: "#FFF3D2" }, cl);   // its lighter top
+      [0, 1, 2, 3, 4].forEach(()=>{ const v = (rnd() * 2 - 1) * H * .85; mk("ellipse", { cx: (x0 + dir * (rnd() * 1.2 - 1)).toFixed(1), cy: v.toFixed(1), rx: (.5 + rnd() * .4).toFixed(1), ry: (1 + rnd() * 1).toFixed(1), fill: "#D98A36", opacity: .55 }, cl); });   // browned spots (toasted, as on the art)
+      mk("path", { d: "M" + vs.filter((_, i)=> i % 2 === 0).map(v => (x0 + dir * Math.max(.2, o(v) - .8)).toFixed(1) + "," + v.toFixed(1)).join("L"), fill: "none", stroke: "#FFFDF2", "stroke-width": .7, "stroke-linecap": "round", opacity: .9 }, cl);   // its shine
     }
     /* a piece's frame: its hold point (its own edge, A in from it) at (x, y), turned by ang, stretched by s along the pull */
     /* sy / sk: a piece is SOFT (user 2026-10-29: the tear "looks like a strong rigid thing, not a soft pizza") - as it is let go
