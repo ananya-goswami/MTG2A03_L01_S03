@@ -1382,6 +1382,11 @@ body.is-start .sg-sky{
 .stage-bleed[data-bg="pariroom"] .b-bl{transform:scale(var(--scale,1)) translate(25px,1475px) scale(-1);}
 .stage-bleed[data-bg="pariroom"] .b-br{transform:scale(var(--scale,1)) translate(2641px,1475px) scale(-1);}
 
+.stage-bleed .b-l2,.stage-bleed .b-r2{display:none;}
+.stage-bleed[data-bg="pariroom"] .b-l2,.stage-bleed[data-bg="pariroom"] .b-r2{display:block;width:17px;filter:none;background-color:transparent !important;}
+.stage-bleed[data-bg="pariroom"] .b-l2{transform:scale(var(--scale,1)) translateX(-15.758px);background-position:0 0 !important;}
+.stage-bleed[data-bg="pariroom"] .b-r2{transform:scale(var(--scale,1)) translateX(1331.758px);background-position:-1347.516px 0 !important;}
+
 #stage[data-bg="pariroom"] .header-row,#stage[data-bg="pariroom"] #swBuddy{visibility:hidden !important;pointer-events:none !important;}
 .eq-cat{transform-box:fill-box;transform-origin:50% 100%;animation:eqCatBreath 3.4s ease-in-out infinite;}
 @keyframes eqCatBreath{0%,100%{transform:scale(1,1)}45%{transform:scale(1.012,1.045)}}
@@ -2757,7 +2762,7 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
 
 <div class="stage-wrap">
 
-<div class="stage-bleed" id="stageBleed" aria-hidden="true"><i class="b-l"></i><i class="b-r"></i><i class="b-t"></i><i class="b-b"></i><i class="b-tl"></i><i class="b-tr"></i><i class="b-bl"></i><i class="b-br"></i></div>
+<div class="stage-bleed" id="stageBleed" aria-hidden="true"><i class="b-l"></i><i class="b-r"></i><i class="b-t"></i><i class="b-b"></i><i class="b-tl"></i><i class="b-tr"></i><i class="b-bl"></i><i class="b-br"></i><i class="b-l2"></i><i class="b-r2"></i></div>
 <div class="stage" id="stage">
 
   <div class="stage-inner">
