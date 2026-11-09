@@ -94,11 +94,16 @@
         "prompt": "vo_t3_a",
         "trace": "vo_trace",
         "match": "vo_t3_match",
-        "equal": "vo_t3_equal"
+        "equal": "vo_t3_equal",
+        "aadha": "vo_t5_aadha"
       },
       "data": {
         "axis": "vertical",
-        "give_to_kids": true
+        "give_to_kids": true,
+        "aadha_at": [
+          4.77,
+          5.15
+        ]
       }
     },
     {
@@ -131,8 +136,8 @@
         "rise_in": true,
         "aadha_concept": true,
         "aadha_at": [
-          4.76,
-          5.44
+          4.77,
+          5.15
         ]
       }
     },
@@ -159,7 +164,7 @@
         "prompt": "vo_g1_prompt",
         "correct": "vo_split_ok",
         "wa1": "vo_split_wa1",
-        "wa2": "vo_g1_wa2",
+        "wa2": "vo_dot_wa2",
         "wa3": "vo_split_wa3"
       },
       "data": {
@@ -174,7 +179,7 @@
           270,
           245,
           215,
-          190,
+          180,
           140,
           115
         ],
@@ -195,6 +200,16 @@
         "guide": [
           0,
           4
+        ],
+        "centre_lines": [
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            7
+          ]
         ]
       }
     },
@@ -208,7 +223,7 @@
         "prompt": "vo_g2_prompt",
         "correct": "vo_split_ok",
         "wa1": "vo_split_wa1",
-        "wa2": "vo_g2_wa2",
+        "wa2": "vo_dot_wa2",
         "wa3": "vo_split_wa3"
       },
       "data": {
@@ -232,6 +247,16 @@
         "guide": [
           1,
           5
+        ],
+        "centre_lines": [
+          [
+            1,
+            5
+          ],
+          [
+            7,
+            3
+          ]
         ]
       }
     },
@@ -245,7 +270,7 @@
         "prompt": "vo_g3_prompt",
         "correct": "vo_g3_ok",
         "wa1": "vo_split_wa1",
-        "wa2": "vo_g3_wa2",
+        "wa2": "vo_dot_wa2",
         "wa3": "vo_split_wa3"
       },
       "data": {
@@ -302,6 +327,16 @@
           [
             0,
             0.5
+          ]
+        ],
+        "centre_lines": [
+          [
+            1,
+            5
+          ],
+          [
+            7,
+            3
           ]
         ]
       }
@@ -711,7 +746,12 @@
           {
             "key": "window",
             "shape": "rect",
-            "box": [20, 35.2, 160, 129.6],
+            "box": [
+              20,
+              35.2,
+              160,
+              129.6
+            ],
             "color": "#8CCBF5",
             "lines": [
               [
@@ -748,7 +788,7 @@
             "correct": 1
           },
           {
-            "key": "rangoli",
+            "key": "rug",
             "shape": "circle",
             "color": "#FF8F1F",
             "lines": [
@@ -774,29 +814,29 @@
               ],
               [
                 [
-                  20,
-                  100
+                  100,
+                  20
                 ],
                 [
-                  180,
-                  100
+                  100,
+                  180
                 ]
               ]
             ],
             "correct": 2
           },
           {
-            "key": "rug",
+            "key": "pinboard",
             "shape": "square",
             "color": "#A77BE8",
             "lines": [
               [
                 [
-                  30,
+                  100,
                   30
                 ],
                 [
-                  170,
+                  100,
                   170
                 ]
               ],
@@ -861,15 +901,13 @@
       "vo_t5_aadha": "assets/voiceover/vo_t5_aadha.ogg",
       "vo_t6": "assets/voiceover/vo_t6.ogg",
       "vo_g1_prompt": "assets/voiceover/vo_g1_prompt.ogg",
+      "vo_dot_wa2": "assets/voiceover/vo_dot_wa2.ogg",
       "vo_split_ok": "assets/voiceover/vo_split_ok.ogg",
       "vo_split_wa1": "assets/voiceover/vo_split_wa1.ogg",
-      "vo_g1_wa2": "assets/voiceover/vo_g1_wa2.ogg",
       "vo_split_wa3": "assets/voiceover/vo_split_wa3.ogg",
       "vo_g2_prompt": "assets/voiceover/vo_g2_prompt.ogg",
-      "vo_g2_wa2": "assets/voiceover/vo_g2_wa2.ogg",
       "vo_g3_prompt": "assets/voiceover/vo_g3_prompt.ogg",
       "vo_g3_ok": "assets/voiceover/vo_g3_ok.ogg",
-      "vo_g3_wa2": "assets/voiceover/vo_g3_wa2.ogg",
       "vo_g4_prompt": "assets/voiceover/vo_g4_prompt.ogg",
       "vo_g4_ok": "assets/voiceover/vo_g4_ok.ogg",
       "vo_g4_wa1": "assets/voiceover/vo_g4_wa1.ogg",
@@ -904,9 +942,9 @@
       "vo_d_next": "assets/voiceover/vo_d_next.ogg",
       "vo_d_done": "assets/voiceover/vo_d_done.ogg",
       "vo_well_done": "assets/voiceover/vo_well_done.ogg",
-      "vo_pt_tutorial": "assets/voiceover/vo_pt_tutorial.wav",
-      "vo_pt_guided": "assets/voiceover/vo_pt_guided.wav",
-      "vo_pt_practice": "assets/voiceover/vo_pt_practice.wav",
+      "vo_pt_tutorial": "assets/voiceover/vo_pt_tutorial.ogg",
+      "vo_pt_guided": "assets/voiceover/vo_pt_guided.ogg",
+      "vo_pt_practice": "assets/voiceover/vo_pt_practice.ogg",
       "sfx_celebrate": "assets/voiceover/sfx_celebrate.ogg"
     },
     "audio_text": {
@@ -929,15 +967,13 @@
       "vo_t5_aadha": "जब हम किसी पूरी चीज़ को दो बराबर हिस्सों में बाँटते हैं, तो हर हिस्सा आधा कहलाता है।",
       "vo_t6": "अब हमारे पास दो बराबर हिस्से हैं।",
       "vo_g1_prompt": "दो बिंदु मिलाकर इस आकृति को दो बराबर हिस्सों में बाँटो।",
+      "vo_dot_wa2": "ध्यान से देखिए।",
       "vo_split_ok": "बहुत बढ़िया! ये दोनों बराबर हिस्से हैं।",
       "vo_split_wa1": "ये दोनों हिस्से बराबर नहीं हैं। फिर से कोशिश करो।",
-      "vo_g1_wa2": "ध्यान से देखो! कौन-सी रेखा वृत्त को दो बराबर हिस्सों में बाँटेगी?",
       "vo_split_wa3": "देखो, इस रेखा से दो बराबर हिस्से बनेंगे। अब इस पर उँगली चलाओ।",
       "vo_g2_prompt": "अब इस वर्ग को दो बराबर हिस्सों में बाँटो।",
-      "vo_g2_wa2": "ध्यान से देखो! कौन-सी रेखा वर्ग को दो बराबर हिस्सों में बाँटेगी?",
       "vo_g3_prompt": "अब इस आयत को दो बराबर हिस्सों में बाँटो।",
       "vo_g3_ok": "शाबाश! तुमने दो बराबर हिस्से बनाए!",
-      "vo_g3_wa2": "ध्यान से देखो! कौन-सी रेखा आयत को दो बराबर हिस्सों में बाँटेगी?",
       "vo_g4_prompt": "कौन-सा वर्ग दो बराबर हिस्सों में बँटा है? सही वर्ग पर टैप करो।",
       "vo_g4_ok": "शाबाश! दोनों हिस्से बराबर हैं।",
       "vo_g4_wa1": "फिर से देखो। कौन-सा वर्ग दो बराबर हिस्सों में बँटा है?",
