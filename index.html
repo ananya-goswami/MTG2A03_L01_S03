@@ -212,7 +212,7 @@ body.loaded .sg-acell{animation-play-state:running;}
 
 .end-screen{position:absolute;inset:0;z-index:90;display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:transparent;overflow:hidden;}
 
-.end-bg{position:fixed;inset:0;background:#FDE9A8 url("assets/end_screen.webp") center/cover no-repeat;display:none;pointer-events:none;z-index:0;}
+.end-bg{position:fixed;inset:0;background:#FDE9A8 var(--u-end-screen, url("assets/end_screen.webp")) center/cover no-repeat;display:none;pointer-events:none;z-index:0;}
 body.is-end .end-bg{display:block;}
 body.is-end{background:#FDE9A8 !important;}
 body.is-end .stage{background:transparent !important;}
@@ -1369,7 +1369,7 @@ body.is-start .sg-sky{
 
 #stage[data-bg="bedroom"]{background:url(assets/bg_bedroom.webp) -1px calc(var(--horizon,696px) - 756px) / calc(100% + 2px) auto no-repeat,#D9B07D;}
 
-#stage[data-bg="pariroom"]{background:url(assets/bg_room_half.webp) 50% 0 / auto 100% no-repeat,#F2C49E;}
+#stage[data-bg="pariroom"]{background:var(--u-room-half, url(assets/bg_room_half.webp)) 50% 0 / auto 100% no-repeat,#F2C49E;}
 #stage[data-bg="pariroom"] .slide-stage{overflow:visible;}
 
 .stage-bleed[data-bg="pariroom"] i{filter:blur(11px);}
@@ -9141,17 +9141,19 @@ const ASSET_SIZES = {
 const EQBlink = (function(){
   const ready = {}, has = f => Object.prototype.hasOwnProperty.call(ASSET_SIZES, f);
   const shut = f =>{ const b = f.replace(/\.webp$/, "_blink.webp"); return /assets\/char_(aaru|pari)(_full)?\.webp$/.test(f) && has(b) ? b : null; };
-  const load = f =>{ if(!ready[f]){ ready[f] = "loading"; const im = new Image(); im.src = f;
+  const load = f =>{ if(!ready[f]){ ready[f] = "loading"; const im = new Image(); im.src = Assets.url(f);
     (im.decode ? im.decode() : Promise.resolve()).then(()=>{ ready[f] = true; }, ()=>{ delete ready[f]; }); } return ready[f] === true; };
   const seen = im =>{ if(!im.isConnected) return false; const r = im.getBoundingClientRect(); return r.width > 4 && r.height > 4; };
-  function blink(im, open, b){ im._eqBlink = 1; im.setAttribute("href", b);
-    setTimeout(()=>{ if(im.getAttribute("href") === b) im.setAttribute("href", open); im._eqBlink = 0; }, 130); }
+
+  const pathOf = im => im.getAttribute("data-asset") || im.getAttribute("href") || "";
+  function blink(im, open, b){ im._eqBlink = 1; const bu = Assets.url(b), ou = Assets.url(open); im.setAttribute("href", bu);
+    setTimeout(()=>{ if(im.getAttribute("href") === bu) im.setAttribute("href", ou); im._eqBlink = 0; }, 130); }
   setInterval(()=>{
     if(document.hidden || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
     const now = Date.now();
     document.querySelectorAll("image").forEach(im =>{
       if(im._eqBlink) return;
-      const open = im.getAttribute("href") || "", b = shut(open); if(!b) return;
+      const open = pathOf(im), b = shut(open); if(!b) return;
       if(!im._eqNext){ im._eqNext = now + 1200 + Math.random() * 3500; load(b); return; }
       if(now < im._eqNext || !seen(im) || !load(b)) return;
       im._eqNext = now + 2500 + Math.random() * 3500;
@@ -9193,12 +9195,15 @@ const Assets = (function(){
     items.set(src, it); return it;
   }
   function ready(){ if(OFF) return true; if(!items.size) return false; for(const it of items.values()) if(it.st !== 2) return false; return true; }
+  const CSS_COPY = { "assets/bg_room_half.webp": "--u-room-half", "assets/end_screen.webp": "--u-end-screen" };
   function finish(it){
     if(it.st === 2) return;
     if(it.st === 1) active--;
     it.st = 2;
 
     document.querySelectorAll('img[data-src="' + it.src + '"]').forEach(im =>{ im.src = it.src; im.removeAttribute("data-src"); });
+
+    if(CSS_COPY[it.src] && blobs.has(it.src)) document.documentElement.style.setProperty(CSS_COPY[it.src], 'url("' + url(it.src) + '")');
     it.cbs.splice(0).forEach(f =>{ try{ f(); }catch(e){} });
     pump();
   }
@@ -9378,25 +9383,26 @@ const Assets = (function(){
 
   function fresh(src){ const b = blobs.get(src); return b ? URL.createObjectURL(b) : src + "?r=" + Date.now(); }
 
+  const attrOf = el => el.namespaceURI === "http://www.w3.org/2000/svg" ? "href" : "src";
   function swap(el){
     if(!el || el._noBlob || !el.getAttribute) return;
-    const s = el.getAttribute("src");
+    const A = attrOf(el), s = el.getAttribute(A);
     if(!s || !blobs.has(s) || (el.closest && el.closest("#startGate"))) return;
     el.setAttribute("data-asset", s);
     if(!el._blobFallback){
       el._blobFallback = true;
       el.addEventListener("error", function onErr(){
-        if(!/^blob:/.test(el.getAttribute("src") || "")) return;
+        if(!/^blob:/.test(el.getAttribute(A) || "")) return;
         el.removeEventListener("error", onErr); el._noBlob = true;
         const playing = el.tagName !== "IMG" && el._wantPlay;
-        el.setAttribute("src", el.getAttribute("data-asset"));
+        el.setAttribute(A, el.getAttribute("data-asset"));
         if(playing && el.play) el.play().catch(()=>{});
       });
-      if(el.tagName !== "IMG"){ el.addEventListener("play", ()=>{ el._wantPlay = true; }); el.addEventListener("pause", ()=>{ el._wantPlay = false; }); }
+      if(el.tagName !== "IMG" && A === "src"){ el.addEventListener("play", ()=>{ el._wantPlay = true; }); el.addEventListener("pause", ()=>{ el._wantPlay = false; }); }
     }
-    el.setAttribute("src", url(s));
+    el.setAttribute(A, url(s));
   }
-  const SWAP_SEL = "img[src],audio[src],video[src],source[src]";
+  const SWAP_SEL = "img[src],audio[src],video[src],source[src],image[href]";
   if(HTTP && !OFF && typeof MutationObserver === "function"){
     new MutationObserver(recs =>{
       for(const r of recs){
@@ -9407,7 +9413,7 @@ const Assets = (function(){
           if(n.firstElementChild) n.querySelectorAll(SWAP_SEL).forEach(swap);
         });
       }
-    }).observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ["src"] });
+    }).observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ["src", "href"] });
   }
   return { CRIT: CRIT, GATE: GATE, UI: UI, REST: REST, start: start, critical: critical, whenSlide: whenSlide,
            ready: ready, blob: src => blobs.get(src) || null, blobOf: blobOf, url: url, fresh: fresh };
