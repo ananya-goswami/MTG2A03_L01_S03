@@ -1870,6 +1870,10 @@ body:has(.cf.cf-measuring) #stage,body:has(.cf.cf-measuring) #stage .slide-stage
 
 body.vo-speaking .sg-vo,body.vo-speaking .audio-chip,body.vo-speaking .tut-audio{filter:grayscale(1) opacity(.5);pointer-events:none;cursor:default;}
 
+.sg-vo,.audio-chip,.tut-audio{border-radius:50%;outline:none !important;-webkit-tap-highlight-color:transparent;}
+.sg-vo:focus,.sg-vo:focus-visible,.audio-chip:focus,.audio-chip:focus-visible,.tut-audio:focus,.tut-audio:focus-visible{outline:none !important;box-shadow:none;}
+.sg-vo::-moz-focus-inner{border:0;}
+
 .mq-opt.hint-on{border-color:#00B132;box-shadow:0 4px 0 #D9D9D9,0 0 0 6px rgba(0,177,50,.28);}
 .mq-opt.locked{pointer-events:none;}
 @media (prefers-reduced-motion:reduce){ .nav-btn.active,.stage .nav-btn.active{animation:none;} }
@@ -2710,6 +2714,9 @@ body.eq-veiled .header-row,body.eq-veiled #swBuddy{opacity:calc(1 - var(--eqveil
 .eq-cutopt.key .eq-cutopt-dash{stroke:#FFE066;stroke-width:9px;animation:eqHalo 1s ease-in-out infinite;}
 .eq-cutopt.off{opacity:.2;}
 .eq-follow .eq-cutopt-ink{transition:opacity .15s;}
+
+.eq-follow .eq-cutopt-ink{stroke-width:7px;stroke-dasharray:.01 14;}
+.eq-cutopt-inkhalo{stroke:#FFFFFF;stroke-width:11px;stroke-linecap:round;stroke-dasharray:.01 14;transition:opacity .15s;}
 .eq-scissors{pointer-events:none;filter:drop-shadow(0 3px 3px rgba(0,0,0,.3));}
 .eq-scissor-cut{stroke:#0B2E6B;stroke-opacity:.55;stroke-width:3px;stroke-linecap:round;stroke-dasharray:1 0;pointer-events:none;}
 .eq-scooter{pointer-events:none;filter:drop-shadow(0 4px 3px rgba(74,32,8,.35));}
@@ -7477,8 +7484,20 @@ const SlideModules = {
         const c = focus || cards.find(x => !x._done); if(!c || busy || left <= 0) return;
         const k = scale(), R = root.getBoundingClientRect(), r = c.getBoundingClientRect(), be = binEq.getBoundingClientRect(), bu = binUn.getBoundingClientRect();
         const loc = (x, y)=> [(x - R.left) / k, (y - R.top) / k];
-        const p0 = loc(r.left + r.width / 2, r.top + r.height / 2), want = focus ? (focus._eq ? be : bu) : null;
-        const p1 = want ? loc(want.left + want.width / 2, want.top + want.height * .6) : loc((be.right + bu.left) / 2, be.top + be.height * .55);
+        const p0 = loc(r.left + r.width / 2, r.top + r.height / 2), want = c._eq ? be : bu;
+
+        const inR = (c._eq ? binEq : binUn).querySelector(".eq-bin-in").getBoundingClientRect();
+        const inBox = [...(c._eq ? binEq : binUn).querySelectorAll(".eq-card.in-bin")].map(x => x.getBoundingClientRect());
+        const gw = r.width * .62, gh = r.height * .62, pad = 12 * k;
+        const ey = inBox.length ? inBox[0].top + inBox[0].height / 2 : want.top + want.height * .6, mid = inR.left + inR.width / 2;
+        const free = x => inBox.every(q => x + gw / 2 + pad <= q.left || x - gw / 2 - pad >= q.right || ey + gh / 2 <= q.top || ey - gh / 2 >= q.bottom);
+        let ex = mid;
+        for(let s = 0; s <= inR.width / 2; s += 4 * k){
+          const L = mid - s, Rt = mid + s, lo = inR.left + gw / 2, hi = inR.right - gw / 2;
+          if(Rt <= hi && free(Rt)){ ex = Rt; break; }
+          if(L >= lo && free(L)){ ex = L; break; }
+        }
+        const p1 = loc(ex, ey);
         const g = c.cloneNode(true); g.className = "eq-card eq-ghost"; g.removeAttribute("style");
         Object.assign(g.style, { position: "absolute", left: (p0[0] - r.width / k / 2) + "px", top: (p0[1] - r.height / k / 2) + "px", margin: 0 });
         const h = document.createElement("img"); h.src = "assets/nudge_hand_new.svg"; h.className = "eq-ghost-hand";
@@ -7625,8 +7644,8 @@ const SlideModules = {
         const snd = (n, v)=>{ try{ playSfxFile(n, v); }catch(_){} };
         return { g, ride(a, b, ms, o){
           o = o || {}; const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), Ln = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1, nx = -(b[1] - a[1]) / Ln, ny = (b[0] - a[0]) / Ln;
-          const flat = Math.abs(Math.sin(ang)) < .37;
-          const up = flat ? (Math.cos(ang) >= 0 ? ang : ang + Math.PI) : (Math.sin(ang) > 0 ? ang + Math.PI : ang), ux = Math.cos(up), uy = Math.sin(up), rot = up * 180 / Math.PI + 90;
+
+          const up = T.mode === "score" ? ang + Math.PI : ang, ux = Math.cos(up), uy = Math.sin(up), rot = up * 180 / Math.PI + 90;
 
           const tr = rot * Math.PI / 180, tc = Math.cos(tr), ts = Math.sin(tr);
           const corners = [[0, 0], [T.cw, 0], [0, T.ch], [T.cw, T.ch]].map(([x, y])=>{ const lx = (x - T.at[0]) * k, ly = (y - T.at[1]) * k; return [lx * tc - ly * ts, lx * ts + ly * tc]; });
@@ -7911,9 +7930,7 @@ const SlideModules = {
 
           { const toR = p => toMat(it, p);
 
-            let A0 = toR(pick.a), B0 = toR(pick.b);
-            const flat = Math.abs(B0[1] - A0[1]) < Math.abs(B0[0] - A0[0]) * .4;
-            if(flat ? A0[0] > B0[0] : (it.key === "window") === (A0[1] > B0[1])) [A0, B0] = [B0, A0];
+            const A0 = toR(pick.a), B0 = toR(pick.b);
             await S.anim(SC.ride(A0, B0, 1500, { gap: "#2FA37E", edge: "#3B2A55", w: 7 })); }
           const r = EQ.split(it.s, pick.a, pick.b);
           lineG.innerHTML = "";
@@ -7997,38 +8014,57 @@ const SlideModules = {
       function cutPick(it){
         return new Promise(res =>{
           const m = p => fromMat(it, p);
+
           const g = E("g", { class: "eq-cutopt eq-follow", opacity: 0 }, lineG), mk = cls => E("line", { class: cls, "vector-effect": "non-scaling-stroke" }, g);
-          const under = mk("eq-cutopt-under"), dash = mk("eq-cutopt-dash"), ink = mk("eq-cutopt-ink");
+          const under = mk("eq-cutopt-under"), dash = mk("eq-cutopt-dash"), under2 = mk("eq-cutopt-under"), dash2 = mk("eq-cutopt-dash"),
+                inkH = mk("eq-cutopt-inkhalo"), ink = mk("eq-cutopt-ink");
           const setL = (l, a, b)=>{ l.setAttribute("x1", a[0].toFixed(1)); l.setAttribute("y1", a[1].toFixed(1)); l.setAttribute("x2", b[0].toFixed(1)); l.setAttribute("y2", b[1].toFixed(1)); };
-          let path = null, cur = null, doneP = false, shownOk = null;
+          let path = null, cur = null, doneP = false, shownOk = null, hover = false, restT = 0;
           const span = c =>{ let t0 = 1, t1 = 0; const d = EQ.sub(c.line[1], c.line[0]), L2 = d[0] * d[0] + d[1] * d[1] || 1;
             path.forEach(q =>{ const t = Math.max(0, Math.min(1, ((q[0] - c.line[0][0]) * d[0] + (q[1] - c.line[0][1]) * d[1]) / L2)); if(t < t0) t0 = t; if(t > t1) t1 = t; });
             return t1 > t0 ? [t0, t1] : [0, 0]; };
           const pos = (c, t)=> [c.line[0][0] + (c.line[1][0] - c.line[0][0]) * t, c.line[0][1] + (c.line[1][1] - c.line[0][1]) * t];
           const finish = c =>{ const r = EQ.split(it.s, c.line[0], c.line[1]);
             if(!r.cuts) return false;
-            doneP = true; off(); setL(ink, c.line[0], c.line[1]); try{ sfxTap(); }catch(_){}
+            doneP = true; off(); setL(inkH, c.line[0], c.line[1]); setL(ink, c.line[0], c.line[1]); inkH.style.opacity = ink.style.opacity = 1; [under, dash, under2, dash2].forEach(l => setL(l, c.line[1], c.line[1])); try{ sfxTap(); }catch(_){}
             res({ a: c.line[0], b: c.line[1], ok: c.ok }); return true; };
           const update = ()=>{
-            const s0 = path[0], p = path[path.length - 1]; if(EQ.len(EQ.sub(p, s0)) < 14) return;
+            const s0 = path[0], p = path[path.length - 1]; if(EQ.len(EQ.sub(p, s0)) < 8) return;
             const c = freeLine(it, s0, p); if(!c) return;
             const first = !cur; cur = c;
-            setL(under, c.line[0], c.line[1]); setL(dash, c.line[0], c.line[1]);
             if(first) EQ.tween(140, t => g.setAttribute("opacity", t.toFixed(3)));
             if(shownOk !== c.ok){ shownOk = c.ok; if(c.ok) try{ sfxTap(); }catch(_){} }
-            const [t0, t1] = span(c); setL(ink, pos(c, t0), pos(c, t1)); ink.style.opacity = t1 > t0 ? 1 : 0;
-            if(t1 - t0 >= .6) finish(c); };
+            const [t0, t1] = span(c), traced = t1 > t0, A = pos(c, t0), B = pos(c, t1);
+            setL(under, traced ? B : c.line[0], c.line[1]); setL(dash, traced ? B : c.line[0], c.line[1]);
+            setL(under2, c.line[0], traced ? A : c.line[0]); setL(dash2, c.line[0], traced ? A : c.line[0]);
+            setL(inkH, A, B); setL(ink, A, B); inkH.style.opacity = ink.style.opacity = traced ? 1 : 0;
+            if(!hover && t1 - t0 >= .6) finish(c); };
           const add = q =>{ const last = path[path.length - 1], L = last ? EQ.len(EQ.sub(q, last)) : 0, n = Math.max(1, Math.ceil(L / 4));
             for(let i = 1; i <= n; i++) path.push(last ? [last[0] + (q[0] - last[0]) * i / n, last[1] + (q[1] - last[1]) * i / n] : q); };
-          const pd = e =>{ if(doneP) return; const q = m(EQ.toSvg(svg, e)); if(q[0] < -80 || q[0] > 280 || q[1] < -80 || q[1] > 280) return;
-            path = [q]; cur = null; shownOk = null; ink.style.opacity = 0; g.setAttribute("opacity", 0);
+          const near = q => q[0] >= -80 && q[0] <= 280 && q[1] >= -80 && q[1] <= 280;
+          const fade = ()=>{ const o0 = parseFloat(g.getAttribute("opacity")) || 0; if(o0 > 0) EQ.tween(220, t => g.setAttribute("opacity", (o0 * (1 - t)).toFixed(3))); };
+          const fresh = q =>{ path = [q]; cur = null; shownOk = null; inkH.style.opacity = ink.style.opacity = 0; g.setAttribute("opacity", 0); };
+          const pd = e =>{ if(doneP) return; const q = m(EQ.toSvg(svg, e));
+
+            if(hover && cur){ const [t0, t1] = span(cur); if(t1 - t0 >= .3 && finish(cur)){ e.preventDefault(); return; } }
+            hover = false; clearTimeout(restT);
+            if(!near(q)) return;
+            fresh(q);
             try{ svg.setPointerCapture(e.pointerId); }catch(_){} e.preventDefault(); };
-          const mv = e =>{ if(!path || doneP) return; add(m(EQ.toSvg(svg, e))); update(); };
-          const up = ()=>{ if(!path || doneP) return;
+          const mv = e =>{ if(doneP) return; const q = m(EQ.toSvg(svg, e));
+            if(path && !hover){ add(q); update(); return; }
+            if(e.pointerType === "touch" || e.buttons) return;
+
+            if(!near(q)){ if(hover){ hover = false; path = null; cur = null; fade(); } return; }
+            if(!hover){ hover = true; fresh(q); return; }
+            add(q); update();
+            clearTimeout(restT);
+            restT = setTimeout(()=>{ if(!hover || doneP || !path) return; const sp = cur ? span(cur) : [0, 0];
+              if(sp[1] - sp[0] < .3){ const p = path[path.length - 1]; path = [p]; cur = null; shownOk = null; fade(); } }, 450); };
+          const up = ()=>{ if(!path || doneP || hover) return;
             if(cur){ const [t0, t1] = span(cur); if(t1 - t0 >= .3 && finish(cur)) return; }
-            path = null; cur = null;
-            const o0 = parseFloat(g.getAttribute("opacity")) || 0; EQ.tween(220, t => g.setAttribute("opacity", (o0 * (1 - t)).toFixed(3))); };
-          const off = ()=>{ svg.removeEventListener("pointerdown", pd); svg.removeEventListener("pointermove", mv); svg.removeEventListener("pointerup", up); svg.removeEventListener("pointercancel", up); };
+            path = null; cur = null; fade(); };
+          const off = ()=>{ clearTimeout(restT); svg.removeEventListener("pointerdown", pd); svg.removeEventListener("pointermove", mv); svg.removeEventListener("pointerup", up); svg.removeEventListener("pointercancel", up); };
           svg.addEventListener("pointerdown", pd); svg.addEventListener("pointermove", mv); svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
         });
       }
