@@ -2668,7 +2668,10 @@ body.vo-lock .dev-nav{z-index:150001;}
 .eq-card.picked{border-color:#386AF6;box-shadow:0 0 0 5px rgba(56,106,246,.25);}
 .eq-card.outline .eq-cuttable > .eq-piece:nth-of-type(1) .eq-edge{stroke:#FF7A00;stroke-width:9px;stroke-dasharray:12 7;animation:eqDash 1s linear infinite;}
 @keyframes eqDash{to{stroke-dashoffset:-38}}
-.eq-card.eq-wiggle-card{animation:eqCardNo .6s ease-in-out;border-color:#E2202C;}
+
+.eq-card.eq-wiggle-card{animation:eqCardNo .6s ease-in-out;}
+.stage .opt-cell.eq-opt.wg-wrong,.stage .opt-cell.eq-opt.wg-wrong:hover{border:2px solid #D5D8DF !important;box-shadow:0 4px 0 #D9D9D9 !important;}
+.opt-cell.eq-opt > .wg-fx{display:none !important;}
 @keyframes eqCardNo{0%,100%{rotate:0deg}20%{rotate:-6deg}40%{rotate:6deg}60%{rotate:-4deg}80%{rotate:3deg}}
 .eq-card.in-bin{width:92px;height:76px;box-shadow:none;cursor:default;border-color:#00B132;background:#E9FBEF;animation:eqPop .4s cubic-bezier(.34,1.5,.6,1);}
 .eq-card.in-bin .eq-card-svg{width:66px;height:66px;}
