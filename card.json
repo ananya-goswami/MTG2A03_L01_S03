@@ -46,7 +46,7 @@
     "split_correct",
     "pick_equal_correct",
     "sort_done",
-    "decor_done",
+    "hill_done",
     "mastery_score",
     "lesson_completed"
   ],
@@ -690,180 +690,39 @@
       "id": "P5",
       "phase": "practice",
       "eis": "enactive",
-      "type": "DECOR_GAME",
-      "prompt_hi": "परी का कमरा सजाओ!",
+      "type": "HILL_GAME",
+      "prompt_hi": "आरू और परी के साथ पहाड़ी पर चढ़ो!",
       "audio": {
-        "prompt": "vo_d_intro",
-        "cut": "vo_d_cut",
+        "prompt": "vo_t2_prompt",
+        "draw": "vo_h_draw",
         "correct": "vo_split_ok",
-        "wa1": "vo_split_wa1",
+        "ok2": "vo_g4_ok",
+        "ok3": "vo_t3_equal",
+        "ok4": "vo_p4_ok_eq",
+        "ok5": "vo_t5_equal",
+        "wa1": "vo_t2_unequal",
+        "next": "vo_t2_next",
         "wa2": "vo_d_wa2",
-        "wa3": "vo_d_wa3",
-        "next": "vo_d_next",
-        "done": "vo_d_done"
+        "wa3": "vo_split_wa3",
+        "look": "vo_h_look",
+        "go": "vo_h_go",
+        "tap": "vo_h_tap",
+        "top": "vo_h_top"
       },
       "data": {
-        "bg": "pariroom",
-        "items": [
-          {
-            "key": "bunting",
-            "shape": "flag",
-            "color": "#FF7A7A",
-            "lines": [
-              [
-                [
-                  100,
-                  172
-                ],
-                [
-                  100,
-                  28
-                ]
-              ],
-              [
-                [
-                  100,
-                  172
-                ],
-                [
-                  52,
-                  28
-                ]
-              ],
-              [
-                [
-                  100,
-                  172
-                ],
-                [
-                  150,
-                  28
-                ]
-              ]
-            ],
-            "correct": 0
-          },
-          {
-            "key": "window",
-            "shape": "rect",
-            "box": [
-              20,
-              35.2,
-              160,
-              129.6
-            ],
-            "color": "#8CCBF5",
-            "lines": [
-              [
-                [
-                  62,
-                  58
-                ],
-                [
-                  62,
-                  142
-                ]
-              ],
-              [
-                [
-                  100,
-                  58
-                ],
-                [
-                  100,
-                  142
-                ]
-              ],
-              [
-                [
-                  20,
-                  82
-                ],
-                [
-                  180,
-                  82
-                ]
-              ]
-            ],
-            "correct": 1
-          },
-          {
-            "key": "rug",
-            "shape": "circle",
-            "color": "#FF8F1F",
-            "lines": [
-              [
-                [
-                  22,
-                  74
-                ],
-                [
-                  178,
-                  74
-                ]
-              ],
-              [
-                [
-                  64,
-                  22
-                ],
-                [
-                  64,
-                  178
-                ]
-              ],
-              [
-                [
-                  100,
-                  20
-                ],
-                [
-                  100,
-                  180
-                ]
-              ]
-            ],
-            "correct": 2
-          },
-          {
-            "key": "pinboard",
-            "shape": "square",
-            "color": "#A77BE8",
-            "lines": [
-              [
-                [
-                  100,
-                  30
-                ],
-                [
-                  100,
-                  170
-                ]
-              ],
-              [
-                [
-                  30,
-                  120
-                ],
-                [
-                  170,
-                  120
-                ]
-              ],
-              [
-                [
-                  66,
-                  30
-                ],
-                [
-                  66,
-                  170
-                ]
-              ]
-            ],
-            "correct": 0
-          }
-        ]
+        "bg": "hill",
+        "foods": [
+          "paratha",
+          "sandwich",
+          "dhokla",
+          "biscuit",
+          "chocolate"
+        ],
+        "lines_hi": {
+          "start_pari": "देखो! हम ऊपर तक जाएंगे!",
+          "start_aaru": "चलो, शुरू करते हैं!",
+          "top": "वाह! बहुत बढ़िया!"
+        }
       }
     },
     {
@@ -935,17 +794,17 @@
       "vo_p4_wa2": "assets/voiceover/vo_p4_wa2.ogg",
       "vo_p4_wa3_eq": "assets/voiceover/vo_p4_wa3_eq.ogg",
       "vo_p4_wa3_uneq": "assets/voiceover/vo_p4_wa3_uneq.ogg",
-      "vo_d_intro": "assets/voiceover/vo_d_intro.ogg",
-      "vo_d_cut": "assets/voiceover/vo_d_cut.ogg",
       "vo_d_wa2": "assets/voiceover/vo_d_wa2.ogg",
-      "vo_d_wa3": "assets/voiceover/vo_d_wa3.ogg",
-      "vo_d_next": "assets/voiceover/vo_d_next.ogg",
-      "vo_d_done": "assets/voiceover/vo_d_done.ogg",
+      "vo_h_draw": "assets/voiceover/vo_h_draw.ogg",
       "vo_well_done": "assets/voiceover/vo_well_done.ogg",
       "vo_pt_tutorial": "assets/voiceover/vo_pt_tutorial.ogg",
       "vo_pt_guided": "assets/voiceover/vo_pt_guided.ogg",
       "vo_pt_practice": "assets/voiceover/vo_pt_practice.ogg",
-      "sfx_celebrate": "assets/voiceover/sfx_celebrate.ogg"
+      "sfx_celebrate": "assets/voiceover/sfx_celebrate.ogg",
+      "vo_h_look": "assets/voiceover/vo_h_look.ogg",
+      "vo_h_go": "assets/voiceover/vo_h_go.ogg",
+      "vo_h_tap": "assets/voiceover/vo_h_tap.ogg",
+      "vo_h_top": "assets/voiceover/vo_h_top.ogg"
     },
     "audio_text": {
       "vo_landing": "नमस्ते, दोस्त! मैं हूँ स्विफ्टी। आओ, आरू और परी के साथ मिलकर सीखते हैं कि कैसे पहचानें कि किसी चीज़ के दो हिस्से बराबर हैं या नहीं!",
@@ -1001,16 +860,16 @@
       "vo_p4_wa2": "फिर से देखो। दोनों हिस्सों की तुलना करो और सही डिब्बे में डालो।",
       "vo_p4_wa3_eq": "यह आकृति बराबर हिस्सों में बँटी है। इसे बराबर हिस्से वाले डिब्बे में डालो।",
       "vo_p4_wa3_uneq": "यह आकृति असमान हिस्सों में बँटी है। इसे असमान हिस्से वाले डिब्बे में डालो।",
-      "vo_d_intro": "आओ, परी का कमरा सजाएँ! किसी भी चीज़ पर टैप करो।",
-      "vo_d_cut": "कागज़ को दो बराबर हिस्सों में काटना है। सही रेखा पर कैंची चलाओ।",
       "vo_d_wa2": "ध्यान से देखो! कौन-सी रेखा दो बराबर हिस्से बनाएगी?",
-      "vo_d_wa3": "देखो, इस रेखा से दो बराबर हिस्से बनेंगे। इस पर कैंची चलाओ।",
-      "vo_d_next": "अब किसी दूसरी चीज़ पर टैप करो।",
-      "vo_d_done": "वाह! परी का पूरा कमरा सज गया!",
+      "vo_h_draw": "अपनी उँगली से एक रेखा खींचो।",
       "vo_well_done": "शाबाश! अब आप बराबर और असमान हिस्सों को पहचान सकते हैं!",
       "vo_pt_tutorial": "ध्यान से देखिए और मेरे साथ जानिए। चलिए, शुरू करें!",
       "vo_pt_guided": "बहुत बढ़िया! चलिए, साथ में करें!",
-      "vo_pt_practice": "वाह! अब आपकी बारी!"
+      "vo_pt_practice": "वाह! अब आपकी बारी!",
+      "vo_h_look": "देखो! हम ऊपर तक जाएंगे!",
+      "vo_h_go": "चलो, शुरू करते हैं!",
+      "vo_h_tap": "इस पर टैप करो।",
+      "vo_h_top": "वाह! बहुत बढ़िया!"
     }
   }
 }
