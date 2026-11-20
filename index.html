@@ -7522,16 +7522,31 @@ kamal: [262, 459, 100, 101], primula: [366, 467, 84, 92], rock: [454, 470, 146, 
 const PHT = { deodar: [330, 430], pine: [310, 400], burans: [230, 290], shrub: [78, 100], poppy: [54, 68], kamal: [54, 66], primula: [48, 60], rock: [50, 66] };
 const LOW = ["shrub", "poppy", "kamal", "primula", "rock", "poppy", "primula", "shrub"];
 const PROPS = [];
-for(let x = -1100; x < 6900; x += 120 + rnd() * 170){
-const r = rnd(), tree = r < .5, kind = tree ? (r < .2 ? "deodar" : r < .36 ? "pine" : "burans") : LOW[Math.floor(rnd() * LOW.length)];
-const nearStop = PLATS.some(([c])=> x > c - 300 && x < c + 330);
-if(tree && PLATS.some(([c])=> x > c - 330 && x < c + 130)) continue;
-if(x > TOP - 360 && x < FLAG_X + 160) continue;
-const front = !tree && !nearStop && !STOPS.some(c => Math.abs(x - (c + 300)) < 150) && rnd() < .55;
-if(!tree && nearStop && rnd() < .5) continue;
-const [h0, h1] = PHT[kind];
-PROPS.push({ x, kind, h: h0 + rnd() * (h1 - h0), front, flip: rnd() < .5, dy: front ? 44 + rnd() * 26 : -9 - rnd() * 4 });
+
+const wOf = (kind, h)=> PROP[kind][2] / PROP[kind][3] * h * (kind === "deodar" || kind === "pine" || kind === "burans" ? .9 : 1);
+const lastIn = {};
+const roomFor = (grp, x, w, gap)=>{ const q = lastIn[grp]; return !q || x - q.x >= (q.w + w) / 2 + gap; };
+const place = (x, kind, front)=>{
+const [h0, h1] = PHT[kind], h = h0 + rnd() * (h1 - h0), w = wOf(kind, h), tree = kind === "deodar" || kind === "pine" || kind === "burans";
+if(tree){ if(!roomFor("tree", x, w, 50)) return; }
+else if(front){ if(!roomFor("front", x, w, 36)) return; }
+else if(!roomFor("back", x, w, 36) || PROPS.some(q => !q.front && (q.kind === "deodar" || q.kind === "pine" || q.kind === "burans") && Math.abs(q.x - x) < (wOf(q.kind, q.h) + w) / 2 + 24)) return;
+lastIn[tree ? "tree" : front ? "front" : "back"] = { x, w };
+PROPS.push({ x, kind, h, front, flip: rnd() < .5, dy: front ? 44 + rnd() * 26 : -9 - rnd() * 4 });
+};
+const clearAt = x => !(x > TOP - 360 && x < FLAG_X + 160);
+
+for(let x = -1000; x < 6900; x += 330 + rnd() * 290){
+const r = rnd(), kind = r < .4 ? "deodar" : r < .7 ? "pine" : "burans";
+if(clearAt(x) && !PLATS.some(([c])=> x > c - 330 && x < c + 130)) place(x, kind, false);
 }
+
+for(let x = -1050; x < 6900; x += 170 + rnd() * 200){
+const kind = LOW[Math.floor(rnd() * LOW.length)], nearStop = PLATS.some(([c])=> x > c - 300 && x < c + 330);
+const front = !nearStop && !STOPS.some(c => Math.abs(x - (c + 300)) < 150) && rnd() < .7;
+if(clearAt(x)) place(x, kind, front);
+}
+PROPS.sort((p, q)=> p.x - q.x);
 
 function softShadow(x, y, rx, ry, a){
 g.save(); g.translate(x, y); g.scale(1, ry / rx);
@@ -7564,11 +7579,22 @@ for(let yy = 0; yy < 200; yy++) for(let xx = 0; xx < 200; xx++) if(px[(yy * 200 
 return { c, mx: (x0 + x1) / 2, my: (y0 + y1) / 2 };
 });
 const SIGNS = STOPS.map((x, i)=> ({ x: x + 300, n: i + 1 }));
+
+let SIGN_ART = null;
+function signArt(){
+if(SIGN_ART || !(IM.props.complete && IM.props.naturalWidth)) return SIGN_ART;
+const b = PROP.sign, c = document.createElement("canvas"); c.width = b[2]; c.height = b[3]; const x = c.getContext("2d");
+x.drawImage(IM.props, b[0], b[1], b[2], b[3], 0, 0, b[2], b[3]);
+x.globalCompositeOperation = "multiply"; x.fillStyle = "#B0683F"; x.fillRect(0, 0, b[2], b[3]);
+x.globalCompositeOperation = "destination-in"; x.drawImage(IM.props, b[0], b[1], b[2], b[3], 0, 0, b[2], b[3]);
+return (SIGN_ART = c);
+}
 function drawSign(sg){
 
-const b = PROP.sign, s = .64 / .85, y = Math.max(gy(sg.x - 14), gy(sg.x + 14)) - 8;
-g.save(); g.translate(sg.x, y); g.scale(s, s); g.drawImage(IM.props, b[0], b[1], b[2], b[3], -b[2] / 2, -b[3], b[2], b[3]);
-const ch = CHALK[sg.n - 1], k = 92 / 200, cx = 108.5 - b[2] / 2, cy = 58 - b[3];
+const b = PROP.sign, s = .64 / .85 * 1.15, y = Math.max(gy(sg.x - 14), gy(sg.x + 14)) - 8, art = signArt();
+if(!art) return;
+g.save(); g.translate(sg.x, y); g.scale(s, s); g.drawImage(art, -b[2] / 2, -b[3]);
+const ch = CHALK[sg.n - 1], k = 80 / 200, cx = 108.5 - b[2] / 2, cy = 58 - b[3];
 g.drawImage(ch.c, cx - ch.mx * k, cy - ch.my * k, 200 * k, 200 * k); g.restore();
 }
 
@@ -8225,7 +8251,7 @@ KIDS.forEach(k => k.pose = "point");
 await S.wait(1600);
 }
 
-root._hill = { K, cam, bag, board, get mode(){ return mode; }, get F(){ return F; }, bagStage, ws, gy };
+root._hill = { K, cam, bag, board, get mode(){ return mode; }, get F(){ return F; }, bagStage, ws, gy, PROPS, PROP };
 
 requestAnimationFrame(frame);
 root.dataset.state = "busy";
