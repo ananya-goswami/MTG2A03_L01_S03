@@ -7615,11 +7615,12 @@ const CHALK = [1, 2, 3, 4, 5].map(n =>{
 const c = document.createElement("canvas"); c.width = c.height = 200; const x = c.getContext("2d");
 let sd = n * 977; const r = ()=> (sd = (sd * 16807) % 2147483647) / 2147483647;
 x.translate(100, 106); x.rotate(-.06); x.font = "800 150px 'Baloo 2',sans-serif"; x.textAlign = "center"; x.textBaseline = "middle";
-x.fillStyle = "rgba(252,250,242,.86)"; x.fillText(String(n), 0, 0);
-x.strokeStyle = "rgba(255,253,246,.5)"; x.lineJoin = "round";
+
+x.fillStyle = "rgba(92,44,18,.92)"; x.fillText(String(n), 0, 0);
+x.strokeStyle = "rgba(110,54,24,.55)"; x.lineJoin = "round";
 for(let i = 0; i < 7; i++){ x.lineWidth = 3 + r() * 4; x.strokeText(String(n), (r() - .5) * 5, (r() - .5) * 5); }
 x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = "destination-out";
-for(let i = 0; i < 650; i++){ x.fillStyle = `rgba(0,0,0,${(.35 + r() * .65).toFixed(2)})`; x.beginPath(); x.arc(r() * 200, r() * 200, .5 + r() * 1.6, 0, TAU); x.fill(); }
+for(let i = 0; i < 380; i++){ x.fillStyle = `rgba(0,0,0,${(.35 + r() * .65).toFixed(2)})`; x.beginPath(); x.arc(r() * 200, r() * 200, .5 + r() * 1.6, 0, TAU); x.fill(); }
 x.strokeStyle = "rgba(0,0,0,.3)"; x.lineWidth = 1;
 for(let i = 0; i < 10; i++){ const yy = r() * 200; x.beginPath(); x.moveTo(0, yy); x.lineTo(200, yy + (r() - .5) * 14); x.stroke(); }
 
@@ -7634,8 +7635,6 @@ function signArt(){
 if(SIGN_ART || !(IM.props.complete && IM.props.naturalWidth)) return SIGN_ART;
 const b = PROP.sign, c = document.createElement("canvas"); c.width = b[2]; c.height = b[3]; const x = c.getContext("2d");
 x.drawImage(IM.props, b[0], b[1], b[2], b[3], 0, 0, b[2], b[3]);
-x.globalCompositeOperation = "multiply"; x.fillStyle = "#B0683F"; x.fillRect(0, 0, b[2], b[3]);
-x.globalCompositeOperation = "destination-in"; x.drawImage(IM.props, b[0], b[1], b[2], b[3], 0, 0, b[2], b[3]);
 return (SIGN_ART = c);
 }
 function drawSign(sg){
