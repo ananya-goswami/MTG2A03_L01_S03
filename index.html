@@ -7527,7 +7527,7 @@ const r = rnd(), tree = r < .5, kind = tree ? (r < .2 ? "deodar" : r < .36 ? "pi
 const nearStop = PLATS.some(([c])=> x > c - 300 && x < c + 330);
 if(tree && PLATS.some(([c])=> x > c - 330 && x < c + 130)) continue;
 if(x > TOP - 360 && x < FLAG_X + 160) continue;
-const front = !tree && !nearStop && rnd() < .55;
+const front = !tree && !nearStop && !STOPS.some(c => Math.abs(x - (c + 300)) < 150) && rnd() < .55;
 if(!tree && nearStop && rnd() < .5) continue;
 const [h0, h1] = PHT[kind];
 PROPS.push({ x, kind, h: h0 + rnd() * (h1 - h0), front, flip: rnd() < .5, dy: front ? 44 + rnd() * 26 : -9 - rnd() * 4 });
@@ -7556,17 +7556,20 @@ x.strokeStyle = "rgba(255,253,246,.5)"; x.lineJoin = "round";
 for(let i = 0; i < 7; i++){ x.lineWidth = 3 + r() * 4; x.strokeText(String(n), (r() - .5) * 5, (r() - .5) * 5); }
 x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = "destination-out";
 for(let i = 0; i < 650; i++){ x.fillStyle = `rgba(0,0,0,${(.35 + r() * .65).toFixed(2)})`; x.beginPath(); x.arc(r() * 200, r() * 200, .5 + r() * 1.6, 0, TAU); x.fill(); }
-x.strokeStyle = "rgba(0,0,0,.45)"; x.lineWidth = 1.2;
-for(let i = 0; i < 26; i++){ const yy = r() * 200; x.beginPath(); x.moveTo(0, yy); x.lineTo(200, yy + (r() - .5) * 14); x.stroke(); }
-return c;
+x.strokeStyle = "rgba(0,0,0,.3)"; x.lineWidth = 1;
+for(let i = 0; i < 10; i++){ const yy = r() * 200; x.beginPath(); x.moveTo(0, yy); x.lineTo(200, yy + (r() - .5) * 14); x.stroke(); }
+
+const px = x.getImageData(0, 0, 200, 200).data; let x0 = 200, x1 = 0, y0 = 200, y1 = 0;
+for(let yy = 0; yy < 200; yy++) for(let xx = 0; xx < 200; xx++) if(px[(yy * 200 + xx) * 4 + 3] > 60){ if(xx < x0) x0 = xx; if(xx > x1) x1 = xx; if(yy < y0) y0 = yy; if(yy > y1) y1 = yy; }
+return { c, mx: (x0 + x1) / 2, my: (y0 + y1) / 2 };
 });
 const SIGNS = STOPS.map((x, i)=> ({ x: x + 300, n: i + 1 }));
 function drawSign(sg){
-const b = PROP.sign, s = .64 / .85, y = gy(sg.x) + 6;
-softShadow(sg.x, y - 2, 34, 6, .26);
+
+const b = PROP.sign, s = .64 / .85, y = Math.max(gy(sg.x - 14), gy(sg.x + 14)) - 8;
 g.save(); g.translate(sg.x, y); g.scale(s, s); g.drawImage(IM.props, b[0], b[1], b[2], b[3], -b[2] / 2, -b[3], b[2], b[3]);
-const cx = 108.8 - b[2] / 2, cy = 57 - b[3];
-g.drawImage(CHALK[sg.n - 1], cx - 46, cy - 47, 92, 92); g.restore();
+const ch = CHALK[sg.n - 1], k = 92 / 200, cx = 108.5 - b[2] / 2, cy = 58 - b[3];
+g.drawImage(ch.c, cx - ch.mx * k, cy - ch.my * k, 200 * k, 200 * k); g.restore();
 }
 
 function drawFlag(t){
@@ -7590,7 +7593,7 @@ g.restore();
 
 const BIRD = [[[0, 0, 113, 84], [116, 0, 113, 84]], [[232, 0, 133, 78], [368, 0, 133, 78]], [[504, 0, 140, 85], [647, 0, 140, 85]]];
 
-const BIRDS = [[0, 0, 70, .46, 300], [2, 1 / 3, 128, .44, 380], [1, 2 / 3, 96, .4, 170]].map(([sp, f, y, s, beat])=> ({ sp, f, y, s, beat }));
+const BIRDS = [[0, 0, 64, .34, 300], [2, 1 / 3, 112, .34, 380], [1, 2 / 3, 86, .3, 170]].map(([sp, f, y, s, beat])=> ({ sp, f, y, s, beat }));
 
 const CLOUD = [[0, 0, 294, 106], [309, 0, 226, 87], [550, 0, 138, 53]];
 const CLOUDS = [[0, 60, 70, 1.05, 7], [2, 520, 175, .9, 11], [1, 980, 95, 1.0, 8.5], [2, 1340, 40, .7, 6], [1, 1700, 210, .75, 10], [0, 2150, 140, .8, 5.5]]
@@ -7648,7 +7651,7 @@ g.save(); g.globalAlpha = 1 - sun * .55; g.drawImage(art[c.k][0], x, y, w * s, h
 if(sun > .02){ g.globalAlpha = sun; g.drawImage(art[c.k][1], x, y, w * s, h * s); } g.restore(); });
 
 if(IM.birds.complete && IM.birds.naturalWidth) BIRDS.forEach(b =>{
-const span = vw + 1800, x = ((b.f * span + t / 1000 * 24 - cam.x * .04) % span + span) % span + x0 - 120, y = b.y + Math.sin(t / 1300 + b.f * 9) * 8;
+const span = 3 * (vw + 500), x = ((b.f * span + t / 1000 * 30 - cam.x * .04) % span + span) % span + x0 - 80, y = b.y + Math.sin(t / 1300 + b.f * 9) * 8;
 const f = BIRD[b.sp][Math.floor((t + b.f * 997) / b.beat) % 2], s = b.s;
 g.save(); g.globalAlpha = .95 - sun * .25; g.drawImage(IM.birds, f[0], f[1], f[2], f[3], x - f[2] * s / 2, y - f[3] * s / 2, f[2] * s, f[3] * s); g.restore(); });
 
@@ -7675,6 +7678,7 @@ const path = new Path2D(); path.moveTo(xa, yb); pts.forEach(q => path.lineTo(q[0
 const surf = new Path2D(); pts.forEach((q, i)=> i ? surf.lineTo(q[0], q[1]) : surf.moveTo(q[0], q[1]));
 
 PROPS.forEach(pr =>{ if(!pr.front && pr.x > xa - 260 && pr.x < xb + 260) drawProp(pr); });
+SIGNS.forEach(sg =>{ if(sg.x > xa - 100 && sg.x < xb + 100) drawSign(sg); });
 
 g.fillStyle = "#62A247"; g.fill(path);
 const gp = grassPat();
@@ -7699,7 +7703,6 @@ setWorld();
 if(sun > .01){ g.save(); g.globalCompositeOperation = "multiply"; g.fillStyle = `rgba(255,200,160,${(.32 * sun).toFixed(3)})`;
 g.beginPath(); pts.forEach((q, i)=> i ? g.lineTo(q[0], q[1] + TOFF) : g.moveTo(q[0], q[1] + TOFF)); for(let i = pts.length - 1; i >= 0; i--) g.lineTo(pts[i][0], pts[i][1] + TOFF + TH * TK); g.fill(); g.restore(); }
 }
-SIGNS.forEach(sg =>{ if(sg.x > xa - 100 && sg.x < xb + 100) drawSign(sg); });
 if(FLAG_X > xa - 300 && FLAG_X < xb + 300) drawFlag(t);
 }
 
