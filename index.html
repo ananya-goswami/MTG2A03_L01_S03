@@ -7566,9 +7566,10 @@ else lastFrame[k.who] = undefined;
 
 let seed = 11; const rnd = ()=> (seed = (seed * 16807) % 2147483647) / 2147483647;
 
-const PROP = { deodar: [0, 0, 238, 374], pine: [242, 17, 237, 357], burans: [483, 93, 251, 281], shrub: [0, 448, 172, 111], poppy: [176, 457, 82, 102],
-kamal: [262, 459, 100, 101], primula: [366, 467, 84, 92], rock: [454, 470, 146, 89], sign: [604, 379, 186, 181] };
-const PHT = { deodar: [330, 430], pine: [310, 400], burans: [230, 290], shrub: [78, 100], poppy: [54, 68], kamal: [54, 66], primula: [48, 60], rock: [50, 66] };
+const PROP = { deodar: [0, 0, 279, 440], pine: [284, 0, 291, 440], burans: [580, 88, 314, 352], shrub: [0, 515, 172, 111], poppy: [177, 524, 82, 102],
+kamal: [264, 525, 100, 101], primula: [369, 534, 84, 92], rock: [458, 537, 146, 89], sign: [609, 445, 186, 181] };
+
+const PHT = { deodar: [500, 580], pine: [470, 540], burans: [340, 400], shrub: [78, 100], poppy: [54, 68], kamal: [54, 66], primula: [48, 60], rock: [50, 66] };
 const LOW = ["shrub", "poppy", "kamal", "primula", "rock", "poppy", "primula", "shrub"];
 const PROPS = [];
 
@@ -7630,11 +7631,14 @@ return { c, mx: (x0 + x1) / 2, my: (y0 + y1) / 2 };
 });
 const SIGNS = STOPS.map((x, i)=> ({ x: x + 300, n: i + 1 }));
 
-let SIGN_ART = null;
+let SIGN_ART = null; const SIGN_EXT = 64;
 function signArt(){
 if(SIGN_ART || !(IM.props.complete && IM.props.naturalWidth)) return SIGN_ART;
-const b = PROP.sign, c = document.createElement("canvas"); c.width = b[2]; c.height = b[3]; const x = c.getContext("2d");
-x.drawImage(IM.props, b[0], b[1], b[2], b[3], 0, 0, b[2], b[3]);
+
+const b = PROP.sign, c = document.createElement("canvas"); c.width = b[2] + SIGN_EXT; c.height = b[3]; const x = c.getContext("2d");
+x.drawImage(IM.props, b[0], b[1], 122, b[3], 0, 0, 122, b[3]);
+x.drawImage(IM.props, b[0] + 122, b[1], 14, b[3], 122, 0, 14 + SIGN_EXT, b[3]);
+x.drawImage(IM.props, b[0] + 136, b[1], b[2] - 136, b[3], 136 + SIGN_EXT, 0, b[2] - 136, b[3]);
 return (SIGN_ART = c);
 }
 function drawSign(sg){
@@ -7642,7 +7646,7 @@ function drawSign(sg){
 const b = PROP.sign, s = .64 / .85 * 1.15, y = Math.max(gy(sg.x - 14), gy(sg.x + 14)) - 8, art = signArt();
 if(!art) return;
 g.save(); g.translate(sg.x, y); g.scale(s, s); g.drawImage(art, -b[2] / 2, -b[3]);
-const ch = CHALK[sg.n - 1], k = 80 / 200, cx = 108.5 - b[2] / 2, cy = 58 - b[3];
+const ch = CHALK[sg.n - 1], k = 80 / 200, cx = (33 + 184 + SIGN_EXT) / 2 + 4 - b[2] / 2, cy = 58 - b[3];
 g.drawImage(ch.c, cx - ch.mx * k, cy - ch.my * k, 200 * k, 200 * k); g.restore();
 }
 
@@ -7949,24 +7953,58 @@ g.shadowColor = "transparent"; g.strokeStyle = b.k === K.a ? "#E2493B" : "#2F6FE
 g.fillStyle = "#24324A"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(b.text, bx, by + 3); g.restore(); }
 }
 
-let mapDone = 0;
+let mapDone = 0, giftOpen = 0;
+function drawGift(X, Y, t){
+const op = giftOpen, pulse = .5 + .5 * Math.sin(t / 260);
+g.save(); g.translate(X, Y);
+const gl = g.createRadialGradient(0, -10, 2, 0, -10, 26 + 5 * pulse + 20 * op); gl.addColorStop(0, `rgba(255,214,90,${(.75 + .25 * op).toFixed(3)})`); gl.addColorStop(1, "rgba(255,214,90,0)");
+g.fillStyle = gl; g.beginPath(); g.arc(0, -10, 26 + 5 * pulse + 20 * op, 0, TAU); g.fill();
+for(let i = 0; i < 4; i++){ const an = t / 900 + i * TAU / 4, rr = 17 + 3 * Math.sin(t / 300 + i) + 26 * op, sx = Math.cos(an) * rr, sy = -11 + Math.sin(an) * rr * .7, k = (.55 + .45 * Math.sin(t / 180 + i * 1.7)) * (1 - op * .3);
+g.save(); g.translate(sx, sy); g.rotate(t / 700 + i); g.globalAlpha *= k; g.fillStyle = "#FFD23C"; g.beginPath();
+for(let j = 0; j < 8; j++){ const r2 = j % 2 ? 1.2 : 3.6, aa = j / 8 * TAU; g.lineTo(Math.cos(aa) * r2, Math.sin(aa) * r2); } g.closePath(); g.fill(); g.restore(); }
+const bob = (1 - op) * Math.sin(t / 330) * 1.2, wob = (1 - op) * Math.sin(t / 140) * .06 * (Math.sin(t / 1300) > .6 ? 1 : 0);
+g.translate(0, bob); g.rotate(wob);
+g.fillStyle = "#8E44D9"; g.strokeStyle = "#5B2496"; g.lineWidth = 1.4;
+g.beginPath(); g.roundRect(-9, -15, 18, 15, 2.5); g.fill(); g.stroke();
+g.fillStyle = "#FFC93C"; g.fillRect(-1.8, -15, 3.6, 15);
+if(op < .99){ g.save(); g.translate(0, -15 - op * 16); g.rotate(-op * .7); g.globalAlpha *= 1 - op;
+g.fillStyle = "#A35BEA"; g.strokeStyle = "#5B2496"; g.beginPath(); g.roundRect(-10.5, -5, 21, 5.5, 2); g.fill(); g.stroke();
+g.fillStyle = "#FFC93C"; g.fillRect(-1.8, -5, 3.6, 5.5); g.strokeStyle = "#E0A21C"; g.lineWidth = 1.8;
+g.beginPath(); g.ellipse(-3.6, -7.2, 3.6, 2.2, -.5, 0, TAU); g.ellipse(3.6, -7.2, 3.6, 2.2, .5, 0, TAU); g.stroke(); g.restore(); }
+if(op < .5){ g.globalAlpha *= 1 - op * 2; g.fillStyle = "#FFFFFF"; g.font = "800 12px 'Baloo 2',sans-serif"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("?", 0, -6.5); }
+else { g.globalAlpha *= (op - .5) * 2; g.fillStyle = "#FFE35A"; g.strokeStyle = "#E0A21C"; g.lineWidth = 1.2; g.beginPath();
+for(let j = 0; j < 10; j++){ const r2 = j % 2 ? 3.4 : 8, aa = j / 10 * TAU - Math.PI / 2; g.lineTo(Math.cos(aa) * r2, -24 * (op - .5) * 2 - 12 + Math.sin(aa) * r2); } g.closePath(); g.fill(); g.stroke(); }
+g.restore();
+}
 function drawMap(t){
 setStage();
-const MW = 440, MH = 62, mx = W / 2 - MW / 2, my = 16, X0 = -150, X1 = FLAG_X + 60, HM = RISE * 6 + 60;
-const px = x => mx + 26 + (x - X0) / (X1 - X0) * (MW - 60), py = h => my + MH - 13 - h / HM * (MH - 34);
+const MW = 480, MH = 80, mx = W / 2 - MW / 2, my = 12, X0 = -150, X1 = FLAG_X + 160, HM = RISE * 6 + 40;
+const px = x => mx + 24 + (x - X0) / (X1 - X0) * (MW - 70), py = h => my + MH - 10 - h / HM * (MH - 44);
+const wxOf = sx => X0 + (sx - mx - 24) / (MW - 70) * (X1 - X0);
 g.save(); g.globalAlpha = clamp((cam.z - .45) / .3, 0, 1) * mapA;
-g.fillStyle = "rgba(255,255,255,.86)"; g.shadowColor = "rgba(20,40,30,.18)"; g.shadowBlur = 12; g.shadowOffsetY = 4;
-g.beginPath(); g.roundRect(mx, my, MW, MH, 31); g.fill(); g.shadowColor = "transparent";
-g.beginPath(); for(let x = X0; x <= X1; x += 40) g.lineTo(px(x), py(base(x))); g.lineWidth = 5; g.lineCap = "round"; g.lineJoin = "round";
-g.strokeStyle = "#CFE3C2"; g.stroke();
+g.fillStyle = "rgba(255,255,255,.9)"; g.shadowColor = "rgba(20,40,30,.18)"; g.shadowBlur = 12; g.shadowOffsetY = 4;
+g.beginPath(); g.roundRect(mx, my, MW, MH, 24); g.fill(); g.shadowColor = "transparent";
+g.save(); g.beginPath(); g.roundRect(mx, my, MW, MH, 24); g.clip();
+
+const route = []; for(let x = X0; x <= X1; x += 30) route.push([px(x), py(base(x))]);
+const land = []; for(let sx = mx - 2; sx <= mx + MW + 2; sx += 6) land.push([sx, py(base(clamp(wxOf(sx), X0, X1 + 400)))]);
+const hg = g.createLinearGradient(0, my + 24, 0, my + MH); hg.addColorStop(0, "#BFE3A4"); hg.addColorStop(1, "#7DBB5E");
+g.beginPath(); g.moveTo(mx - 2, my + MH); land.forEach(q => g.lineTo(q[0], q[1])); g.lineTo(mx + MW + 2, my + MH); g.closePath(); g.fillStyle = hg; g.fill();
+g.restore();
+
+const line = ()=>{ g.beginPath(); route.forEach((q, i)=> i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1])); };
+g.lineCap = "round"; g.lineJoin = "round";
+line(); g.setLineDash([2, 7]); g.lineWidth = 3.4; g.strokeStyle = "#FFFFFF"; g.stroke(); g.setLineDash([]);
 const cur = K.p.x; g.save(); g.beginPath(); g.rect(mx, my, px(cur) - mx, MH); g.clip();
-g.beginPath(); for(let x = X0; x <= X1; x += 40) g.lineTo(px(x), py(base(x))); g.strokeStyle = "#4CAF50"; g.stroke(); g.restore();
+line(); g.lineWidth = 5; g.strokeStyle = "#2E9E48"; g.stroke(); g.restore();
+
+g.font = "800 11px 'Baloo 2',sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
 STOPS.forEach((x, i)=>{ const done = i < mapDone, here = !done && i === mapDone && Math.abs(cur - x) < 30, X = px(x), Y = py(base(x));
-const r = here ? 9 + 2 * Math.sin(t / 220) : 8; g.beginPath(); g.arc(X, Y, r, 0, TAU); g.fillStyle = done ? "#4CAF50" : here ? "#FFB300" : "#FFFFFF"; g.fill();
-g.lineWidth = 2.5; g.strokeStyle = done ? "#2E7D32" : "#9AB88E"; g.stroke();
-if(done){ g.strokeStyle = "#FFFFFF"; g.lineWidth = 2.6; g.beginPath(); g.moveTo(X - 4, Y); g.lineTo(X - 1, Y + 3); g.lineTo(X + 4, Y - 3); g.stroke(); } });
-{ const X = px(FLAG_X), Y = py(base(FLAG_X)), T = Math.max(my + 7, Y - 22); g.strokeStyle = "#5C6B7A"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(X, Y); g.lineTo(X, T); g.stroke();
-for(let i = 0; i < 4; i++) for(let j = 0; j < 3; j++){ g.fillStyle = (i + j) % 2 ? "#FFFFFF" : "#222"; g.fillRect(X + 1 + i * 4, T + j * 4, 4, 4); } }
+const r = here ? 9.5 + 1.5 * Math.sin(t / 220) : 8.5; g.beginPath(); g.arc(X, Y, r, 0, TAU); g.fillStyle = done ? "#2E9E48" : here ? "#FFB300" : "#FFFFFF"; g.fill();
+g.lineWidth = 2.2; g.strokeStyle = done ? "#1E6E31" : here ? "#C98700" : "#8FAE84"; g.stroke();
+if(done){ g.strokeStyle = "#FFFFFF"; g.lineWidth = 2.4; g.beginPath(); g.moveTo(X - 4, Y); g.lineTo(X - 1, Y + 3); g.lineTo(X + 4, Y - 3); g.stroke(); }
+else { g.fillStyle = here ? "#FFFFFF" : "#5D7A55"; g.fillText(String(i + 1), X, Y + 1); } });
+drawGift(px(FLAG_X) + 16, py(base(FLAG_X + 110)) - 1, t);
 
 { const X = px(cur), Y = py(base(cur)), R = 7.5, cy = Y - 14;
 g.fillStyle = "rgba(30,50,40,.22)"; g.beginPath(); g.ellipse(X, Y + 1, 5, 2, 0, 0, TAU); g.fill();
@@ -8275,6 +8313,7 @@ await go; await S.wait(400);
 async function finale(){
 mode = "busy"; cam.auto = false;
 EQ.tween(9000, t =>{ dusk = t; }, u => u);
+EQ.tween(900, t =>{ giftOpen = t; }, eo);
 const c0 = { x: cam.x, y: cam.y, z: cam.z }, mid = (K.a.x + FLAG_X) / 2 + 30, c1 = { x: mid, y: gy(TOP) - 210, z: .9 };
 await tw(1400, t =>{ const e = eio(t); cam.x = lerp(c0.x, c1.x, e); cam.y = lerp(c0.y, c1.y, e); cam.z = lerp(c0.z, c1.z, e); });
 
@@ -8839,7 +8878,7 @@ const ASSET_SIZES = {
 "assets/hill_grass.webp": 4136,
 "assets/hill_pari_poses.webp": 149700,
 "assets/hill_pari_walk.webp": 152452,
-"assets/hill_props.webp": 78580,
+"assets/hill_props.webp": 92576,
 "assets/hill_trail.webp": 13058,
 "assets/last_swifty_end.webp": 627744,
 "assets/last_swifty_still.webp": 23820,
