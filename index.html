@@ -7589,8 +7589,8 @@ g.restore();
 }
 
 const BIRD = [[[0, 0, 113, 84], [116, 0, 113, 84]], [[232, 0, 133, 78], [368, 0, 133, 78]], [[504, 0, 140, 85], [647, 0, 140, 85]]];
-const BIRDS = [[0, 140, 82, .62, 300], [1, 236, 196, .5, 170], [2, 610, 120, .58, 380], [1, 900, 248, .44, 150], [0, 1210, 170, .5, 320]]
-.map(([sp, x, y, s, beat], i)=> ({ sp, x, y, s, beat, v: 30 + i * 6 }));
+
+const BIRDS = [[0, 0, 70, .46, 300], [2, 1 / 3, 128, .44, 380], [1, 2 / 3, 96, .4, 170]].map(([sp, f, y, s, beat])=> ({ sp, f, y, s, beat }));
 
 const CLOUD = [[0, 0, 294, 106], [309, 0, 226, 87], [550, 0, 138, 53]];
 const CLOUDS = [[0, 60, 70, 1.05, 7], [2, 520, 175, .9, 11], [1, 980, 95, 1.0, 8.5], [2, 1340, 40, .7, 6], [1, 1700, 210, .75, 10], [0, 2150, 140, .8, 5.5]]
@@ -7648,8 +7648,8 @@ g.save(); g.globalAlpha = 1 - sun * .55; g.drawImage(art[c.k][0], x, y, w * s, h
 if(sun > .02){ g.globalAlpha = sun; g.drawImage(art[c.k][1], x, y, w * s, h * s); } g.restore(); });
 
 if(IM.birds.complete && IM.birds.naturalWidth) BIRDS.forEach(b =>{
-const span = vw + 300, x = ((b.x + t / 1000 * b.v - cam.x * .05) % span + span) % span + x0 - 150, y = b.y + Math.sin(t / 1100 + b.x) * 10;
-const f = BIRD[b.sp][Math.floor((t + b.x * 7) / b.beat) % 2], s = b.s;
+const span = vw + 1800, x = ((b.f * span + t / 1000 * 24 - cam.x * .04) % span + span) % span + x0 - 120, y = b.y + Math.sin(t / 1300 + b.f * 9) * 8;
+const f = BIRD[b.sp][Math.floor((t + b.f * 997) / b.beat) % 2], s = b.s;
 g.save(); g.globalAlpha = .95 - sun * .25; g.drawImage(IM.birds, f[0], f[1], f[2], f[3], x - f[2] * s / 2, y - f[3] * s / 2, f[2] * s, f[3] * s); g.restore(); });
 
 g.save(); g.globalAlpha = clamp((cam.z - .45) / .35, 0, 1);
