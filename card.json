@@ -707,7 +707,8 @@
         "look": "vo_h_look",
         "go": "vo_h_go",
         "tap": "vo_h_tap",
-        "top": "vo_h_top"
+        "top": "vo_h_top",
+        "waah": "vo_h_waah"
       },
       "data": {
         "bg": "hill",
@@ -804,7 +805,8 @@
       "vo_h_look": "assets/voiceover/vo_h_look.ogg",
       "vo_h_go": "assets/voiceover/vo_h_go.ogg",
       "vo_h_tap": "assets/voiceover/vo_h_tap.ogg",
-      "vo_h_top": "assets/voiceover/vo_h_top.ogg"
+      "vo_h_top": "assets/voiceover/vo_h_top.ogg",
+      "vo_h_waah": "assets/voiceover/vo_h_waah.ogg"
     },
     "audio_text": {
       "vo_landing": "नमस्ते, दोस्त! मैं हूँ स्विफ्टी। आओ, आरू और परी के साथ मिलकर सीखते हैं कि कैसे पहचानें कि किसी चीज़ के दो हिस्से बराबर हैं या नहीं!",
@@ -869,7 +871,8 @@
       "vo_h_look": "देखो! हम ऊपर तक जाएंगे!",
       "vo_h_go": "चलो, शुरू करते हैं!",
       "vo_h_tap": "इस पर टैप करो।",
-      "vo_h_top": "वाह! बहुत बढ़िया!"
+      "vo_h_top": "वाह! बहुत बढ़िया!",
+      "vo_h_waah": "वाह!"
     }
   }
 }
