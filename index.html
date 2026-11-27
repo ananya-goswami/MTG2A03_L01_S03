@@ -7258,6 +7258,7 @@ if(k.pose==="c_reach"){if(IM.pkr.complete&&IM.pkr.naturalWidth)g.drawImage(IM.pk
 else if(XPOSE[k.pose]){if(IM.hur.complete&&IM.hur.naturalWidth){const key=XPOSE[k.pose],r=HUR_R[key],an=HUR_A[key];
 const em=k.pose==="c_given"?pgEmpty():null;
 if(em)g.drawImage(em,-an[0]/XS,-an[1]/XS,r[2]/XS,r[3]/XS);
+else if(key==="pk"&&slateArt("pk"))g.drawImage(slateArt("pk"),-an[0]/XS,-an[1]/XS,r[2]/XS,r[3]/XS);
 else g.drawImage(IM.hur,r[0],r[1],r[2],r[3],-an[0]/XS,-an[1]/XS,r[2]/XS,r[3]/XS);}}
 else if(fr.img.complete&&fr.img.naturalWidth){g.drawImage(fr.img,fr.f*m.fw,0,m.fw,m.fh,-m.ax,-m.ay,m.fw,m.fh);
 const tq=k.who==="aaru"&&fr.img===IM.aw&&AARU_TOES[fr.f];
@@ -8204,8 +8205,21 @@ function monkeyTree(tree){const ts=tree.h/PROP.pine[3],sg=tree.flip?-1:1,foot=pr
 return{sg,foot,cx:tx-sg*30,rise:210*ts-18,px:tx+sg*40*ts,py:foot-210*ts+4,tx};}
 let HUR=null,walkN=0;
 const slopeAt=x=>Math.atan2(gy(x+20)-gy(x-20),40);
-function hurSprite(key,x,foot,rot,alpha,sx,sy){const r=HUR_R[key],w=r[2]/HUR_PX,h=r[3]/HUR_PX;
-g.save();g.globalAlpha*=alpha;g.translate(x,foot);g.rotate(rot);g.scale(sx||1,sy||1);g.drawImage(IM.hur,r[0],r[1],r[2],r[3],-w/2,-h,w,h);g.restore();}
+function hurSprite(key,x,foot,rot,alpha,sx,sy){const r=HUR_R[key],w=r[2]/HUR_PX,h=r[3]/HUR_PX,re=key==="chappal"?slateArt("chappal"):null;
+g.save();g.globalAlpha*=alpha;g.translate(x,foot);g.rotate(rot);g.scale(sx||1,sy||1);
+if(re)g.drawImage(re,-w/2,-h,w,h);else g.drawImage(IM.hur,r[0],r[1],r[2],r[3],-w/2,-h,w,h);g.restore();}
+const SLATE=[[38,64,87],[61,92,120],[91,121,151]],SLATE_BOX={chappal:null,pk:[105,124,60,28]},SLATED={};
+function slateArt(key){
+if(SLATED[key]!==undefined)return SLATED[key];if(!(IM.hur.complete&&IM.hur.naturalWidth))return null;
+try{const r=HUR_R[key],c=document.createElement("canvas");c.width=r[2];c.height=r[3];const x=c.getContext("2d");
+x.drawImage(IM.hur,r[0],r[1],r[2],r[3],0,0,r[2],r[3]);
+const b=SLATE_BOX[key]||[0,0,r[2],r[3]],d=x.getImageData(b[0],b[1],b[2],b[3]),p=d.data,idx=[],Ls=[];
+for(let i=0;i<p.length;i+=4)if(p[i+3]>20&&p[i+2]>p[i]+30){idx.push(i);Ls.push(.3*p[i]+.59*p[i+1]+.11*p[i+2]);}
+if(idx.length){const so=Ls.slice().sort((u,v)=>u-v),l0=so[Math.floor(so.length*.15)],l1=so[Math.floor(so.length*.85)]||l0+1;
+idx.forEach((i,n)=>{const u=(Ls[n]-l0)/(l1-l0),q=u<.5?[SLATE[0],SLATE[1],u*2]:[SLATE[1],SLATE[2],u*2-1],k=clamp(q[2],-.6,1.6);
+for(let j=0;j<3;j++)p[i+j]=clamp(Math.round(q[0][j]+(q[1][j]-q[0][j])*k),0,255);});
+x.putImageData(d,b[0],b[1]);}
+return(SLATED[key]=c);}catch(e){return(SLATED[key]=null);}}
 function drawHurdle(t,front){
 const H=HUR;if(front&&!(H&&H.type==="monkey"&&H.front))return;if(!H||H.gone||!(IM.hur.complete&&IM.hur.naturalWidth))return;
 if(H.type==="puddle"){drawPuddle(H,t);return;}
