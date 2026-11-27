@@ -7094,7 +7094,7 @@ Assets.fileIn(src,go);setTimeout(go,20000);return im;};
 const SHEET={"aaru_walk":{"fw":210,"fh":403,"n":8,"ax":113,"ay":397},"pari_walk":{"fw":268,"fh":396,"n":8,"ax":142,"ay":390},"aaru_poses":{"fw":272,"fh":430,"n":8,"ax":154,"ay":424},"pari_poses":{"fw":281,"fh":433,"n":8,"ax":156,"ay":427},"bag":{"fw":251,"fh":242,"n":2,"ax":134,"ay":236}};
 const FOOD_SHAPE={"paratha":{"w":440,"h":440,"poly":[[438.1,221.8],[435.3,240.7],[431.4,259.3],[425.3,277.2],[422.6,296.0],[414.4,313.1],[406.6,330.3],[396.4,346.3],[386.4,362.6],[370.7,373.8],[356.2,385.7],[341.7,397.5],[325.9,407.5],[308.9,415.3],[292.7,425.2],[274.5,430.4],[256.1,434.5],[237.3,435.5],[218.6,438.3],[199.8,437.5],[181.0,435.5],[162.2,432.4],[144.6,425.2],[126.9,418.5],[110.4,409.3],[95.0,398.3],[80.4,386.5],[67.3,373.1],[53.2,360.6],[40.5,346.5],[30.7,330.3],[21.5,313.7],[15.7,295.7],[9.5,277.8],[5.9,259.3],[3.0,240.7],[0.6,221.8],[2.0,202.8],[3.9,183.9],[7.6,165.2],[15.7,147.9],[23.8,130.9],[36.8,116.8],[45.4,100.5],[55.9,85.2],[68.4,71.5],[82.4,59.4],[95.3,45.7],[109.9,33.4],[126.3,23.8],[143.9,16.5],[162.3,11.7],[180.3,4.6],[199.4,1.6],[218.6,0.8],[237.7,3.6],[256.4,7.6],[274.7,12.7],[292.5,18.8],[308.7,28.7],[326.9,34.3],[342.0,45.7],[355.6,58.6],[368.5,71.9],[380.3,86.2],[391.5,100.8],[401.8,116.0],[412.6,131.3],[421.1,148.1],[429.2,165.4],[435.3,183.6],[437.3,202.7]]},"sandwich":{"w":440,"h":440,"poly":[[0,0],[440,0],[440,440],[0,440]]},"dhokla":{"w":439,"h":440,"poly":[[0,0],[439,0],[439,440],[0,440]]},"biscuit":{"w":440,"h":412,"poly":[[207.0,4.0],[199.0,12.0],[192.0,23.0],[163.0,81.0],[158.0,87.0],[154.0,97.0],[137.0,125.0],[121.0,158.0],[94.0,204.0],[60.0,269.0],[52.0,280.0],[7.0,365.0],[0.0,387.0],[0.0,396.0],[2.0,401.0],[12.0,409.0],[24.0,411.0],[60.0,411.0],[69.0,409.0],[122.0,409.0],[128.0,411.0],[416.0,411.0],[428.0,408.0],[436.0,402.0],[439.0,396.0],[436.0,376.0],[397.0,307.0],[386.0,283.0],[360.0,238.0],[354.0,224.0],[313.0,154.0],[289.0,105.0],[266.0,67.0],[235.0,9.0],[223.0,0.0],[215.0,0.0]]},"chocolate":{"w":329,"h":213,"poly":[[0,0],[329,0],[329,213],[0,213]]}};
 const IM={aw:pic("hill_aaru_walk.webp"),pw:pic("hill_pari_walk.webp"),ap:pic("hill_aaru_poses.webp"),pp:pic("hill_pari_poses.webp"),
-bag:pic("hill_bag.webp"),far:pic("hill_far.webp"),props:pic("hill_props_shimla2.webp"),trees:pic("hill_trees_hd.webp"),hanky:pic("hill_hanky.webp"),tf:pic("hill_tired_faces.webp"),spb:pic("hill_sunset_board.webp"),hur:pic("hill_hurdles2.webp"),pge:pic("hill_pg_empty.webp"),pkr:pic("hill_pk_reach.webp"),logx:pic("hill_log_across.webp"),toes:pic("hill_aaru_toes.webp"),h3:pic("hill_hurdles3.webp"),leaves:pic("hill_leaves.webp"),grass:pic("hill_grass.webp"),trail:pic("hill_trail.webp"),
+bag:pic("hill_bag.webp"),far:pic("hill_far.webp"),props:pic("hill_props_shimla2.webp"),trees:pic("hill_trees_hd.webp"),hanky:pic("hill_hanky.webp"),tf:pic("hill_tired_faces.webp"),spb:pic("hill_sunset_board.webp"),hur:pic("hill_hurdles2b.webp"),pge:pic("hill_pg_empty.webp"),pkr:pic("hill_pk_reach.webp"),logx:pic("hill_log_across.webp"),strm:pic("hill_stream.webp"),toes:pic("hill_aaru_toes.webp"),h3:pic("hill_hurdles3b.webp"),leaves:pic("hill_leaves.webp"),grass:pic("hill_grass.webp"),trail:pic("hill_trail.webp"),
 birds:pic("hill_birds.webp"),clouds:pic("hill_clouds.webp"),blink:pic("hill_blink.webp"),qmark:pic("hill_qmark.webp"),pitta:pic("hill_pitta.webp"),scooter:pic("cutter_scooter.webp"),hand:pic("nudge_hand_new.svg")};
 const EAT_SND={paratha:"paratha",sandwich:"sandwich",dhokla:"dhokla",biscuit:"puff",chocolate:"choc"};
 const FOODS=[
@@ -8288,44 +8288,34 @@ g.restore();
 const BTOP=[45.2,61,70.1,75.7,80.3,85.9,89.3,89.3,87,83.7,78,63.3,45.2];
 const boulderJy=dx=>{const f=dx/11.3+6;if(f<=0)return Math.max(0,45.2*(1+f/1.1)-6);if(f>=12)return Math.max(0,45.2*(1-(f-12)/1.1)-6);
 const i=Math.floor(f),u=f-i;return lerp(BTOP[i],BTOP[i+1],u)-6;};
-const ST_X=[-82,0,82],ST_TOP=9,DOG_K=1.35,BOULDER_K=1.3;
-const SR={top:10,w0:84,w1:30,wk:.3};
-const strHalf=(d,sg)=>(SR.w0+SR.w1*sm(clamp(d/34,0,1))+SR.wk*Math.max(0,d-34))*(1+.07*Math.sin(d/23+(sg>0?2.1:0))+.035*Math.sin(d/8.5+(sg>0?.7:3.3)));
-const strMid=(H,d)=>H.x-4+10*Math.sin(d/95+.6)-10*Math.sin(.6);
+const ST_X=[-82,0,82],ST_TOP=1,DOG_K=1.35,BOULDER_K=1.3;
+const STR={k:240/397,head:140,mid:495,w:1022,h:900};
+let STRW=null,STRO=null;
+function streamWater(){
+if(STRW!==null)return STRW;if(!(IM.strm.complete&&IM.strm.naturalWidth))return null;
+try{const w=IM.strm.naturalWidth,h=IM.strm.naturalHeight,c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");
+x.drawImage(IM.strm,0,0);const d=x.getImageData(0,0,w,h),p=d.data;
+for(let i=0;i<p.length;i+=4){const wat=p[i+3]>200&&p[i+2]>p[i]+15&&p[i+2]>p[i+1]-25;if(!wat)p[i+3]=0;}
+x.putImageData(d,0,0);STRW=c;STRO=document.createElement("canvas");STRO.width=w;STRO.height=h;}catch(e){STRW=false;}return STRW;}
 function drawStream(H,t){
-const y0=gy(H.x),yT=y0-SR.top,yB=wyS(V.y1)+30,L=yB-yT,st=5;
-const side=(sg,pad)=>{const P=[];for(let d=0;d<=L+st;d+=st)P.push([strMid(H,d)+sg*(strHalf(d,sg)+pad),yT+d]);return P;};
-const shape=pad=>{const l=side(-1,pad),r=side(1,pad).reverse();g.beginPath();l.forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]));r.forEach(q=>g.lineTo(q[0],q[1]));g.closePath();};
-g.save();
-shape(6);g.fillStyle="rgba(104,80,54,.8)";g.fill();
-shape(0);const wg=g.createLinearGradient(0,yT,0,yT+Math.min(L,380));
-wg.addColorStop(0,"#B8D6D6");wg.addColorStop(.1,"#93BEC2");wg.addColorStop(.4,"#78A7AE");wg.addColorStop(1,"#5C8E99");g.fillStyle=wg;g.fill();
-g.clip();
-for(let d=0;d<=L;d+=4){const m=strMid(H,d),hl=strHalf(d,-1),hr=strHalf(d,1);
-const xg=g.createLinearGradient(m-hl,0,m+hr,0);xg.addColorStop(0,"rgba(40,66,62,.3)");xg.addColorStop(.22,"rgba(40,66,62,0)");xg.addColorStop(.5,"rgba(236,246,248,.13)");xg.addColorStop(.78,"rgba(40,66,62,0)");xg.addColorStop(1,"rgba(40,66,62,.3)");
-g.fillStyle=xg;g.fillRect(m-hl-2,yT+d,hl+hr+4,4.5);}
-g.lineCap="round";
-for(let i=0;i<14;i++){
-const ph=((t/1000*.085+i*.0714)%1),d=Math.pow(ph,1.35)*L,y=yT+d,u=((i*.618)%1)*1.3-.65;
-const x=strMid(H,d)+u*strHalf(d,u),w=6+d*.05,a=.3*Math.sin(ph*Math.PI)*(1-Math.abs(u));
-g.strokeStyle=`rgba(244,250,252,${a.toFixed(3)})`;g.lineWidth=1.1+d*.004;
-g.beginPath();g.moveTo(x-w,y);g.quadraticCurveTo(x,y-1.4-d*.005,x+w,y);g.stroke();}
-g.restore();
-g.save();let sd=Math.round(H.x)%89+7;const r=()=>(sd=(sd*16807)%2147483647)/2147483647;
-[-1,1].forEach(sg=>{for(let d=4;d<L;d+=7+r()*6){const x=strMid(H,d)+sg*(strHalf(d,sg)+5),y=yT+d,h=6+r()*7+d*.02;
-g.strokeStyle=["#6FA84A","#88C25A","#5C9440"][Math.floor(r()*3)];g.lineWidth=1.4+r()*1.2;
-g.beginPath();g.moveTo(x+sg*4,y+2);g.quadraticCurveTo(x-sg*2,y-h*.6,x-sg*(4+r()*5),y-h*.4);g.stroke();}});
-g.restore();
-{const hx=strMid(H,0),b=PROP.rock,src=shaded("rock",false),s2=shaded("rock",true);
-if(src){const k1=36/b[3],k2=30/b[3];
-g.drawImage(src,hx-70-b[2]*k1/2,yT+3-36,b[2]*k1,36);
-g.drawImage(s2||src,hx+66-b[2]*k2/2,yT+3-30,b[2]*k2,30);}
-h3Sprite("stones",hx+2,yT+3,.9,.8,.8);}
-const sy=y0+14;
+if(!(IM.strm.complete&&IM.strm.naturalWidth))return;
+const y0=gy(H.x),k=STR.k,x0=H.x-STR.mid*k,yT=y0-8-STR.head*k,dw=STR.w*k,dh=STR.h*k;
+g.drawImage(IM.strm,x0,yT,dw,dh);
+const yB=wyS(V.y1)+20;if(yT+dh<yB){const iw=IM.strm.naturalWidth,ih=IM.strm.naturalHeight;g.drawImage(IM.strm,0,ih-24,iw,24,x0,yT+dh-1,dw,yB-(yT+dh)+1);}
+const wc=streamWater();
+if(wc){const o=STRO.getContext("2d"),sc=dh/wc.height;
+for(let j=0;j<2;j++){const ph=((t/1700)+j*.5)%1,sh=ph*9/sc,a=Math.sin(ph*Math.PI)*.45;
+o.globalCompositeOperation="copy";o.drawImage(wc,0,sh);o.globalCompositeOperation="destination-in";o.drawImage(wc,0,0);o.globalCompositeOperation="source-over";
+g.save();g.globalAlpha=a;g.drawImage(STRO,x0,yT,dw,dh);g.restore();}}
+[-1,1].forEach(sg=>{const x=H.x+sg*146,mg=g.createRadialGradient(x,y0+8,3,x,y0+8,40);
+mg.addColorStop(0,"rgba(120,94,62,.75)");mg.addColorStop(.55,"rgba(132,104,70,.45)");mg.addColorStop(1,"rgba(150,120,82,0)");
+g.save();g.translate(0,y0+8);g.scale(1,.5);g.translate(0,-(y0+8));g.fillStyle=mg;g.beginPath();g.arc(x,y0+8,40,0,TAU);g.fill();g.restore();});
+const sy=y0+20;
 ST_X.forEach((dx,i)=>{const x=H.x+dx,ph=t/1000*2.2+i*1.7;
 g.save();g.lineCap="round";
-for(let j=0;j<3;j++){const k=.75+.25*Math.sin(ph+j*2.1),w=(22+j*7)*k,a=(.45-j*.12)*(.8+.2*Math.sin(ph*1.3+j));
-g.strokeStyle=`rgba(248,252,252,${a.toFixed(3)})`;g.lineWidth=1.8-j*.4;g.beginPath();g.ellipse(x,sy-2+j*4,w,4+j*2,0,.15*Math.PI,.85*Math.PI);g.stroke();}
+g.fillStyle="rgba(20,40,44,.22)";g.beginPath();g.ellipse(x+3,sy-1,30,4.5,0,0,TAU);g.fill();
+for(let j=0;j<2;j++){const kk=.8+.2*Math.sin(ph+j*2.1),w=(24+j*8)*kk,a=(.34-j*.12)*(.8+.2*Math.sin(ph*1.3+j));
+g.strokeStyle=`rgba(240,248,248,${a.toFixed(3)})`;g.lineWidth=1.6-j*.4;g.beginPath();g.ellipse(x,sy-3+j*4,w,4+j*2,0,.12*Math.PI,.88*Math.PI);g.stroke();}
 g.restore();
 h3Sprite(["st0","st1","st2"][i],x,sy+(i===1?2:0));});
 }
@@ -9242,8 +9232,8 @@ const ASSET_SIZES={
 "assets/hill_food_sandwich.webp":41068,
 "assets/hill_grass.webp":4136,
 "assets/hill_hanky.webp":19094,
-"assets/hill_hurdles2.webp":108108,
-"assets/hill_hurdles3.webp":35102,
+"assets/hill_hurdles2b.webp":96240,
+"assets/hill_hurdles3b.webp":20836,
 "assets/hill_leaves.webp":8690,
 "assets/hill_log_across.webp":8672,
 "assets/hill_pari_poses.webp":116964,
@@ -9253,6 +9243,7 @@ const ASSET_SIZES={
 "assets/hill_pk_reach.webp":11954,
 "assets/hill_props_shimla2.webp":64988,
 "assets/hill_qmark.webp":6012,
+"assets/hill_stream.webp":20140,
 "assets/hill_sunset_board.webp":24002,
 "assets/hill_tired_faces.webp":69694,
 "assets/hill_trail.webp":13058,
@@ -9564,7 +9555,7 @@ if(/^ROTI_/.test(s.type))out.push(EQ_FOOD.img,EQ_FOOD.back);
 if(s.type==="ROTI_FREE_CUT"||s.type==="ROTI_TRACE")out.push("assets/cutter_scooter.webp");
 if(s.type==="DOT_SPLIT")out.push("assets/scissors.webp","assets/sfx/scissor_snip.ogg");
 if(s.type==="HILL_GAME"){
-["hill_far","hill_hanky","hill_tired_faces","hill_sunset_board","hill_hurdles2","hill_hurdles3","hill_pg_empty","hill_pk_reach","hill_log_across","hill_aaru_toes","hill_props_shimla2","hill_trees_hd","hill_leaves","hill_grass","hill_trail","hill_birds","hill_clouds","hill_blink","hill_qmark","hill_pitta","hill_bag","hill_aaru_walk","hill_pari_walk","hill_aaru_poses","hill_pari_poses","cutter_scooter",
+["hill_far","hill_hanky","hill_tired_faces","hill_sunset_board","hill_hurdles2b","hill_hurdles3b","hill_stream","hill_pg_empty","hill_pk_reach","hill_log_across","hill_aaru_toes","hill_props_shimla2","hill_trees_hd","hill_leaves","hill_grass","hill_trail","hill_birds","hill_clouds","hill_blink","hill_qmark","hill_pitta","hill_bag","hill_aaru_walk","hill_pari_walk","hill_aaru_poses","hill_pari_poses","cutter_scooter",
 "hill_food_paratha_dhaniya","hill_food_sandwich","hill_food_dhokla","hill_food_puff","hill_food_chocolate"].forEach(img);
 ["t3_reach","t3_mmm_aaru","t3_mmm_pari","t3_giggle","sfx_whoosh","hill_step1","hill_step2","hill_step3","hill_step4","hill_step5","hill_step6",
 ...["paratha","sandwich","dhokla","puff","choc"].flatMap(k=>[`hill_eat_${k}_b1`,`hill_eat_${k}_b2`,`hill_eat_${k}_c`]),"hill_pop","hill_thud","hill_charge","hill_win","hill_monkey","hill_splash","hill_snap","hill_uhoh","hill_squeak","hill_geese","hill_rustle","hill_bark","hill_snore","hill_peel","sfx_eat_nom"].forEach(f=>out.push(SFX_DIR+f+"."+AUDIO_EXT));
